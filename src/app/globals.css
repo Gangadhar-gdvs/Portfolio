@@ -1,0 +1,489 @@
+@import "tailwindcss";
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-surface: #e6e9ec;
+  --color-ink: #0a0d12;
+  --color-ink-soft: #545e69;
+  --color-abyss: #05080d;
+  --color-abyss-raised: #0b111a;
+  --color-bone: #d7e3ea;
+  --color-bone-soft: #8593a1;
+  --color-phosphor: #6fe6ff;
+  --color-phosphor-deep: #0a6e8a;
+  --color-ember: #ff9e4a;
+  --color-deny: #ff7a85;
+  --color-line: rgb(215 227 234 / 0.12);
+  --color-line-strong: rgb(215 227 234 / 0.24);
+  --color-line-ink: rgb(10 13 18 / 0.14);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+@theme inline {
+  --font-display: var(--font-archivo), "Arial Black", "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    background: var(--color-abyss);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100svh;
+    background: var(--color-abyss);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-phosphor);
+    color: var(--color-abyss);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring, var(--color-phosphor));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  [data-tone="surface"] {
+    --focus-ring: var(--color-phosphor-deep);
+    color: var(--color-ink);
+  }
+
+  [data-tone="surface"] ::selection {
+    background: var(--color-ink);
+    color: var(--color-surface);
+  }
+}
+
+/* ── Type ───────────────────────────────────────────────────────────────── */
+
+@layer components {
+  .display {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    line-height: 0.86;
+    letter-spacing: -0.012em;
+  }
+
+  .display-tight {
+    text-wrap: balance;
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 750;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .readout {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  .measure {
+    max-width: 38rem;
+  }
+}
+
+/* ── Actions ────────────────────────────────────────────────────────────── */
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    height: 2.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    padding-inline: 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s;
+  }
+
+  /* On the dark underneath. */
+  .btn-glow {
+    background: var(--color-phosphor);
+    color: var(--color-abyss);
+  }
+  .btn-glow:hover {
+    background: var(--color-bone);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-bone);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-bone);
+  }
+
+  /* On the light surface. */
+  .btn-ink {
+    background: var(--color-ink);
+    color: var(--color-surface);
+  }
+  .btn-ink:hover {
+    background: var(--color-phosphor-deep);
+  }
+
+  .btn-ink-ghost {
+    border: 1px solid rgb(10 13 18 / 0.25);
+    color: var(--color-ink);
+  }
+  .btn-ink-ghost:hover {
+    border-color: var(--color-ink);
+    background: rgb(10 13 18 / 0.04);
+  }
+
+  .text-link {
+    text-decoration: underline;
+    text-decoration-color: var(--color-line-strong);
+    text-underline-offset: 0.3em;
+    transition:
+      color 0.3s,
+      text-decoration-color 0.3s;
+  }
+  .text-link:hover {
+    color: var(--color-phosphor);
+    text-decoration-color: var(--color-phosphor);
+  }
+}
+
+/* ── Live diagrams ──────────────────────────────────────────────────────── */
+
+@keyframes pipe-flow {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+@keyframes pipe-flow-y {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(260%);
+  }
+}
+
+/* Vertical by default; horizontal once the card has room (28rem). */
+.pipe-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 1px;
+  height: 0.9rem;
+  margin-left: 1rem;
+  background: var(--color-line-strong);
+}
+
+.pipe-pulse {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 0.35rem;
+  background: var(--color-phosphor);
+  animation: pipe-flow-y 1.8s linear infinite;
+}
+
+@container (min-width: 28rem) {
+  .pipe-link {
+    width: 1.5rem;
+    height: 1px;
+    margin: 0 0.25rem;
+  }
+
+  .pipe-pulse {
+    inset: 0 auto 0 0;
+    width: 0.5rem;
+    height: auto;
+    animation-name: pipe-flow;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipe-pulse,
+  .arch-pulse {
+    display: none;
+  }
+}
+
+/* ── Hero: surface, X-ray and the lens ──────────────────────────────────── */
+
+@layer components {
+  .hero-stage {
+    --lx: 70%;
+    --ly: 50%;
+    --lr: 0px;
+    position: relative;
+    height: 100svh;
+    min-height: 38rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero-layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-surface {
+    background: var(--color-surface);
+    -webkit-mask-image: radial-gradient(
+      circle var(--lr) at var(--lx) var(--ly),
+      transparent calc(100% - 1.5px),
+      #000 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--lr) at var(--lx) var(--ly),
+      transparent calc(100% - 1.5px),
+      #000 100%
+    );
+  }
+
+  /* Sized once to the resting radius (--lb) and moved and scaled with a
+     transform (--ls = radius / resting radius), so following the cursor
+     never causes layout work. */
+  .lens-rim {
+    --lb: 120px;
+    --ls: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(var(--lb) * 2);
+    height: calc(var(--lb) * 2);
+    transform: translate3d(calc(var(--lx) - var(--lb)), calc(var(--ly) - var(--lb)), 0) scale(var(--ls));
+    will-change: transform;
+    border-radius: 9999px;
+    pointer-events: none;
+    box-shadow:
+      0 0 0 1px rgb(111 230 255 / 0.9),
+      0 0 28px 2px rgb(111 230 255 / 0.32),
+      inset 0 0 36px rgb(111 230 255 / 0.18);
+  }
+
+  .lens-rim::before,
+  .lens-rim::after {
+    content: "";
+    position: absolute;
+    inset: 50% -10px auto;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      var(--color-phosphor) 0 10px,
+      transparent 10px calc(100% - 10px),
+      var(--color-phosphor) calc(100% - 10px)
+    );
+  }
+
+  .lens-rim::after {
+    inset: -10px auto -10px 50%;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(
+      180deg,
+      var(--color-phosphor) 0 10px,
+      transparent 10px calc(100% - 10px),
+      var(--color-phosphor) calc(100% - 10px)
+    );
+  }
+
+  .grid-underlay {
+    background-image:
+      linear-gradient(rgb(111 230 255 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(111 230 255 / 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    background-position: -1px -1px;
+  }
+
+  .outline-type {
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(111 230 255 / 0.85);
+  }
+
+  .xray-photo {
+    background: var(--color-phosphor);
+  }
+
+  .xray-photo img {
+    filter: grayscale(1) invert(1) contrast(1.35) brightness(0.95);
+    mix-blend-mode: multiply;
+  }
+
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgb(5 8 13 / 0.35) 0 1px,
+      transparent 1px 3px
+    );
+  }
+}
+
+/* ── Intro choreography (CSS, so it runs before hydration) ──────────────── */
+
+@keyframes rise {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 158 74 / 0.55);
+  }
+  60% {
+    box-shadow: 0 0 0 7px rgb(255 158 74 / 0);
+  }
+}
+
+.intro-rise {
+  display: inline-block;
+  animation: rise 1.25s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+.intro-fade {
+  animation: fade-up 0.9s var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+
+.status-dot {
+  animation: pulse-dot 2.4s ease-out infinite;
+}
+
+/* The mobile menu opens as a lens from the Menu button. */
+@keyframes menu-lens {
+  from {
+    clip-path: circle(0px at calc(100% - 2.75rem) 2rem);
+  }
+  to {
+    clip-path: circle(150vmax at calc(100% - 2.75rem) 2rem);
+  }
+}
+
+.menu-lens {
+  animation: menu-lens 0.7s var(--ease-in-out-quint) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-lens {
+    animation: none;
+  }
+}
+
+/* ── Page transitions: the lens opens the next page ─────────────────────── */
+
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-group(site-nav) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-nav) {
+  display: none;
+}
+
+::view-transition-new(site-nav) {
+  animation: none;
+}
+
+::view-transition-group(.lens-exit) {
+  z-index: 1;
+}
+
+::view-transition-group(.lens-enter) {
+  z-index: 2;
+}
+
+::view-transition-old(.lens-exit) {
+  animation: lens-recede 0.95s var(--ease-in-out-quint) both;
+}
+
+::view-transition-new(.lens-enter) {
+  animation: lens-open 0.95s var(--ease-in-out-quint) both;
+}
+
+@keyframes lens-open {
+  from {
+    clip-path: circle(0px at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+  to {
+    clip-path: circle(150vmax at var(--vt-x, 50%) var(--vt-y, 50%));
+  }
+}
+
+@keyframes lens-recede {
+  to {
+    opacity: 0.5;
+    scale: 0.96;
+  }
+}
+
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-rise,
+  .intro-fade,
+  .status-dot {
+    animation: none;
+  }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
