@@ -66,7 +66,7 @@ function Diagram({ layout, className, idPrefix }: { layout: LayoutName; classNam
       </title>
       <defs>
         <marker id={arrow} viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0 0 L8 4 L0 8 z" className="fill-phosphor/70" />
+          <path d="M0 0 L8 4 L0 8 z" className="fill-glow/70" />
         </marker>
       </defs>
 
@@ -80,16 +80,16 @@ function Diagram({ layout, className, idPrefix }: { layout: LayoutName; classNam
               d={path.d}
               pathLength={1}
               fill="none"
-              className="stroke-phosphor/45"
+              className="stroke-glow/45"
               strokeWidth={1.2}
               markerEnd={`url(#${arrow})`}
               markerStart={twoWay ? `url(#${arrow})` : undefined}
             />
-            <circle r={2.6} className="arch-pulse fill-phosphor">
+            <circle r={2.6} className="arch-pulse fill-glow">
               <animateMotion dur="2.6s" begin={`${index * 0.4}s`} repeatCount="indefinite" path={path.d} />
             </circle>
             {twoWay && (
-              <circle r={2.6} className="arch-pulse fill-ember">
+              <circle r={2.6} className="arch-pulse fill-warm">
                 <animateMotion
                   dur="2.6s"
                   begin="1.3s"
@@ -106,7 +106,7 @@ function Diagram({ layout, className, idPrefix }: { layout: LayoutName; classNam
                 x={path.vertical ? path.mid.x + 8 : path.mid.x}
                 y={path.vertical ? path.mid.y + 3 : path.mid.y - 8}
                 textAnchor={path.vertical ? "start" : "middle"}
-                className="fill-bone-soft font-mono text-[9.5px] tracking-wide"
+                className="fill-fg-3 font-mono text-[9.5px] tracking-wide"
               >
                 {edge.label}
               </text>
@@ -124,14 +124,14 @@ function Diagram({ layout, className, idPrefix }: { layout: LayoutName; classNam
               y={y}
               width={BOX.w}
               height={BOX.h}
-              rx={3}
-              className={node.accent ? "fill-abyss stroke-phosphor" : "fill-abyss-raised stroke-line-strong"}
+              rx={8}
+              className={node.accent ? "fill-night stroke-glow" : "fill-night-2 stroke-line-3"}
               strokeWidth={1}
             />
-            <text x={x + 12} y={y + 24} className={`font-sans text-[14px] font-medium ${node.accent ? "fill-phosphor" : "fill-bone"}`}>
+            <text x={x + 12} y={y + 24} className={`font-sans text-[14px] font-medium ${node.accent ? "fill-glow" : "fill-fg"}`}>
               {node.title}
             </text>
-            <text x={x + 12} y={y + 42} className="fill-bone-soft font-mono text-[10px]">
+            <text x={x + 12} y={y + 42} className="fill-fg-3 font-mono text-[10px]">
               {node.detail}
             </text>
           </g>

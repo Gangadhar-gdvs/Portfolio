@@ -10,6 +10,8 @@ import { prefersReducedMotion } from "@/lib/motion";
  * - `data-split`: headings rise line by line from behind a mask
  * - `data-reveal`: blocks fade up, batched so neighbours stagger together
  * - `data-draw` (on SVG paths with pathLength="1"): lines draw themselves
+ * - `data-draw-line`: hairlines draw across from the left
+ * - `data-develop`: photos develop from black and white into colour
  *
  * Content is fully visible without JavaScript and with reduced motion.
  */
@@ -23,13 +25,16 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
         SplitText.create(heading, {
           type: "lines",
           mask: "lines",
+          // Only whole lines are wrapped, so the text still reads in order;
+          // no aria-label is needed (and it isn't allowed on paragraphs).
+          aria: "none",
           autoSplit: true,
           onSplit: (split) =>
             gsap.from(split.lines, {
-              yPercent: 105,
-              duration: 1.15,
+              yPercent: 110,
+              duration: 1.2,
               ease: "expo.out",
-              stagger: 0.08,
+              stagger: 0.09,
               scrollTrigger: { trigger: heading, start: "top 88%", once: true },
             }),
         });
@@ -37,7 +42,7 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
 
       const blocks = gsap.utils.toArray<HTMLElement>("[data-reveal]", root);
       if (blocks.length > 0) {
-        gsap.set(blocks, { autoAlpha: 0, y: 26 });
+        gsap.set(blocks, { autoAlpha: 0, y: 18 });
         ScrollTrigger.batch(blocks, {
           start: "top 92%",
           once: true,
@@ -45,6 +50,26 @@ export function useReveal(scope: RefObject<HTMLElement | null>) {
             gsap.to(batch, { autoAlpha: 1, y: 0, duration: 0.95, ease: "expo.out", stagger: 0.07, overwrite: true }),
         });
       }
+
+      root.querySelectorAll<HTMLElement>("[data-draw-line]").forEach((line) => {
+        gsap.from(line, {
+          scaleX: 0,
+          transformOrigin: "left center",
+          duration: 1.6,
+          ease: "expo.out",
+          scrollTrigger: { trigger: line, start: "top 94%", once: true },
+        });
+      });
+
+      root.querySelectorAll<HTMLElement>("[data-develop]").forEach((photo) => {
+        photo.classList.add("develop-pending");
+        ScrollTrigger.create({
+          trigger: photo,
+          start: "top 72%",
+          once: true,
+          onEnter: () => photo.classList.remove("develop-pending"),
+        });
+      });
 
       root.querySelectorAll<SVGSVGElement>("svg[data-draw-root]").forEach((svg) => {
         const paths = svg.querySelectorAll<SVGPathElement>("[data-draw]");

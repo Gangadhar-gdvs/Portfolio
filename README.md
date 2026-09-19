@@ -1,28 +1,22 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/hero-dark.svg">
-  <img src="docs/readme/hero-light.svg" width="100%" alt="GANGADHARA GOOTI, full-stack engineer for web, mobile, desktop and AI. An X-ray lens sweeps across the name, showing the outlined letters and code underneath.">
-</picture>
+<img src="docs/readme/hero.svg" width="100%" alt="Gangadhara Gooti, full-stack engineer for web, mobile, desktop and AI. Building software that feels simple on the surface, engineered deeply underneath. Beside the name, a stack of five glass layers opens up and each layer slides out in turn.">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/tagline-dark.svg">
-  <img src="docs/readme/tagline-light.svg" width="100%" alt="Simple on the surface. Engineered deeply underneath. Web, mobile, desktop and AI.">
-</picture>
+<br>
 
-<img src="https://img.shields.io/badge/NEXT.JS_16-05080D?style=for-the-badge&logo=nextdotjs&logoColor=6FE6FF" alt="Next.js 16">
-<img src="https://img.shields.io/badge/REACT_19-05080D?style=for-the-badge&logo=react&logoColor=6FE6FF" alt="React 19">
-<img src="https://img.shields.io/badge/TYPESCRIPT-05080D?style=for-the-badge&logo=typescript&logoColor=6FE6FF" alt="TypeScript">
-<img src="https://img.shields.io/badge/THREE.JS-05080D?style=for-the-badge&logo=threedotjs&logoColor=6FE6FF" alt="three.js">
-<img src="https://img.shields.io/badge/GSAP-05080D?style=for-the-badge&logo=greensock&logoColor=6FE6FF" alt="GSAP">
-<img src="https://img.shields.io/badge/TAILWIND_4-05080D?style=for-the-badge&logo=tailwindcss&logoColor=6FE6FF" alt="Tailwind CSS 4">
+<img src="https://img.shields.io/badge/NEXT.JS_16-030509?style=for-the-badge&logo=nextdotjs&logoColor=7CE7FF" alt="Next.js 16">
+<img src="https://img.shields.io/badge/REACT_19-030509?style=for-the-badge&logo=react&logoColor=7CE7FF" alt="React 19">
+<img src="https://img.shields.io/badge/TYPESCRIPT-030509?style=for-the-badge&logo=typescript&logoColor=7CE7FF" alt="TypeScript">
+<img src="https://img.shields.io/badge/THREE.JS-030509?style=for-the-badge&logo=threedotjs&logoColor=7CE7FF" alt="three.js">
+<img src="https://img.shields.io/badge/GSAP-030509?style=for-the-badge&logo=greensock&logoColor=7CE7FF" alt="GSAP">
+<img src="https://img.shields.io/badge/TAILWIND_4-030509?style=for-the-badge&logo=tailwindcss&logoColor=7CE7FF" alt="Tailwind CSS 4">
 
-<img src="https://img.shields.io/badge/PERFORMANCE-100-6FE6FF?style=for-the-badge&labelColor=05080D" alt="Lighthouse performance 100 on desktop">
-<img src="https://img.shields.io/badge/ACCESSIBILITY-100-6FE6FF?style=for-the-badge&labelColor=05080D" alt="Lighthouse accessibility 100">
-<img src="https://img.shields.io/badge/BEST_PRACTICES-100-6FE6FF?style=for-the-badge&labelColor=05080D" alt="Lighthouse best practices 100">
-<img src="https://img.shields.io/badge/SEO-100-6FE6FF?style=for-the-badge&labelColor=05080D" alt="Lighthouse SEO 100">
+<img src="https://img.shields.io/badge/PERFORMANCE-99-7CE7FF?style=for-the-badge&labelColor=030509" alt="Lighthouse performance 99 on desktop">
+<img src="https://img.shields.io/badge/ACCESSIBILITY-100-7CE7FF?style=for-the-badge&labelColor=030509" alt="Lighthouse accessibility 100">
+<img src="https://img.shields.io/badge/BEST_PRACTICES-100-7CE7FF?style=for-the-badge&labelColor=030509" alt="Lighthouse best practices 100">
+<img src="https://img.shields.io/badge/SEO-100-7CE7FF?style=for-the-badge&labelColor=030509" alt="Lighthouse SEO 100">
 
-<a href="https://github.com/Gangadhar-gdvs"><img src="https://img.shields.io/badge/GITHUB-D7E3EA?style=for-the-badge&logo=github&logoColor=05080D" alt="GitHub profile"></a>&nbsp;<a href="https://www.linkedin.com/in/gangadhar-gooti"><img src="https://img.shields.io/badge/LINKEDIN-D7E3EA?style=for-the-badge&logoColor=05080D" alt="LinkedIn"></a>&nbsp;<a href="mailto:gangadhargdvs0@gmail.com"><img src="https://img.shields.io/badge/EMAIL_ME-6FE6FF?style=for-the-badge&logo=gmail&logoColor=05080D" alt="Email Gangadhara"></a>&nbsp;<a href="https://drive.google.com/file/d/17II87o3DU8JI0LzT6W-ElN9-YTB3yFQt/view?usp=drive_link"><img src="https://img.shields.io/badge/R%C3%89SUM%C3%89-FF9E4A?style=for-the-badge&logo=googledrive&logoColor=05080D" alt="Résumé"></a>
+<a href="https://github.com/Gangadhar-gdvs"><img src="https://img.shields.io/badge/GITHUB-EEF2F7?style=for-the-badge&logo=github&logoColor=030509" alt="GitHub profile"></a>&nbsp;<a href="https://www.linkedin.com/in/gangadhar-gooti"><img src="https://img.shields.io/badge/LINKEDIN-EEF2F7?style=for-the-badge&logoColor=030509" alt="LinkedIn"></a>&nbsp;<a href="mailto:gangadhargdvs0@gmail.com"><img src="https://img.shields.io/badge/EMAIL_ME-7CE7FF?style=for-the-badge&logo=gmail&logoColor=030509" alt="Email Gangadhara"></a>&nbsp;<a href="https://drive.google.com/file/d/17II87o3DU8JI0LzT6W-ElN9-YTB3yFQt/view?usp=drive_link"><img src="https://img.shields.io/badge/R%C3%89SUM%C3%89-FFB86B?style=for-the-badge&logo=googledrive&logoColor=030509" alt="Résumé"></a>
 
 <sub><a href="#idea">THE IDEA</a> &nbsp;·&nbsp; <a href="#stack">THE STACK</a> &nbsp;·&nbsp; <a href="#screens">SCREENS</a> &nbsp;·&nbsp; <a href="#how">HOW IT WORKS</a> &nbsp;·&nbsp; <a href="#built">BUILT WITH</a> &nbsp;·&nbsp; <a href="#run">RUN IT</a></sub>
 
@@ -32,88 +26,89 @@
 
 <a name="idea"></a>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-idea-dark.svg">
-  <img src="docs/readme/section-idea-light.svg" width="100%" alt="01 / Concept: The idea">
-</picture>
+<img src="docs/readme/section-idea.svg" width="100%" alt="01 / Concept: The idea">
 
-Most portfolios show you the surface. This one lets you look underneath.
+A full-stack engineer's work lives in layers: an interface on top, then the devices it runs on, the services behind it, the data underneath, and the intelligence at the core. This portfolio makes that stack an object you can hold.
 
-The page opens on a calm, light surface: a name, one line, a portrait. **Your cursor is an X-ray lens**: move it and you see what's underneath. The letters appear as outlines with their construction lines, the portrait as an X-ray, the code behind the copy, and a live particle field. Scroll, and the lens grows until it swallows the screen. You dive into five layers of the stack, where 22,000 particles reshape into each layer, then resurface at the contact section.
-
-<img src="docs/readme/flow.svg" width="100%" alt="How the page flows: 01 surface, 02 X-ray lens, 03 the dive, 04 five layers, 05 selected work, 06 resurface.">
-
-<a name="stack"></a>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-stack-dark.svg">
-  <img src="docs/readme/section-stack-light.svg" width="100%" alt="02 / Five layers, in particles: The stack">
-</picture>
-
-Full-stack, made literal. Every product runs through the same five layers, surface to core, and the site has a scene for each. These shapes are drawn by the same code the site uses (`src/gl/shapes.ts`), not illustrated by hand:
-
-<img src="docs/readme/stack-layers.svg" width="100%" alt="The five layers as particle shapes: a browser window for interface, a laptop and phone for devices, a service graph for services, stacked cylinders for data, and a spiral core for intelligence.">
-
-| | Layer | What the particles become | The proof on the page |
-|:-:|---|---|---|
-| ◈ | **Interface** | A browser window | 99/100 PageSpeed · 99% SEO · a client web app in Ireland |
-| ⬡ | **Devices** | A laptop and a phone | Flutter apps · a Rust device layer for Aethra · Tauri |
-| ◇ | **Services** | A graph of services | 6 real-time modules at Zyrone · JWT + roles · WebSockets |
-| ◆ | **Data** | Stacked databases | Vector memory in SQLite · PostgreSQL pipelines · MongoDB |
-| ✦ | **Intelligence** | A spiral core | 44 tools behind a fail-closed permission gate |
-
-<a name="screens"></a>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-screens-dark.svg">
-  <img src="docs/readme/section-screens-light.svg" width="100%" alt="03 / The real thing: Screens">
-</picture>
+It opens on a dark stage with **five etched glass plates** stacked into one sleek slab. Up close it looks simple, like good software should. Move the cursor and a light moves across the glass. Drag and the stack turns. Scroll and it **opens up**. Each plate then slides out beside the work that proves it, and the stack closes again at the contact section.
 
 <div align="center">
 
-<img src="docs/readme/screens/lens.webp" width="100%" alt="Screen capture: the X-ray lens follows the cursor across the name, reveals the code under the status line and the X-ray portrait, then the page scrolls into the dive and goes dark.">
+<img src="docs/readme/screens/stack.webp" width="100%" alt="Screen capture: a cursor light passes over the closed stack, then the page scrolls. The five plates spread apart and slide out one by one: interface, devices, services, data and intelligence, each beside its description.">
 
-<sub>The lens and the dive, captured from the production build.</sub>
+<sub>Captured from the production build: the hero, then the Capabilities section.</sub>
 
 </div>
 
+| | Screen | What happens |
+|:-:|---|---|
+| 01 | **Intro** | A line of light, a count to 100, then the screen opens top and bottom like a cinema curtain. First visit only. |
+| 02 | **Hero** | The plates land one by one, foundation first. The name, the line and the credits sit along the bottom edge. |
+| 03 | **Capabilities** | The stack opens. Each discipline pulls its plate out of the stack, and hovering a plate names it. |
+| 04 | **Selected work** | Aethra with its architecture, then a project index with captures that follow the cursor, then client sites. |
+| 05 | **Experience · About** | Three product teams, the numbers behind them, and a portrait that develops from black and white into colour. |
+| 06 | **Contact** | The stack closes again beside the invitation to talk. |
+
+<a name="stack"></a>
+
+<img src="docs/readme/section-stack.svg" width="100%" alt="02 / Five layers: The stack">
+
+Each plate is etched with a drawing of its layer. The drawings are generated in code when the page loads (`src/gl/stack/etch.ts`), so nothing is downloaded and they stay sharp at any size:
+
+<img src="docs/readme/stack-layers.svg" width="100%" alt="The five plates, surface to core, lighting up in turn beside a list: 01 Interface, frontend engineering. 02 Devices, mobile and desktop apps. 03 Services, backend and real-time systems. 04 Data and storage. 05 Intelligence, AI agents and LLM systems.">
+
+| | Layer | Etched on the plate | The proof on the page |
+|:-:|---|---|---|
+| 01 | **Frontend Engineering** | A web app mid-interaction, with a live chart | 99/100 PageSpeed · 99% SEO · a client web app in Ireland |
+| 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · the Rust device layer in Aethra · Tauri |
+| 03 | **Backend & Real-time Systems** | A hub with services routed like circuit traces | 6 real-time modules at Zyrone Energy · JWT with roles · WebSockets |
+| 04 | **Data & Storage** | A table, two databases and a vector search | Vector memory in SQLite · PostgreSQL pipelines · MongoDB models |
+| 05 | **AI Agents & LLM Systems** | A glowing core with a dial and firing nodes | 44 tools behind one fail-closed permission gate |
+
+<a name="screens"></a>
+
+<img src="docs/readme/section-screens.svg" width="100%" alt="03 / The real thing: Screens">
+
 <table>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/layer-services.jpg" alt="Layer 3, Services: particles form a glowing network of services beside the copy."></td>
-    <td width="50%"><img src="docs/readme/screens/layer-intelligence.jpg" alt="Layer 5, Intelligence: particles form a spiral AI core."></td>
+    <td width="50%"><img src="docs/readme/screens/hero.jpg" alt="The hero: Gangadhara Gooti in large type bottom left, the closed glass stack on the right with a cursor light on it, and credits along the bottom."></td>
+    <td width="50%"><img src="docs/readme/screens/capabilities.jpg" alt="Capabilities: the stack is open and the Services plate slides out beside Backend and Real-time Systems."></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>SERVICES</b> · the parts that have to stay up</sub></td>
-    <td align="center"><sub><b>INTELLIGENCE</b> · software that can act</sub></td>
+    <td align="center"><sub><b>HERO</b> · the stack, closed</sub></td>
+    <td align="center"><sub><b>CAPABILITIES</b> · a plate for each discipline</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/aethra-plate.jpg" alt="The Aethra project plate with facts and a live architecture diagram."></td>
-    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator on the Aethra case study page."></td>
+    <td width="50%"><img src="docs/readme/screens/work.jpg" alt="Selected work: the Aethra panel with its facts, stack and a large live architecture diagram."></td>
+    <td width="50%"><img src="docs/readme/screens/projects.jpg" alt="The project index, with a capture of Network Traffic Analyser following the cursor."></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>AETHRA</b> · architecture as the project cover</sub></td>
+    <td align="center"><sub><b>AETHRA</b> · the architecture is the cover</sub></td>
+    <td align="center"><sub><b>PROJECTS</b> · captures follow the cursor</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td>
+    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>CASE STUDY</b> · Aethra, in depth</sub></td>
     <td align="center"><sub><b>PERMISSION GATE</b> · a working model of the kernel</sub></td>
   </tr>
 </table>
 
-<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with a roaming lens, the intelligence layer, and the architecture diagram in its tall layout.">
+<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with the stack above the name, the Data plate sliding out above its description, and the Aethra panel.">
 
 <details>
-<summary><b>More screens</b>: the other layers, the projects, the case study and the contact section</summary>
+<summary><b>More screens</b>: experience, about and contact</summary>
 <br>
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/layer-interface.jpg" alt="Layer 1, Interface: a browser window made of particles."></td>
-    <td width="50%"><img src="docs/readme/screens/layer-devices.jpg" alt="Layer 2, Devices: a laptop and a phone made of particles."></td>
+    <td width="50%"><img src="docs/readme/screens/experience.jpg" alt="Experience: Vectorsoft, Zyrone Energy and Tech Kshatriyas, each with its headline figure."></td>
+    <td width="50%"><img src="docs/readme/screens/about.jpg" alt="About: the portrait beside the introduction and four numbers."></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/layer-data.jpg" alt="Layer 4, Data: stacked database cylinders with a query beam."></td>
-    <td width="50%"><img src="docs/readme/screens/projects.jpg" alt="Project cards with live data-flow pipelines."></td>
-  </tr>
-  <tr>
-    <td width="50%"><img src="docs/readme/screens/case-hero.jpg" alt="The Aethra case study header."></td>
-    <td width="50%"><img src="docs/readme/screens/contact.jpg" alt="The contact section, back on the light surface."></td>
+    <td colspan="2"><img src="docs/readme/screens/contact.jpg" alt="Contact: Let's work together, the email address, and the stack closed again on the right."></td>
   </tr>
 </table>
 
@@ -121,32 +116,29 @@ Full-stack, made literal. Every product runs through the same five layers, surfa
 
 <a name="how"></a>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-how-dark.svg">
-  <img src="docs/readme/section-how-light.svg" width="100%" alt="04 / Under the hood: How it works">
-</picture>
+<img src="docs/readme/section-how.svg" width="100%" alt="04 / Under the hood: How it works">
 
 <details open>
-<summary><b>◈ The lens</b>: a mask that follows the cursor</summary>
+<summary><b>◈ The stage</b>: one fixed three.js scene behind the whole page</summary>
 <br>
 
-The hero is rendered twice from one server component: a light **surface** and an **X-ray** version underneath. In the X-ray version, the type is outlined with guides at Archivo's real metrics, the portrait is inverted and the markup behind the copy shows through. The surface has a CSS radial mask whose centre and radius are CSS variables, written on GSAP's ticker. The rim moves with transforms only, so tracking the cursor costs no layout work. On touch screens, the lens drifts between points of interest and jumps to a tap.
+The stack, a glossy floor with its reflection, and a little dust are drawn by one scene in plain three.js with named imports (`src/gl/Stage.ts`). The glass is a custom shader: smoked glass with a Fresnel edge, a cool key light, a warm rim from behind, and a small lamp that follows the cursor. The camera uses a long lens (26°) so the object reads clean and flat-lit, and `setViewOffset` places it beside the copy or above it on a phone without moving it in the world.
 
 </details>
 
 <details open>
-<summary><b>◇ The dive</b>: one pinned scroll</summary>
+<summary><b>◇ Etched, not textured</b>: drawings made in a canvas at load time</summary>
 <br>
 
-A pinned ScrollTrigger scrubs the lens radius until it covers the screen. It fades the X-ray layer, scales the surface as you fall through it, and switches the navigation to the dark theme once the lens reaches the bar.
+Each plate's drawing is made in a 2D canvas at 1,024 to 2,048 pixels, depending on the device. The canvas uses one colour channel per kind of mark: red for line work, green for accent colour, and blue for the parts that pulse. The shader colours them, runs a band of light across each plate, sends pulses diagonally, and brightens whatever sits under the cursor. Textures use anisotropic filtering, so the etching stays sharp at an angle.
 
 </details>
 
 <details open>
-<summary><b>⬡ The particles</b>: six shapes, one draw call</summary>
+<summary><b>⬡ Scroll choreography</b>: sections steer the camera</summary>
 <br>
 
-`src/gl/shapes.ts` generates six point clouds procedurally from seeds: dust, a browser, a laptop and phone, a service graph, a database and an AI core. Nothing is downloaded. Each shape goes to the GPU once. A morph only swaps which two buffers feed the vertex shader, which moves every particle on its own delay and stirs it with simplex noise mid-flight. The core spins around its own tilted axis, and the cursor pushes particles aside. Unit tests keep every shape inside the stage and deterministic for a given seed.
+Sections describe what the stage should do with attributes: `data-stage="hero | capabilities | contact | away"` names the framing while that section is centred, and `data-stage-focus` brings one plate forward. ScrollTrigger writes targets into a plain object, and the render loop eases toward them, so scrolling never re-renders React. The layout maths is unit-tested (`src/gl/stack/layout.test.ts`). The opaque middle of the page covers the canvas completely, and rendering stops until it is visible again.
 
 </details>
 
@@ -154,7 +146,7 @@ A pinned ScrollTrigger scrubs the lens radius until it covers the screen. It fad
 <summary><b>✦ Staying fast</b>: effects that never cost the first paint</summary>
 <br>
 
-Every word on the page is server-rendered. three.js (tree-shaken, 136 KB gzipped) loads only after the browser goes idle, and only when WebGL runs on a real GPU. Software renderers get a static glow, because CPU-run shaders would stall the page. The shader compiles off the main thread, and particle count and pixel ratio depend on the device. A frame-time monitor lowers them if frames run slow, and ignores the pause after a tab switch.
+Every word on the page is server-rendered, and every route is prerendered as static HTML. three.js loads only after the browser goes idle, and only when WebGL runs on a real GPU. Software renderers get a vector drawing of the stack instead, because CPU-run shaders would stall the page. Shaders compile off the main thread. The pixel ratio, texture size and amount of dust depend on the device, and a frame-time monitor lowers them if frames run slow.
 
 </details>
 
@@ -162,7 +154,7 @@ Every word on the page is server-rendered. three.js (tree-shaken, 136 KB gzipped
 <summary><b>◆ Transitions</b>: the lens opens the next page</summary>
 <br>
 
-Links to the case study use React's `<ViewTransition>` with Next.js `transitionTypes`. The new page opens through a circle that grows from the exact point you clicked, while the old one recedes. The mobile menu opens the same way, from the Menu button.
+Links to the case study use React's `<ViewTransition>` with Next.js `transitionTypes`. The new page opens through a circle that grows from the exact point you clicked, while the old one recedes. Headings rise line by line from behind a mask, and the intro is pure CSS, so it plays before any JavaScript arrives.
 
 </details>
 
@@ -170,22 +162,19 @@ Links to the case study use React's `<ViewTransition>` with Next.js `transitionT
 <summary><b>◉ For everyone</b>: accessibility and reduced motion</summary>
 <br>
 
-With `prefers-reduced-motion`, there is no lens, no pinning and no smooth scrolling, and the particles swap whole shapes instead of flowing. Focus is always visible, and the skip link moves focus into the page. The mobile menu moves focus in and back out and closes on <kbd>Esc</kbd>. Decorative layers are hidden from assistive technology, and the page reads fine with JavaScript off.
+With `prefers-reduced-motion`, there is no intro, no smooth scrolling and no custom cursor, and the stack changes state without animating. Focus is always visible, and a skip link moves focus into the page. The mobile menu moves focus in and back out and closes on <kbd>Esc</kbd>. The 3D layer is hidden from assistive technology, and the page reads fine with JavaScript off.
 
 </details>
 
 <a name="built"></a>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-built-dark.svg">
-  <img src="docs/readme/section-built-light.svg" width="100%" alt="05 / Stack and scores: Built with">
-</picture>
+<img src="docs/readme/section-built.svg" width="100%" alt="05 / Stack and scores: Built with">
 
 <div align="center">
 
 <p align="center"><img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,threejs,vercel&theme=dark" alt="Next.js, React, TypeScript, Tailwind CSS, three.js, Vercel"></p>
 
-<p align="center"><img src="https://img.shields.io/badge/GSAP-SCROLLTRIGGER_·_SPLITTEXT-05080D?style=flat-square&logo=greensock&logoColor=6FE6FF&labelColor=0B111A" alt="GSAP with ScrollTrigger and SplitText"> <img src="https://img.shields.io/badge/LENIS-SMOOTH_SCROLL-05080D?style=flat-square&labelColor=0B111A" alt="Lenis smooth scroll"> <img src="https://img.shields.io/badge/VITEST-53_TESTS-05080D?style=flat-square&logo=vitest&logoColor=6FE6FF&labelColor=0B111A" alt="Vitest, 53 tests"> <img src="https://img.shields.io/badge/WEBGL-ONE_DRAW_CALL-05080D?style=flat-square&logo=webgl&logoColor=6FE6FF&labelColor=0B111A" alt="WebGL, one draw call"></p>
+<p align="center"><img src="https://img.shields.io/badge/GSAP-SCROLLTRIGGER_·_SPLITTEXT-030509?style=flat-square&logo=greensock&logoColor=7CE7FF&labelColor=0C121C" alt="GSAP with ScrollTrigger and SplitText"> <img src="https://img.shields.io/badge/LENIS-SMOOTH_SCROLL-030509?style=flat-square&labelColor=0C121C" alt="Lenis smooth scroll"> <img src="https://img.shields.io/badge/VITEST-27_TESTS-030509?style=flat-square&logo=vitest&logoColor=7CE7FF&labelColor=0C121C" alt="Vitest, 27 tests"> <img src="https://img.shields.io/badge/WEBGL-CUSTOM_SHADERS-030509?style=flat-square&logo=webgl&logoColor=7CE7FF&labelColor=0C121C" alt="WebGL with custom shaders"></p>
 
 <br>
 
@@ -193,28 +182,26 @@ With `prefers-reduced-motion`, there is no lens, no pinning and no smooth scroll
 
 | Lighthouse, production build | Performance | Accessibility | Best practices | SEO |
 |---|:-:|:-:|:-:|:-:|
-| **Desktop** | 100 | 100 | 100 | 100 |
-| **Mobile** (simulated 4G, 4× CPU slowdown) | 89–90 | 100 | 100 | 100 |
+| **Home, desktop** | 99 | 100 | 100 | 100 |
+| **Home, mobile** (simulated 4G, 4× CPU slowdown) | 96 | 100 | 100 | 100 |
+| **Aethra case study, mobile** | 95 | 100 | 100 | 100 |
 
-<sub>Measured on 19 September 2026. Every route is prerendered as static HTML, and there are 7 runtime dependencies.</sub>
+<sub>Measured on 20 September 2026. Every route is prerendered as static HTML, and there are 7 runtime dependencies.</sub>
 
 <a name="run"></a>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/section-run-dark.svg">
-  <img src="docs/readme/section-run-light.svg" width="100%" alt="06 / Local setup: Run it">
-</picture>
+<img src="docs/readme/section-run.svg" width="100%" alt="06 / Local setup: Run it">
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000
-npm test             # shapes, content and maths
+npm run dev          # http://localhost:5000
+npm test             # layout maths and content checks
 npm run lint
 npm run typecheck
 npm run build && npm start
 ```
 
-Requires Node 22.12 or newer.
+Requires Node 22.12 or newer. On macOS, AirPlay Receiver also listens on port 5000, so the scripts bind to `localhost` only. Open **http://localhost:5000**, not `127.0.0.1:5000`.
 
 ### ◈ Edit the content
 
@@ -222,13 +209,13 @@ All copy lives in `src/content`, so updating the site never means touching compo
 
 | File | What it holds |
 |---|---|
-| `profile.ts` | Name, headline, availability, email, links, résumé, education |
-| `layers.ts` | The five stack layers, with evidence and tools for each |
-| `projects.ts` | The Aethra summary, project cards (with their data-flow steps) and client sites |
+| `profile.ts` | Name, statement, availability, email, links, résumé, portrait, about, education |
+| `layers.ts` | The five disciplines, with evidence and tools for each |
+| `projects.ts` | The Aethra summary, the projects (with their captures) and client sites |
 | `experience.ts` | Roles, most recent first |
 | `aethra.ts` | The Aethra case study, its architecture graph and the permission-gate sample |
 
-`src/content/content.test.ts` fails on placeholder text, non-https links, duplicate slugs or a broken architecture graph. Run `npm test` after editing.
+`src/content/content.test.ts` fails on placeholder text, non-https links, duplicate slugs, a capture that doesn't exist or a broken architecture graph. Run `npm test` after editing.
 
 ### ◇ Deploy
 
@@ -240,20 +227,21 @@ Import the repository on [Vercel](https://vercel.com/new); there is nothing to c
 src/
   app/          routes, metadata, share images, icons, sitemap, robots, 404
   content/      all copy and data, with integrity tests
-  components/   hero, layers, work, experience, contact, case study, nav, motion
-  gl/           particle shapes (tested), shaders, scene, quality tiers
-  lib/          GSAP setup, maths, motion preferences, nav theme
+  components/   chrome (nav, cursor, intro), hero, capabilities, work,
+                experience, about, contact, case study, motion
+  gl/           the 3D stage: plates, etching, shaders, layout (tested), quality tiers
+  lib/          GSAP setup, maths, motion preferences, share-image assets
 docs/
   PLAN.md       design notes and the build checklist
-  readme/       the artwork on this page
+  readme/       the artwork and screens on this page
 scripts/
-  readme/       regenerates that artwork from the site's own fonts and shapes
+  readme/       regenerates that artwork from the site's own fonts
 ```
 
 <br>
 
-<img src="docs/readme/footer.svg" width="100%" alt="Let's build something that feels simple. A dome of light rises. Email gangadhargdvs0@gmail.com, LinkedIn gangadhar-gooti.">
+<img src="docs/readme/footer.svg" width="100%" alt="Let's work together. Available for full-time roles. Email gangadhargdvs0@gmail.com, LinkedIn gangadhar-gooti, GitHub Gangadhar-gdvs.">
 
 <div align="center">
-<sub>3D simplex noise by Ian McEwan and Stefan Gustavson (Ashima Arts), MIT licence. Typefaces: Archivo, IBM Plex Sans and JetBrains Mono, all under the SIL Open Font License. The artwork on this page is SVG with every word set as vector paths, so it looks the same on every device.</sub>
+<sub>Typefaces: Geist and Geist Mono by Vercel, and Instrument Serif, all under the SIL Open Font License. The artwork on this page is SVG with every word set as vector paths, so it looks the same on every device.</sub>
 </div>

@@ -1,14 +1,18 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { PermissionGate } from "@/components/case/PermissionGate";
+import { Magnetic } from "@/components/chrome/Magnetic";
 import { LensLink } from "@/components/motion/LensLink";
 import { MotionSection } from "@/components/motion/MotionSection";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { Arrow } from "@/components/ui/Arrow";
+import { TiltPanel } from "@/components/ui/TiltPanel";
 import { ArchitectureDiagram } from "@/components/work/ArchitectureDiagram";
 import { caseStudy } from "@/content/aethra";
 import { profile } from "@/content/profile";
 import { featured } from "@/content/projects";
+import { vars } from "@/lib/style";
 
 const description = caseStudy.tagline;
 
@@ -20,40 +24,43 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: "Aethra case study", description },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#05080d",
-};
-
 export default function AethraCaseStudy() {
   return (
     <PageTransition>
-      <main id="main" tabIndex={-1} className="relative min-h-screen bg-abyss outline-none">
+      <main id="main" tabIndex={-1} className="relative min-h-screen overflow-x-clip bg-night outline-none">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[80vh] bg-[radial-gradient(60%_70%_at_75%_0%,#0b1626,transparent)]"
+        />
         <CaseHero />
 
-        <Chapter label="The idea" title="An assistant that can act, safely.">
+        <Chapter index={1} label="The idea" title="An assistant that can act, safely.">
           {caseStudy.idea.map((paragraph) => (
-            <p key={paragraph} data-reveal className="text-lg leading-relaxed text-bone md:text-xl md:leading-relaxed">
+            <p key={paragraph} data-reveal className="t-lead text-fg-2">
               {paragraph}
             </p>
           ))}
         </Chapter>
 
-        <Chapter label="Architecture" title="A brain, a pair of hands, and a gate between them.">
-          <div data-reveal className="rounded-[4px] border border-line bg-abyss-raised/80 p-4 md:p-8">
-            <ArchitectureDiagram idPrefix="case-arch" />
-          </div>
-          <div className="grid gap-4 md:grid-cols-3">
+        <Chapter index={2} label="Architecture" title="A brain, a pair of hands, and a gate between them.">
+          <TiltPanel max={3} className="rounded-[16px] bg-night-1 p-4 ring-1 ring-line sm:p-6 md:p-8">
+            <p className="t-label text-fg-3">Fig. 01 — How Aethra is built</p>
+            <div className="pt-8">
+              <ArchitectureDiagram idPrefix="case-arch" />
+            </div>
+          </TiltPanel>
+          <div className="grid gap-6 md:grid-cols-3">
             {caseStudy.brainAndHands.map((item) => (
-              <div key={item.title} data-reveal className="border-t border-line pt-4">
-                <h3 className="font-medium text-bone">{item.title}</h3>
-                <p className="mt-2 leading-relaxed text-bone-soft">{item.body}</p>
+              <div key={item.title} data-reveal className="border-t border-line pt-5">
+                <h3 className="t-h4">{item.title}</h3>
+                <p className="t-body mt-2 text-fg-2">{item.body}</p>
               </div>
             ))}
           </div>
         </Chapter>
 
-        <Chapter label="Permission kernel" title="One gate for every action. Try it.">
-          <p data-reveal className="measure text-lg leading-relaxed text-bone">
+        <Chapter index={3} label="Permission kernel" title="One gate for every action. Try it.">
+          <p data-reveal className="t-lead text-fg-2">
             {caseStudy.gateIntro}
           </p>
           <div data-reveal>
@@ -61,39 +68,35 @@ export default function AethraCaseStudy() {
           </div>
         </Chapter>
 
-        <Chapter label="Device layer" title="One interface, every operating system.">
-          <p data-reveal className="measure text-lg leading-relaxed text-bone">
+        <Chapter index={4} label="Device layer" title="One interface, every operating system.">
+          <p data-reveal className="t-lead text-fg-2">
             {caseStudy.deviceLayer.intro}
           </p>
           <ul className="border-t border-line">
             {caseStudy.deviceLayer.modules.map((module) => (
-              <li
-                key={module.file}
-                data-reveal
-                className="grid gap-1 border-b border-line py-4 sm:grid-cols-[9rem_1fr] sm:gap-6"
-              >
-                <code className="readout text-phosphor">{module.file}</code>
-                <span className="text-bone">{module.role}</span>
+              <li key={module.file} data-reveal className="grid gap-1 border-b border-line py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                <code className="font-mono text-[0.8125rem] text-glow">{module.file}</code>
+                <span className="t-body text-fg">{module.role}</span>
               </li>
             ))}
           </ul>
         </Chapter>
 
-        <Chapter label="Memory" title="Memory that stays on the machine.">
+        <Chapter index={5} label="Memory" title="Memory that stays on the machine.">
           <Points items={caseStudy.memory} />
         </Chapter>
 
-        <Chapter label="Cost" title="Free by default.">
+        <Chapter index={6} label="Cost" title="Free by default.">
           <Points items={caseStudy.cost} />
         </Chapter>
 
-        <Chapter label="Subagents" title="Many agents, one conversation.">
-          <p data-reveal className="measure text-lg leading-relaxed text-bone">
+        <Chapter index={7} label="Subagents" title="Many agents, one conversation.">
+          <p data-reveal className="t-lead text-fg-2">
             {caseStudy.swarm}
           </p>
         </Chapter>
 
-        <Chapter label="Next" title="What I’m building now.">
+        <Chapter index={8} label="Next" title="What I’m building now.">
           <Points items={caseStudy.next} />
         </Chapter>
 
@@ -105,75 +108,70 @@ export default function AethraCaseStudy() {
 
 function CaseHero() {
   return (
-    <header className="relative overflow-hidden border-b border-line">
-      <div
-        aria-hidden="true"
-        className="grid-underlay absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
-      />
-      <div className="relative mx-auto max-w-[1600px] px-5 pt-28 pb-14 sm:px-8 md:px-10 md:pt-36 md:pb-20">
-        <LensLink href="/#work" className="readout text-bone-soft transition-colors hover:text-phosphor">
-          <span aria-hidden="true">←</span> All work
-        </LensLink>
+    <header className="wrap relative pt-28 pb-16 md:pt-36 md:pb-24">
+      <LensLink href="/#work" className="t-label group inline-flex items-center gap-2 text-fg-3 transition-colors hover:text-fg">
+        <span className="rotate-180">
+          <Arrow />
+        </span>
+        All work
+      </LensLink>
 
-        <div className="intro-fade mt-10 flex items-center gap-4" style={{ animationDelay: "80ms" }}>
-          <Image src="/images/aethra-logo.png" alt="Aethra logo" width={52} height={52} className="size-13" />
-          <p className="eyebrow text-phosphor">Case study · {featured.kind}</p>
-        </div>
+      <div className="enter mt-12 flex items-center gap-3 md:mt-16" style={vars({ "--d": "60ms" })}>
+        <Image src="/images/aethra-logo.png" alt="Aethra logo" width={40} height={40} className="size-10 rounded-[9px]" />
+        <p className="t-label text-fg-2">
+          Case study <span className="text-fg-3">· {featured.kind}</span>
+        </p>
+      </div>
 
-        <h1 className="display mt-6 overflow-hidden text-[clamp(3.8rem,15vw,14rem)] text-bone uppercase">
-          <span className="intro-rise block" style={{ animationDelay: "140ms" }}>
+      <h1 className="t-display mt-8">
+        <span className="mask">
+          <span className="rise" style={vars({ "--d": "120ms" })}>
             {caseStudy.title}
           </span>
-        </h1>
-        <p
-          className="intro-fade mt-8 max-w-4xl text-xl leading-snug text-bone md:text-3xl md:leading-snug"
-          style={{ animationDelay: "320ms" }}
-        >
-          {caseStudy.tagline}
-        </p>
+        </span>
+      </h1>
+      <p className="t-lead enter mt-7 max-w-[40rem] text-fg-2" style={vars({ "--d": "300ms" })}>
+        {caseStudy.tagline}
+      </p>
 
-        <dl
-          className="intro-fade mt-12 grid gap-6 border-t border-line pt-6 sm:grid-cols-3"
-          style={{ animationDelay: "440ms" }}
-        >
-          {caseStudy.meta.map((item) => (
-            <div key={item.label}>
-              <dt className="eyebrow text-bone-soft">{item.label}</dt>
-              <dd className="mt-2 text-bone">{item.value}</dd>
-            </div>
-          ))}
-        </dl>
+      <dl className="enter mt-14 grid gap-6 border-t border-line pt-6 sm:grid-cols-3" style={vars({ "--d": "420ms" })}>
+        {caseStudy.meta.map((item) => (
+          <div key={item.label}>
+            <dt className="t-label text-fg-3">{item.label}</dt>
+            <dd className="t-small mt-1.5 text-fg">{item.value}</dd>
+          </div>
+        ))}
+      </dl>
 
-        <ul
-          className="intro-fade mt-10 grid gap-x-8 gap-y-4 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4"
-          style={{ animationDelay: "540ms" }}
-        >
-          {featured.facts.map((fact) => (
-            <li key={fact.value} className="flex items-baseline gap-4">
-              <span className="display-tight text-4xl text-bone">{fact.value}</span>
-              <span className="text-sm leading-snug text-bone-soft">{fact.label}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="enter mt-10 grid gap-x-6 gap-y-8 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4" style={vars({ "--d": "520ms" })}>
+        {featured.facts.map((fact) => (
+          <li key={fact.value}>
+            <span className="block text-[2.25rem] leading-none font-medium tracking-[-0.05em]">{fact.value}</span>
+            <span className="t-small mt-2 block text-fg-3">{fact.label}</span>
+          </li>
+        ))}
+      </ul>
     </header>
   );
 }
 
-function Chapter({ label, title, children }: { label: string; title: string; children: ReactNode }) {
+function Chapter({ index, label, title, children }: { index: number; label: string; title: string; children: ReactNode }) {
   const id = `chapter-${label.toLowerCase().replace(/\s+/g, "-")}`;
   return (
-    <MotionSection aria-labelledby={id} className="border-b border-line">
-      <div className="mx-auto grid max-w-[1600px] gap-8 px-5 py-20 sm:px-8 md:px-10 md:py-28 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-4">
-          <p data-reveal className="eyebrow text-phosphor">
+    <MotionSection aria-labelledby={id} className="wrap">
+      <div data-draw-line className="h-px bg-line-2" />
+      <div className="grid grid-cols-12 gap-x-6 gap-y-10 py-16 md:py-24">
+        <div className="col-span-12 lg:col-span-4">
+          <p data-reveal className="t-label flex items-center gap-3 text-fg-3">
+            <span className="text-glow">{String(index).padStart(2, "0")}</span>
+            <span aria-hidden="true" className="h-px w-6 bg-line-3" />
             {label}
           </p>
-          <h2 id={id} data-split className="display-tight mt-4 text-[clamp(2rem,3.6vw,3.4rem)] text-bone">
+          <h2 id={id} data-split className="t-h3 mt-6 max-w-[22rem]">
             {title}
           </h2>
         </div>
-        <div className="flex flex-col gap-8 lg:col-span-8">{children}</div>
+        <div className="col-span-12 flex flex-col gap-8 lg:col-span-7 lg:col-start-6">{children}</div>
       </div>
     </MotionSection>
   );
@@ -181,10 +179,10 @@ function Chapter({ label, title, children }: { label: string; title: string; chi
 
 function Points({ items }: { items: readonly string[] }) {
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-5">
       {items.map((item) => (
-        <li key={item} data-reveal className="flex gap-4 text-lg leading-relaxed text-bone">
-          <span aria-hidden="true" className="mt-[0.8em] h-px w-5 shrink-0 bg-phosphor/70" />
+        <li key={item} data-reveal className="t-lead flex gap-4 text-fg-2">
+          <span aria-hidden="true" className="mt-[0.75em] h-px w-5 shrink-0 bg-glow" />
           {item}
         </li>
       ))}
@@ -194,31 +192,35 @@ function Points({ items }: { items: readonly string[] }) {
 
 function CaseFooter() {
   return (
-    <MotionSection aria-labelledby="walkthrough" className="relative">
-      <div className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:px-10 md:py-32">
-        <p data-reveal className="eyebrow text-phosphor">
-          Walkthrough
-        </p>
-        <h2 id="walkthrough" data-split className="display mt-5 max-w-[16ch] text-[clamp(2.4rem,6vw,6rem)] text-bone uppercase">
-          Want to see it run?
-        </h2>
-        <p data-reveal className="measure mt-6 text-lg leading-relaxed text-bone-soft">
-          The code is private. I&rsquo;m happy to take you through it live, from the Rust device layer to the
-          permission kernel.
-        </p>
-        <div data-reveal className="mt-10 flex flex-wrap gap-3">
-          <a href={`mailto:${profile.email}?subject=Aethra%20walkthrough`} className="btn btn-glow">
+    <MotionSection aria-labelledby="walkthrough" className="wrap relative pt-20 pb-10 md:pt-28">
+      <div data-draw-line className="h-px bg-line-2" />
+      <p data-reveal className="t-label mt-16 text-fg-3 md:mt-24">
+        Walkthrough
+      </p>
+      <h2 id="walkthrough" data-split className="t-display mt-6 max-w-[14ch]">
+        Want to see it <span className="t-serif">run?</span>
+      </h2>
+      <p data-reveal className="t-lead mt-7 max-w-[32rem] text-fg-2">
+        The code is private. I&rsquo;m happy to take you through it live, from the Rust device layer to the permission
+        kernel.
+      </p>
+      <div data-reveal className="mt-10 flex flex-wrap gap-3">
+        <Magnetic>
+          <a href={`mailto:${profile.email}?subject=Aethra%20walkthrough`} className="btn btn-solid">
             Ask for a walkthrough
+            <Arrow dir="up-right" />
           </a>
-          <LensLink href="/#work" className="btn btn-ghost">
+        </Magnetic>
+        <Magnetic>
+          <LensLink href="/#work" className="btn btn-line">
             Back to all work
           </LensLink>
-        </div>
-        <footer className="readout mt-24 flex flex-wrap justify-between gap-4 border-t border-line pt-6 text-bone-soft">
-          <p>© 2026 {profile.name}</p>
-          <p>Built with Next.js, Three.js and GSAP</p>
-        </footer>
+        </Magnetic>
       </div>
+      <footer className="t-small mt-28 flex flex-wrap justify-between gap-4 border-t border-line pt-6 text-fg-3">
+        <p>© 2026 {profile.name}</p>
+        <p>Built with Next.js, Three.js and GSAP</p>
+      </footer>
     </MotionSection>
   );
 }

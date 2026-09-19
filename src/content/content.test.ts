@@ -1,5 +1,6 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { SHAPE_IDS } from "@/gl/shapes";
 import { architecture, architectureLayouts, evaluateGate, sampleTools } from "./aethra";
 import { roles } from "./experience";
 import { layers } from "./layers";
@@ -33,10 +34,10 @@ describe("layers", () => {
     expect(layers.map((l) => l.id)).toEqual(["interface", "devices", "services", "data", "intelligence"]);
   });
 
-  it("maps each layer to its own particle shape", () => {
-    const shapes = layers.map((l) => l.shape);
-    for (const shape of shapes) expect(SHAPE_IDS).toContain(shape);
-    expect(new Set(shapes).size).toBe(layers.length);
+  it("gives every layer a distinct short name for its plate", () => {
+    const names = layers.map((l) => l.short);
+    expect(new Set(names).size).toBe(layers.length);
+    for (const name of names) expect(name.length).toBeLessThanOrEqual(14);
   });
 
   it("backs every layer with evidence and tools", () => {
@@ -53,8 +54,12 @@ describe("projects", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("each draw a pipeline of at least three steps", () => {
-    for (const project of projects) expect(project.flow.length).toBeGreaterThanOrEqual(3);
+  it("only point previews at images that exist", () => {
+    const previews = [...projects, ...clientSites].flatMap((item) => (item.preview ? [item.preview.src] : []));
+    expect(previews.length).toBeGreaterThan(0);
+    for (const src of previews) {
+      expect(existsSync(join(process.cwd(), "public", src))).toBe(true);
+    }
   });
 
   it("either link to something or say why they can't", () => {

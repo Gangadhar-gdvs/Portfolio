@@ -24,8 +24,14 @@ function subscribeTo(query: string) {
 }
 
 const subscribeReducedMotion = subscribeTo(REDUCED_MOTION_QUERY);
+const subscribeFinePointer = subscribeTo(FINE_POINTER_QUERY);
 
 /** Live `prefers-reduced-motion` value; `false` during server rendering. */
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribeReducedMotion, prefersReducedMotion, () => false);
+}
+
+/** Whether the main pointer is a mouse or trackpad; `false` during server rendering. */
+export function useFinePointer(): boolean {
+  return useSyncExternalStore(subscribeFinePointer, hasFinePointer, () => false);
 }

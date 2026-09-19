@@ -6,10 +6,15 @@ export const profile = {
   name: "Gangadhara Gooti",
   firstName: "Gangadhara",
   lastName: "Gooti",
-  role: "Full-stack engineer",
-  headline: "Full-stack engineer for web, mobile, desktop and AI",
-  lede: "Full-stack engineer across web, mobile, desktop and AI. I build software that feels simple on the surface and is engineered deeply underneath.",
-  availability: "Open to full-time roles",
+  role: "Full-Stack Engineer",
+  disciplines: ["Web", "Mobile", "Desktop", "AI"],
+  /** Gangadhara's own line from the GitHub profile README, split for the accent. */
+  statement: {
+    lead: "Building software that feels simple on the surface,",
+    accent: "engineered deeply underneath.",
+  },
+  headline: "Full-Stack Engineer for web, mobile, desktop and AI",
+  availability: "Available for full-time roles",
   location: "Pulivendula, Andhra Pradesh, India",
   locationShort: "Pulivendula, India",
   timeZone: "Asia/Kolkata",
@@ -24,6 +29,20 @@ export const profile = {
     alt: "Gangadhara Gooti in a charcoal suit and blue tie",
     width: 1575,
     height: 1600,
+  },
+  about: {
+    intro:
+      "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and AI agents that can act.",
+    body: [
+      "At Vectorsoft I build responsive web platforms, desktop integrations and mobile apps. Before that I engineered real-time operations modules at Zyrone Energy and shipped high-performance web apps with Tech Kshatriyas.",
+      "In my own time I'm building Aethra, an AI agent that sees the screen and uses the computer for you, with a permission gate in front of every action.",
+    ],
+    stats: [
+      { value: 3, suffix: "", label: "Product teams shipped with" },
+      { value: 6, suffix: "", label: "Real-time modules at Zyrone Energy" },
+      { value: 99, suffix: "/100", label: "PageSpeed at Tech Kshatriyas" },
+      { value: 44, suffix: "", label: "Tools in the Aethra agent" },
+    ],
   },
   education: {
     degree: "B.Tech, Computer Science and Engineering",

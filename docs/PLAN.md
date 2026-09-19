@@ -98,3 +98,64 @@ tests (colocated): *.test.ts
 - Check that the résumé link (the Google Drive file from the old site) is current.
 - Add screen recordings of Aethra, G-Mart and SuperCabs when you have them; the plates can take media alongside the diagrams.
 - G-Mart, SuperCabs and Aethra are private on GitHub, so the site shows no code links for them (the GitHub profile README links to them, and visitors get a 404).
+
+---
+
+# v2 — Cinematic redesign (19 Sep 2026)
+
+**Feedback on v1:** motion and transitions work; the design does not. Type is too big, the light hero feels flat and badly aligned, soft glows read as blur, headings sound like dummy copy, and it looks like a normal website rather than a portfolio. Wanted: clean, crisp ("4K"), 3D, deep interaction, an IMAX feel.
+
+**Research (Awwwards SOTD 2026: Léo Parpeix, Gionatan Nese, Minh Pham, Iventions, Hubtown, By-Kin):** the 3D scene *is* the hero, lit like cinema; the UI around it is small and exact (11–14 px labels anchored to corners, one short statement, a scroll cue); one big moment per screen; a confident grid; motion never blocks reading; 60 fps or it doesn't count.
+
+## Direction: "The Stack"
+
+A dark, cinematic stage. On it stand five glass plates, stacked so closely they read as one sleek slab: interface, devices, services, data and intelligence, the full stack as one object. Each plate is etched with a drawing of its layer. The cursor is a lamp that lights the glass, dragging turns the stack, and scrolling opens it. In Capabilities, each discipline slides its plate out toward the copy that describes it, and at Contact the stack closes again. This is Gangadhara's own line made physical: simple on the surface, engineered deeply underneath.
+
+| Token | Value | Use |
+|---|---|---|
+| `night` | `#030509` | stage |
+| `night-1` / `night-2` | `#070B12` / `#0C121C` | raised surfaces, cards |
+| `fg` / `fg-2` / `fg-3` | `#EEF2F7` / `#A7B0BD` / `#6E7785` | text tiers |
+| `glow` | `#7CE7FF` | light, focus, live states |
+| `glow-2` | `#3D7BFF` | depth in gradients only |
+| `warm` | `#FFB86B` | availability dot only |
+
+Type: **Geist** (UI and headings, weight 400–500, tight tracking), **Instrument Serif italic** (one accent phrase per screen), **Geist Mono** (11 px tracked labels). Scale: label 11 · small 13 · body 16 · lead 20 · h3 24 · h2 clamp(32→52) · display clamp(44→88).
+
+Crispness: canvas at device pixel ratio up to 2, MSAA edges, hard-edged particles, bloom only above a high threshold, 1 px hairlines, no glow on text.
+
+## Real headings
+
+Hero: *Gangadhara Gooti — Full-Stack Engineer* and the README line. Sections: **About · Capabilities · Selected Work · Experience · Contact**. Capabilities are named as disciplines: Frontend Engineering, Mobile & Desktop Apps, Backend & Real-time Systems, Data & Storage, AI Agents & LLM Systems.
+
+## Decisions made while building
+
+- **Plates instead of a vertical monolith, and no particles.** A stack of horizontal plates says "surface over depth" at a glance and stays crisp; the particle cloud was the main source of the blur in v1, so it's gone (dust remains, as hard-edged specks).
+- **Etched in a canvas, not modelled.** Each drawing is made once in a 2D canvas with one colour channel per kind of mark (lines, accent, pulses) and coloured in the shader. Anisotropic filtering keeps it sharp at an angle.
+- **No bloom.** Glow is drawn into the etching where it belongs (the AI core, the service hub, the vector query), so nothing on screen is blurred and there's no post-processing cost.
+- **Framing with `setViewOffset`.** The stack never moves in the world to make room for text; the camera's picture shifts instead, so lighting and perspective stay consistent.
+- **Sections steer the stage with attributes** (`data-stage`, `data-stage-focus`, `data-stage-cover`), and the opaque middle of the page pauses rendering.
+- **Headings are real**: Capabilities, Selected Work, Experience, About, and "Let's work together." Mono labels above them carry facts ("7 projects · 3 client websites"), not decoration.
+- **Dev server on port 5000**, bound to `localhost` because macOS AirPlay Receiver holds `*:5000`.
+
+## Checklist (v2)
+
+- [x] Tokens, fonts, globals; remove the v1 X-ray hero styles.
+- [x] Chrome: nav (active section, tucks away while reading), viewfinder corners, custom cursor with labels, magnetic buttons.
+- [x] Stage: five etched glass plates, glossy floor and reflection, dust, cursor lamp, drag with inertia, open on scroll, per-discipline focus, labels beside the plates.
+- [x] Intro: a line of light, a count to 100, curtains open. First visit only, skipped for reduced motion.
+- [x] Hero overlay: name, statement, CTAs, credits row with local time and status, scroll cue.
+- [x] About: portrait that develops into colour, statement, four real numbers with counters.
+- [x] Capabilities: one scroll step per discipline driving the plate focus; stacked layout on phones.
+- [x] Selected Work: Aethra panel with a large live architecture diagram and the gate order, project index with cursor-following captures, client sites.
+- [x] Experience and Contact.
+- [x] Case study and 404 restyle; share images rebuilt with a render of the stack.
+- [x] Verify: build, tests, screenshots desktop and mobile, reduced motion, Lighthouse.
+- [x] README artwork and screens in the new style.
+
+## Verified (20 Sep 2026)
+
+- `npm test` 27 passing, `tsc` and ESLint clean, `next build` static with no warnings.
+- Lighthouse, production build: home desktop 99 / 100 / 100 / 100; home mobile 96 / 100 / 100 / 100; case study mobile 95 / 100 / 100 / 100.
+- No console errors through a full scroll, a drag, the lens transition to the case study and back.
+- Checked at 1440 × 900 and 390 × 844 on a real GPU, with reduced motion, and on the static fallback path.

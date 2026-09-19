@@ -1,15 +1,17 @@
 export type Tier = "high" | "mid" | "low";
 
 export interface TierSettings {
-  count: number;
   maxPixelRatio: number;
-  pointSize: number;
+  /** Pixels along each side of a plate's etching. */
+  textureSize: number;
+  dust: number;
+  reflection: boolean;
 }
 
 export const TIERS: Record<Tier, TierSettings> = {
-  high: { count: 22000, maxPixelRatio: 1.75, pointSize: 21 },
-  mid: { count: 12000, maxPixelRatio: 1.5, pointSize: 24 },
-  low: { count: 6000, maxPixelRatio: 1, pointSize: 26 },
+  high: { maxPixelRatio: 2, textureSize: 2048, dust: 520, reflection: true },
+  mid: { maxPixelRatio: 1.75, textureSize: 1536, dust: 380, reflection: true },
+  low: { maxPixelRatio: 1.25, textureSize: 1024, dust: 200, reflection: false },
 };
 
 /** A cheap guess at the device class, refined at runtime by frame timing. */

@@ -20,15 +20,15 @@ const RULE_OPTIONS: { value: LocalRule; label: string }[] = [
 ];
 
 const decisionText: Record<Decision, string> = {
-  ALLOW: "text-phosphor",
-  ASK: "text-ember",
+  ALLOW: "text-glow",
+  ASK: "text-warm",
   DENY: "text-deny",
 };
 
-const decisionBorder: Record<Decision, string> = {
-  ALLOW: "border-phosphor/60",
-  ASK: "border-ember/60",
-  DENY: "border-deny/60",
+const decisionRing: Record<Decision, string> = {
+  ALLOW: "ring-glow/60",
+  ASK: "ring-warm/60",
+  DENY: "ring-deny/60",
 };
 
 /**
@@ -60,15 +60,15 @@ export function PermissionGate() {
   };
 
   return (
-    <div className="grid gap-6 rounded-[4px] border border-line bg-abyss-raised/80 p-5 md:p-8 lg:grid-cols-12 lg:gap-10">
+    <div className="grid gap-8 rounded-[16px] bg-night-1 p-5 ring-1 ring-line md:p-8 lg:grid-cols-12 lg:gap-10">
       <div className="lg:col-span-5">
         <fieldset>
-          <legend className="eyebrow text-bone-soft">The model asks to run</legend>
+          <legend className="t-label text-fg-3">The model asks to run</legend>
           <div className="mt-4 space-y-2">
             {sampleTools.map((option) => (
               <label
                 key={option.name}
-                className="flex cursor-pointer items-start gap-3 rounded-[3px] border border-line px-3 py-2.5 transition-colors has-[:checked]:border-phosphor/60 has-[:checked]:bg-phosphor/[0.06] hover:border-line-strong"
+                className="flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 ring-1 ring-line transition-[box-shadow,background-color] hover:ring-line-3 has-[:checked]:bg-glow/[0.05] has-[:checked]:ring-glow/60"
               >
                 <input
                   type="radio"
@@ -76,11 +76,11 @@ export function PermissionGate() {
                   value={option.name}
                   checked={toolName === option.name}
                   onChange={() => setToolName(option.name)}
-                  className="mt-1 accent-[var(--color-phosphor)]"
+                  className="mt-1 accent-[var(--color-glow)]"
                 />
                 <span>
-                  <span className="readout block text-bone">{option.name}</span>
-                  <span className="block text-sm text-bone-soft">{option.description}</span>
+                  <span className="block font-mono text-[0.8125rem] text-fg">{option.name}</span>
+                  <span className="t-small block text-fg-3">{option.description}</span>
                 </span>
               </label>
             ))}
@@ -88,23 +88,23 @@ export function PermissionGate() {
         </fieldset>
 
         <div className="mt-6 space-y-5">
-          <label className="flex cursor-pointer items-center gap-3 text-bone">
+          <label className="t-small flex cursor-pointer items-center gap-3 text-fg">
             <input
               type="checkbox"
               checked={cloudDisabled}
               onChange={(event) => setCloudDisabled(event.target.checked)}
-              className="size-4 accent-[var(--color-phosphor)]"
+              className="size-4 accent-[var(--color-glow)]"
             />
             A cloud admin has disabled this tool
           </label>
 
           <fieldset>
-            <legend className="eyebrow text-bone-soft">Local rule on this machine</legend>
-            <div className="mt-3 inline-flex rounded-full border border-line p-1">
+            <legend className="t-label text-fg-3">Local rule on this machine</legend>
+            <div className="mt-3 inline-flex rounded-full p-1 ring-1 ring-line">
               {RULE_OPTIONS.map((option) => (
                 <label
                   key={option.label}
-                  className="readout cursor-pointer rounded-full px-3.5 py-1.5 text-bone-soft transition-colors has-[:checked]:bg-bone has-[:checked]:text-abyss has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-phosphor"
+                  className="t-small cursor-pointer rounded-full px-3.5 py-1.5 text-fg-2 transition-colors hover:text-fg has-[:checked]:bg-fg has-[:checked]:text-night has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-glow"
                 >
                   <input
                     type="radio"
@@ -122,7 +122,7 @@ export function PermissionGate() {
       </div>
 
       <div className="lg:col-span-7">
-        <p className="readout text-bone-soft">permissionService.evaluateTool(name, args)</p>
+        <p className="font-mono text-[0.8125rem] text-fg-3">permissionService.evaluateTool(name, args)</p>
         <ol className="mt-4 space-y-2">
           {gateSteps.map((step, index) => {
             const state = index < decidedAt ? "passed" : index === decidedAt ? "decided" : "skipped";
@@ -130,14 +130,14 @@ export function PermissionGate() {
               <li
                 key={step.id}
                 data-state={state}
-                className="grid grid-cols-[2rem_1fr] items-start gap-3 rounded-[3px] border border-line px-3 py-3 transition-all duration-500 data-[state=decided]:border-bone/40 data-[state=decided]:bg-bone/[0.05] data-[state=skipped]:opacity-35"
+                className="grid grid-cols-[2rem_1fr] items-start gap-3 rounded-[10px] px-3 py-3 ring-1 ring-line transition-all duration-500 data-[state=decided]:bg-fg/[0.04] data-[state=decided]:ring-fg/40 data-[state=skipped]:opacity-35"
                 style={{ transitionDelay: `${index * 70}ms` }}
               >
-                <span className="readout pt-0.5 text-bone-soft">{index + 1}</span>
+                <span className="t-label pt-1 text-fg-3">{String(index + 1).padStart(2, "0")}</span>
                 <span>
-                  <span className="block text-bone">{step.question}</span>
+                  <span className="t-small block text-fg">{step.question}</span>
                   <span
-                    className={`readout mt-1 block ${state === "decided" ? decisionText[result.decision] : "text-bone-soft"}`}
+                    className={`mt-1 block font-mono text-[0.8125rem] ${state === "decided" ? decisionText[result.decision] : "text-fg-3"}`}
                   >
                     {answer(step, state)}
                   </span>
@@ -147,13 +147,13 @@ export function PermissionGate() {
           })}
         </ol>
 
-        <div aria-live="polite" className="mt-6 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-start sm:gap-5">
+        <div aria-live="polite" className="mt-6 flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:gap-5">
           <span
-            className={`display-tight inline-flex shrink-0 items-center rounded-full border px-4 py-1.5 text-xl ${decisionText[result.decision]} ${decisionBorder[result.decision]}`}
+            className={`inline-flex shrink-0 items-center self-start rounded-full px-4 py-1.5 font-mono text-[0.9375rem] ring-1 sm:self-auto ${decisionText[result.decision]} ${decisionRing[result.decision]}`}
           >
             {result.decision}
           </span>
-          <p className="leading-relaxed text-bone">{decisionOutcome[result.decision]}</p>
+          <p className="t-body text-fg">{decisionOutcome[result.decision]}</p>
         </div>
       </div>
     </div>

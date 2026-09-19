@@ -3,6 +3,11 @@ export interface ProjectLink {
   href: string;
 }
 
+export interface Preview {
+  src: string;
+  alt: string;
+}
+
 export interface Project {
   slug: string;
   name: string;
@@ -12,11 +17,11 @@ export interface Project {
   summary: string;
   points: string[];
   stack: string[];
-  /** How data moves through it, left to right. Drawn as a live pipeline. */
-  flow: string[];
   links: ProjectLink[];
   /** Shown instead of a code link when the repository is private. */
   codeNote?: string;
+  /** A capture of the live product, shown on hover. */
+  preview?: Preview;
 }
 
 export interface ClientSite {
@@ -25,6 +30,7 @@ export interface ClientSite {
   work: string;
   stack: string[];
   href: string;
+  preview?: Preview;
 }
 
 export const featured = {
@@ -34,7 +40,7 @@ export const featured = {
   year: "2026",
   status: "In active development",
   summary:
-    "An AI companion that sees your screen, plans the steps and uses your computer to do them, with a 3D avatar that talks you through it and a permission gate on every action.",
+    "An AI companion that sees your screen, plans the steps and uses your computer to do them, with a 3D avatar that talks you through it and a permission gate in front of every action.",
   facts: [
     { value: "6", label: "packages: desktop, backend, cloud, admin, shared, Android" },
     { value: "44", label: "tools, each with a risk tier and a default action" },
@@ -59,11 +65,11 @@ export const projects: Project[] = [
       "Live stats: status breakdown, tasks per person, overdue count",
     ],
     stack: ["React", "Express", "MongoDB", "JWT"],
-    flow: ["React UI", "Express API", "JWT + roles", "MongoDB"],
     links: [
-      { label: "Open the live app", href: "https://taskflow-production-50d6.up.railway.app/" },
+      { label: "Live app", href: "https://taskflow-production-50d6.up.railway.app/" },
       { label: "Code", href: "https://github.com/Gangadhar-gdvs/TaskFlow" },
     ],
+    preview: { src: "/images/work/taskflow.jpg", alt: "TaskFlow sign-in screen" },
   },
   {
     slug: "supercabs",
@@ -73,7 +79,6 @@ export const projects: Project[] = [
     summary: "A ride-rental app with OTP sign-up, document checks and real-time push notifications.",
     points: ["OTP onboarding", "Document verification workflows", "Real-time push notifications"],
     stack: ["Flutter", "Dart", "Firebase", "FCM"],
-    flow: ["Flutter app", "OTP sign-up", "Firebase", "Push alerts"],
     links: [],
     codeNote: "Private repository",
   },
@@ -89,7 +94,6 @@ export const projects: Project[] = [
       "Payment processing and delivery tracking",
     ],
     stack: ["React", "Node.js", "Express", "MongoDB"],
-    flow: ["Storefront", "Express API", "RBAC + JWT", "MongoDB"],
     links: [],
     codeNote: "Private repository",
   },
@@ -105,11 +109,11 @@ export const projects: Project[] = [
       "Text and chart views, with PDF export",
     ],
     stack: ["React", "Chart.js", "Express", "pcap-parser"],
-    flow: ["PCAP upload", "Parser", "Filters", "Charts + PDF"],
     links: [
-      { label: "Open the live demo", href: "https://network-traffic-analysis-client.onrender.com/" },
+      { label: "Live demo", href: "https://network-traffic-analysis-client.onrender.com/" },
       { label: "Code", href: "https://github.com/Gangadhar-gdvs/Network-Traffic-Analysis" },
     ],
+    preview: { src: "/images/work/nta.jpg", alt: "Network Traffic Analyser with its IP, protocol and packet-length filters" },
   },
   {
     slug: "medical-recommendation",
@@ -123,7 +127,6 @@ export const projects: Project[] = [
       "Model built and evaluated in a Jupyter notebook",
     ],
     stack: ["Python", "scikit-learn", "pandas", "Flask"],
-    flow: ["Symptoms", "SVC model", "Condition", "Advice"],
     links: [
       {
         label: "Code",
@@ -139,7 +142,6 @@ export const projects: Project[] = [
     summary: "Hospital management with separate doctor, patient and admin modules over one database.",
     points: ["Doctor, patient and admin modules", "PHP backend over a MySQL database"],
     stack: ["PHP", "MySQL", "JavaScript", "SCSS"],
-    flow: ["Patients", "Doctors", "Admin", "MySQL"],
     links: [{ label: "Code", href: "https://github.com/Gangadhar-gdvs/Web-Medical-Management-System" }],
   },
 ];
@@ -151,17 +153,20 @@ export const clientSites: ClientSite[] = [
     work: "Custom web application that automates their core business operations",
     stack: ["React", "Tailwind CSS"],
     href: "https://comfortfloors.ie/",
+    preview: { src: "/images/work/comfortfloors.jpg", alt: "Comfort Floors & Bathrooms website" },
   },
   {
     name: "Agnikula Kshatriyas IT Solutions",
     work: "Company web application for the Tech Kshatriyas team",
     stack: ["NestJS", "TypeScript", "Tailwind CSS"],
     href: "https://agnikulakshatriyasitsolutions.com/",
+    preview: { src: "/images/work/agnikula.jpg", alt: "Agnikula Kshatriyas IT Solutions website" },
   },
   {
     name: "JNTUA College of Engineering, Pulivendula",
     work: "Maintained the official college website: content, fixes, navigation and performance",
     stack: ["HTML", "CSS", "JavaScript", "PHP"],
     href: "https://jntuacep.ac.in/",
+    preview: { src: "/images/work/jntuacep.jpg", alt: "JNTUA College of Engineering, Pulivendula website" },
   },
 ];

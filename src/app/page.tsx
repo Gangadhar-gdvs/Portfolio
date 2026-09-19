@@ -1,30 +1,33 @@
-import type { Viewport } from "next";
-import { ContactSection } from "@/components/contact/ContactSection";
-import { ExperienceSection } from "@/components/experience/ExperienceSection";
+import { About } from "@/components/about/About";
+import { Capabilities } from "@/components/capabilities/Capabilities";
+import { Contact } from "@/components/contact/Contact";
+import { Experience } from "@/components/experience/Experience";
 import { Hero } from "@/components/hero/Hero";
-import { HeroContent } from "@/components/hero/HeroContent";
-import { LayersSection } from "@/components/layers/LayersSection";
 import { PageTransition } from "@/components/motion/PageTransition";
-import { WorkSection } from "@/components/work/WorkSection";
+import { Work } from "@/components/work/Work";
 import { profile } from "@/content/profile";
-import { SceneMount } from "@/gl/SceneMount";
+import { StageMount } from "@/gl/StageMount";
 import { siteUrl } from "@/lib/site";
-
-export const viewport: Viewport = {
-  themeColor: "#e6e9ec",
-};
 
 export default function Home() {
   return (
     <PageTransition>
-      <main id="main" tabIndex={-1} className="relative bg-abyss outline-none">
-        <SceneMount />
+      <main id="main" tabIndex={-1} className="relative outline-none">
+        <StageMount />
         <div className="relative z-10">
-          <Hero surface={<HeroContent variant="surface" />} xray={<HeroContent variant="xray" />} />
-          <LayersSection />
-          <WorkSection />
-          <ExperienceSection />
-          <ContactSection />
+          <Hero />
+          <Capabilities />
+          {/* Opaque: slides over the stage like a curtain, and lets it stop drawing. */}
+          <div data-stage="away" data-stage-cover className="relative bg-night">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-full h-[30vh] bg-[linear-gradient(transparent,var(--color-night))]"
+            />
+            <Work />
+            <Experience />
+            <About />
+          </div>
+          <Contact />
         </div>
         <PersonJsonLd />
       </main>

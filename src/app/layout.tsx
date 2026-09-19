@@ -1,32 +1,33 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "lenis/dist/lenis.css";
 import "./globals.css";
+import { Cursor } from "@/components/chrome/Cursor";
+import { Frame } from "@/components/chrome/Frame";
+import { Intro } from "@/components/chrome/Intro";
+import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Nav } from "@/components/nav/Nav";
 import { profile } from "@/content/profile";
 import { siteUrl } from "@/lib/site";
 
-const archivo = Archivo({
+const geist = Geist({
   subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-archivo",
+  variable: "--font-geist",
   display: "swap",
 });
 
-const plex = IBM_Plex_Sans({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-plex",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
-// Only small labels use the mono face, so it isn't worth a preload slot in
-// the critical path on slow connections.
-const jetbrains = JetBrains_Mono({
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: "400",
+  style: "italic",
+  variable: "--font-instrument",
   display: "swap",
-  preload: false,
 });
 
 const title = `${profile.name}, full-stack engineer`;
@@ -65,16 +66,32 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05080d",
+  themeColor: "#030509",
   colorScheme: "dark",
 };
 
+/**
+ * Decides before first paint whether to play the intro: once per visit, and
+ * never for people who prefer reduced motion.
+ */
+const introScript = `try{var d=document.documentElement;if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("gg-intro")&&location.pathname==="/"){d.classList.add("has-intro");sessionStorage.setItem("gg-intro","1")}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-IN" className={`${archivo.variable} ${plex.variable} ${jetbrains.variable}`}>
+    <html
+      lang="en-IN"
+      className={`${geist.variable} ${geistMono.variable} ${instrument.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body>
+        <Intro />
         <Nav />
         {children}
+        <Frame />
+        <Cursor />
         <SmoothScroll />
       </body>
     </html>
