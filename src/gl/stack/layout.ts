@@ -41,7 +41,7 @@ export function fitDistance(radius: number, fovDegrees: number, aspect: number, 
   return Math.max(radius / (tanV * fillV), radius / (tanH * fillH));
 }
 
-export type StageView = "hero" | "capabilities" | "contact" | "away";
+export type StageView = "hero" | "capabilities" | "dive" | "contact" | "away";
 
 /** How the camera frames the stack for one part of the page. */
 export interface Framing {
@@ -64,6 +64,7 @@ export interface Framing {
 const wide: Record<StageView, Framing> = {
   hero: { x: 0.34, y: 0.12, fillV: 0.72, fillH: 0.5, elevation: 0.46, yaw: -0.62, presence: 1, explode: 0 },
   capabilities: { x: 0.36, y: 0.0, fillV: 0.82, fillH: 0.46, elevation: 0.52, yaw: -0.56, presence: 1, explode: 1 },
+  dive: { x: 0, y: 0, fillV: 0.86, fillH: 0.62, elevation: 0.5, yaw: -0.5, presence: 1, explode: 1 },
   contact: { x: 0.38, y: 0.1, fillV: 0.7, fillH: 0.46, elevation: 0.42, yaw: -0.7, presence: 1, explode: 0.12 },
   away: { x: 0.36, y: 0.0, fillV: 0.82, fillH: 0.46, elevation: 0.52, yaw: -0.56, presence: 0, explode: 0.4 },
 };
@@ -71,6 +72,7 @@ const wide: Record<StageView, Framing> = {
 const tall: Record<StageView, Framing> = {
   hero: { x: 0, y: 0.42, fillV: 0.46, fillH: 0.86, elevation: 0.5, yaw: -0.62, presence: 1, explode: 0 },
   capabilities: { x: 0, y: 0.5, fillV: 0.44, fillH: 0.8, elevation: 0.54, yaw: -0.56, presence: 1, explode: 1 },
+  dive: { x: 0, y: 0.06, fillV: 0.6, fillH: 0.9, elevation: 0.5, yaw: -0.5, presence: 1, explode: 1 },
   contact: { x: 0, y: 0.44, fillV: 0.42, fillH: 0.8, elevation: 0.46, yaw: -0.7, presence: 1, explode: 0.12 },
   away: { x: 0, y: 0.5, fillV: 0.44, fillH: 0.8, elevation: 0.54, yaw: -0.56, presence: 0, explode: 0.4 },
 };

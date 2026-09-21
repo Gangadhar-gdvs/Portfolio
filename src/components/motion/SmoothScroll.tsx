@@ -1,10 +1,11 @@
 "use client";
 
-import Lenis from "lenis";
+import type Lenis from "lenis";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { isLite, onLiteChange } from "@/lib/lite";
 import { prefersReducedMotion } from "@/lib/motion";
+import { loadMotion, motionAllowed } from "@/lib/motionRuntime";
 
 let instance: Lenis | null = null;
 
@@ -28,43 +29,63 @@ export function scrollToTarget(target: string | HTMLElement | number): void {
 
 /**
  * Smooth scrolling driven by GSAP's ticker, so ScrollTrigger and Lenis read
- * the same scroll position on the same frame. Skipped for reduced motion.
+ * the same scroll position on the same frame. Both libraries load after the
+ * page is interactive, and neither loads at all in Lite mode or with reduced
+ * motion: then the browser's own scrolling is used.
  */
 export function SmoothScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    let alive = true;
+    let stop: (() => void) | undefined;
 
-    if (prefersReducedMotion()) return;
+    const start = async () => {
+      if (!motionAllowed() || instance) return;
+      const [{ gsap, ScrollTrigger }, lenisModule] = await Promise.all([loadMotion(), import("lenis")]);
+      if (!alive || instance || !motionAllowed()) return;
 
-    const lenis = new Lenis({
-      autoRaf: false,
-      anchors: true,
-      lerp: 0.11,
-      stopInertiaOnNavigate: true,
+      const lenis = new lenisModule.default({ autoRaf: false, anchors: true, lerp: 0.11, stopInertiaOnNavigate: true });
+      instance = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+      const tick = (time: number) => lenis.raf(time * 1000);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+      void document.fonts?.ready.then(() => ScrollTrigger.refresh());
+
+      stop = () => {
+        gsap.ticker.remove(tick);
+        lenis.destroy();
+        instance = null;
+      };
+    };
+
+    void start();
+    const stopWatching = onLiteChange(() => {
+      if (isLite() || prefersReducedMotion()) {
+        stop?.();
+        stop = undefined;
+      } else {
+        void start();
+      }
     });
-    instance = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
-
-    const tick = (time: number) => lenis.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      gsap.ticker.remove(tick);
-      lenis.destroy();
-      instance = null;
+      alive = false;
+      stopWatching();
+      stop?.();
     };
   }, []);
 
   // After a route change the new page has mounted its triggers; measure them,
   // then honour a #hash in the URL (pin spacers change where targets sit).
-  // Lenis clamps targets to the previous page's height until it re-measures.
   useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-      instance?.resize();
+    const frame = requestAnimationFrame(async () => {
+      if (motionAllowed()) {
+        const { ScrollTrigger } = await loadMotion();
+        ScrollTrigger.refresh();
+        instance?.resize();
+      }
       const { hash } = window.location;
       const target = hash.length > 1 ? document.getElementById(hash.slice(1)) : null;
       if (!target) return;

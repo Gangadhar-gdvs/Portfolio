@@ -32,6 +32,8 @@ A full-stack engineer's work lives in layers: an interface on top, then the devi
 
 It opens on a dark stage with **five etched glass plates** stacked into one sleek slab. Up close it looks simple, like good software should. Move the cursor and a light moves across the glass. Drag and the stack turns. Scroll and it **opens up**. Each plate then slides out beside the work that proves it, and the stack closes again at the contact section.
 
+The rule for everything here is that an effect has to earn its place as proof. The 3D is the WebGL demo. The particle section is a **load test that runs on your machine** and reports percentiles. The performance section shows this page's own numbers, live. And a **Lite switch** in the header turns all of it off, because the fastest way to lose a reader is to make them wait for a show they didn't ask for.
+
 <div align="center">
 
 <img src="docs/readme/screens/stack.webp" width="100%" alt="Screen capture: a cursor light passes over the closed stack, then the page scrolls. The five plates spread apart and slide out one by one: interface, devices, services, data and intelligence, each beside its description.">
@@ -42,12 +44,15 @@ It opens on a dark stage with **five etched glass plates** stacked into one slee
 
 | | Screen | What happens |
 |:-:|---|---|
-| 01 | **Intro** | A line of light, a count to 100, then the screen opens top and bottom like a cinema curtain. First visit only. |
-| 02 | **Hero** | The plates land one by one, foundation first. The name, the line and the credits sit along the bottom edge. |
-| 03 | **Capabilities** | The stack opens. Each discipline pulls its plate out of the stack, and hovering a plate names it. |
-| 04 | **Selected work** | Aethra with its architecture, then a project index with captures that follow the cursor, then client sites. |
-| 05 | **Experience · About** | Three product teams, the numbers behind them, and a portrait that develops from black and white into colour. |
-| 06 | **Contact** | The stack closes again beside the invitation to talk. |
+| 01 | **Intro** | A line of light, a count to 100, then the screen opens top and bottom like a cinema curtain. First visit only, and never in Lite mode. |
+| 02 | **Hero** | The plates land one by one, foundation first. The cursor lights the glass, dragging turns it, and four numbers sit underneath. |
+| 03 | **Selected work** | Aethra with its architecture and permission gate, then the lead projects as problem → approach → result, then everything else with a system sketch. |
+| 04 | **Capabilities** | The stack opens. Each discipline pulls its plate out beside the work that proves it. |
+| 05 | **The dive** | Scrolling falls the camera through the open stack to the core, letterboxed, while the line resolves from *simple on the surface* to *engineered deeply underneath*. |
+| 06 | **Skills** | Every skill with the work behind it, filterable, re-laid out with a FLIP. No percentage bars. |
+| 07 | **Engineering** | A load test that runs on your GPU, this page measured, an incident write-up and the decisions behind it. |
+| 08 | **Experience · About** | Three product teams with the numbers, then the person, the principles and the education. |
+| 09 | **Contact** | The stack closes again beside the invitation to talk. |
 
 <a name="stack"></a>
 
@@ -72,43 +77,56 @@ Each plate is etched with a drawing of its layer. The drawings are generated in 
 <table>
   <tr>
     <td width="50%"><img src="docs/readme/screens/hero.jpg" alt="The hero: Gangadhara Gooti in large type bottom left, the closed glass stack on the right with a cursor light on it, and credits along the bottom."></td>
-    <td width="50%"><img src="docs/readme/screens/capabilities.jpg" alt="Capabilities: the stack is open and the Services plate slides out beside Backend and Real-time Systems."></td>
+    <td width="50%"><img src="docs/readme/screens/lab.jpg" alt="The load test: a particle field with a count slider, frame-time percentiles, draw calls and a log of the shedding ladder."></td>
   </tr>
   <tr>
     <td align="center"><sub><b>HERO</b> · the stack, closed</sub></td>
-    <td align="center"><sub><b>CAPABILITIES</b> · a plate for each discipline</sub></td>
+    <td align="center"><sub><b>LOAD TEST</b> · percentiles from your own GPU</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/work.jpg" alt="Selected work: the Aethra panel with its facts, stack and a large live architecture diagram."></td>
-    <td width="50%"><img src="docs/readme/screens/projects.jpg" alt="The project index, with a capture of Network Traffic Analyser following the cursor."></td>
+    <td width="50%"><img src="docs/readme/screens/work.jpg" alt="Selected work: the Aethra panel with problem, approach and result, its facts and a live architecture diagram."></td>
+    <td width="50%"><img src="docs/readme/screens/deep.jpg" alt="TaskFlow and the wedding invitation side by side, each with a capture of the live product and its problem, approach and result."></td>
   </tr>
   <tr>
     <td align="center"><sub><b>AETHRA</b> · the architecture is the cover</sub></td>
-    <td align="center"><sub><b>PROJECTS</b> · captures follow the cursor</sub></td>
+    <td align="center"><sub><b>PROJECTS</b> · problem → approach → result</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td>
-    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td>
+    <td width="50%"><img src="docs/readme/screens/capabilities.jpg" alt="Capabilities: the stack is open and the Services plate slides out beside Backend and Real-time Systems."></td>
+    <td width="50%"><img src="docs/readme/screens/dive.jpg" alt="The dive: letterbox bars closed in, the camera falling past the data plate toward the glowing core, with the line engineered deeply underneath."></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>CASE STUDY</b> · Aethra, in depth</sub></td>
-    <td align="center"><sub><b>PERMISSION GATE</b> · a working model of the kernel</sub></td>
+    <td align="center"><sub><b>CAPABILITIES</b> · a plate for each discipline</sub></td>
+    <td align="center"><sub><b>THE DIVE</b> · scroll-linked, never scroll-jacked</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/screens/skills.jpg" alt="Skills: filter chips and a dense grid, each skill tagged prod or own with the work it was used in."></td>
+    <td width="50%"><img src="docs/readme/screens/measured.jpg" alt="This page measured: a live readout of mode, frame rate, pixel ratio and tier, then the Lighthouse table and the byte budget."></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>SKILLS</b> · proof, not percentages</sub></td>
+    <td align="center"><sub><b>MEASURED</b> · live, then Lighthouse</sub></td>
   </tr>
 </table>
 
-<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with the stack above the name, the Data plate sliding out above its description, and the Aethra panel.">
+<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with the stack above the name, the load test running with its readouts, and the skills grid.">
 
 <details>
-<summary><b>More screens</b>: experience, about and contact</summary>
+<summary><b>More screens</b>: decisions, the case study, experience, about and contact</summary>
 <br>
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/experience.jpg" alt="Experience: Vectorsoft, Zyrone Energy and Tech Kshatriyas, each with its headline figure."></td>
-    <td width="50%"><img src="docs/readme/screens/about.jpg" alt="About: the portrait beside the introduction and four numbers."></td>
+    <td width="50%"><img src="docs/readme/screens/decisions.jpg" alt="Decision records: each decision with the alternative it turned down and the measured result."></td>
+    <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/readme/screens/contact.jpg" alt="Contact: Let's work together, the email address, and the stack closed again on the right."></td>
+    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td>
+    <td width="50%"><img src="docs/readme/screens/about.jpg" alt="About: the portrait beside the introduction, three principles and the education."></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/screens/experience.jpg" alt="Experience: Vectorsoft, Zyrone Energy and Tech Kshatriyas, each with its headline figure."></td>
+    <td width="50%"><img src="docs/readme/screens/contact.jpg" alt="Contact: Let's work together, the email address, and the stack closed again on the right."></td>
   </tr>
 </table>
 
@@ -146,23 +164,39 @@ Sections describe what the stage should do with attributes: `data-stage="hero | 
 <summary><b>✦ Staying fast</b>: effects that never cost the first paint</summary>
 <br>
 
-Every word on the page is server-rendered, and every route is prerendered as static HTML. three.js loads only after the browser goes idle, and only when WebGL runs on a real GPU. Software renderers get a vector drawing of the stack instead, because CPU-run shaders would stall the page. Shaders compile off the main thread. The pixel ratio, texture size and amount of dust depend on the device, and a frame-time monitor lowers them if frames run slow.
+Every word is server-rendered and every route is prerendered as static HTML. The motion layer (GSAP, Lenis) is imported *after* the page is interactive, which took first-load JavaScript from 242 KB to 191 KB gzipped at the time; three.js loads later still, on idle, and only when WebGL is backed by a real GPU. Software rasterisers get a vector drawing instead, because CPU-run shaders would stall the page. Nothing that is already on screen when the motion layer arrives gets animated, so no one watches text they were reading fade out and back in.
 
 </details>
 
 <details open>
-<summary><b>◆ Transitions</b>: the lens opens the next page</summary>
+<summary><b>◆ The load test</b>: the performance section is the benchmark</summary>
 <br>
 
-Links to the case study use React's `<ViewTransition>` with Next.js `transitionTypes`. The new page opens through a circle that grows from the exact point you clicked, while the old one recedes. Headings rise line by line from behind a mask, and the intro is pure CSS, so it plays before any JavaScript arrives.
+`src/gl/lab/LoadLab.ts` draws a particle field in one call and measures it: p50, p95 and p99 frame times over a rolling 600-frame window, with the first 60 frames after any change discarded. Positions come from a seed in the vertex shader, so nothing is computed per particle on the CPU and the number on screen is the GPU's answer. When the budget breaks it sheds in a fixed order — pixel ratio, then detail — and logs every step; the switch turns that off so the failure mode is visible too. It only runs while it is on screen.
 
 </details>
 
 <details open>
-<summary><b>◉ For everyone</b>: accessibility and reduced motion</summary>
+<summary><b>◈ An escape hatch</b>: Lite mode, in the header</summary>
 <br>
 
-With `prefers-reduced-motion`, there is no intro, no smooth scrolling and no custom cursor, and the stack changes state without animating. Focus is always visible, and a skip link moves focus into the page. The mobile menu moves focus in and back out and closes on <kbd>Esc</kbd>. The 3D layer is hidden from assistive technology, and the page reads fine with JavaScript off.
+One switch turns off the 3D, the smooth scrolling, the custom cursor and every reveal, leaving a plain, fast document. It is remembered per visitor, applied before first paint so there is no flash, and it is the default for anyone with `prefers-reduced-motion`.
+
+</details>
+
+<details open>
+<summary><b>◇ Transitions</b>: the lens opens the next page</summary>
+<br>
+
+Links to the case study use React's `<ViewTransition>` with Next.js `transitionTypes`. The new page opens through a circle that grows from the exact point you clicked, while the old one recedes. The dive is scroll-*linked*, never scroll-jacked: the scrollbar keeps working and the page never takes the wheel.
+
+</details>
+
+<details open>
+<summary><b>◉ For everyone</b>: accessibility, reduced motion and hardening</summary>
+<br>
+
+100 on accessibility, with visible focus, a skip link, a mobile menu that traps and returns focus and closes on <kbd>Esc</kbd>, and the 3D layer hidden from assistive technology. With `prefers-reduced-motion` the site starts in Lite mode. Every response carries a Content-Security-Policy, `frame-ancestors: none`, `nosniff`, a strict referrer policy and HSTS, and CI runs lint, types, 36 tests and a production build on every push.
 
 </details>
 
@@ -174,7 +208,7 @@ With `prefers-reduced-motion`, there is no intro, no smooth scrolling and no cus
 
 <p align="center"><img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,threejs,vercel&theme=dark" alt="Next.js, React, TypeScript, Tailwind CSS, three.js, Vercel"></p>
 
-<p align="center"><img src="https://img.shields.io/badge/GSAP-SCROLLTRIGGER_·_SPLITTEXT-030509?style=flat-square&logo=greensock&logoColor=7CE7FF&labelColor=0C121C" alt="GSAP with ScrollTrigger and SplitText"> <img src="https://img.shields.io/badge/LENIS-SMOOTH_SCROLL-030509?style=flat-square&labelColor=0C121C" alt="Lenis smooth scroll"> <img src="https://img.shields.io/badge/VITEST-27_TESTS-030509?style=flat-square&logo=vitest&logoColor=7CE7FF&labelColor=0C121C" alt="Vitest, 27 tests"> <img src="https://img.shields.io/badge/WEBGL-CUSTOM_SHADERS-030509?style=flat-square&logo=webgl&logoColor=7CE7FF&labelColor=0C121C" alt="WebGL with custom shaders"></p>
+<p align="center"><img src="https://img.shields.io/badge/GSAP-SCROLLTRIGGER_·_SPLITTEXT-030509?style=flat-square&logo=greensock&logoColor=7CE7FF&labelColor=0C121C" alt="GSAP with ScrollTrigger and SplitText"> <img src="https://img.shields.io/badge/LENIS-SMOOTH_SCROLL-030509?style=flat-square&labelColor=0C121C" alt="Lenis smooth scroll"> <img src="https://img.shields.io/badge/VITEST-39_TESTS-030509?style=flat-square&logo=vitest&logoColor=7CE7FF&labelColor=0C121C" alt="Vitest, 39 tests"> <img src="https://img.shields.io/badge/WEBGL-CUSTOM_SHADERS-030509?style=flat-square&logo=webgl&logoColor=7CE7FF&labelColor=0C121C" alt="WebGL with custom shaders"></p>
 
 <br>
 
@@ -182,11 +216,11 @@ With `prefers-reduced-motion`, there is no intro, no smooth scrolling and no cus
 
 | Lighthouse, production build | Performance | Accessibility | Best practices | SEO |
 |---|:-:|:-:|:-:|:-:|
-| **Home, desktop** | 99 | 100 | 100 | 100 |
-| **Home, mobile** (simulated 4G, 4× CPU slowdown) | 96 | 100 | 100 | 100 |
-| **Aethra case study, mobile** | 95 | 100 | 100 | 100 |
+| **Home, desktop** | 98 | 100 | 100 | 100 |
+| **Home, mobile** (simulated slow 4G, 4× CPU slowdown) | 92 | 100 | 100 | 100 |
+| **Aethra case study, mobile** | 96 | 100 | 100 | 100 |
 
-<sub>Measured on 20 September 2026. Every route is prerendered as static HTML, and there are 7 runtime dependencies.</sub>
+<sub>Measured on 21 September 2026 from a cold cache, median of three runs. First contentful paint is 0.4 s on desktop and 1.5 s on the phone profile; largest contentful paint is 0.7 s and 2.9 s, where it waits on the webfont. Layout shift is 0. Every route is prerendered as static HTML, first-load JavaScript is 199 KB gzipped, and there are 7 runtime dependencies.</sub>
 
 <a name="run"></a>
 
@@ -194,14 +228,65 @@ With `prefers-reduced-motion`, there is no intro, no smooth scrolling and no cus
 
 ```bash
 npm install
-npm run dev          # http://localhost:5000
-npm test             # layout maths and content checks
+npm run dev          # the dark design, http://localhost:5000
+npm run dev:south    # the south design, http://localhost:5001
+npm test             # layout maths, kolam geometry and content checks
 npm run lint
 npm run typecheck
 npm run build && npm start
 ```
 
 Requires Node 22.12 or newer. On macOS, AirPlay Receiver also listens on port 5000, so the scripts bind to `localhost` only. Open **http://localhost:5000**, not `127.0.0.1:5000`.
+
+### ◈ Two designs, one site
+
+The site is built in two complete designs, chosen at build time by
+`NEXT_PUBLIC_DESIGN`:
+
+| Value | Design |
+|---|---|
+| `stack` *(default)* | Dark, glass plates etched with the stack, cyan light, cursor lamp. |
+| `depth` | A descent. The page opens like a title sequence, then scroll becomes a fall down a shaft: rings of rock pass, dust rises, and the light warms from cold at the surface to molten at the core. Halfway down, every skill is a place on a globe you can take hold of. |
+
+```bash
+npm run dev:depth                       # develop it
+NEXT_PUBLIC_DESIGN=depth npm run build  # build it
+```
+
+**The globe** is the piece to look at. It is generated from `skills.ts` rather
+than drawn: each skill is placed on a Fibonacci sphere, coloured by discipline,
+and carries the work that proves it. Ten ways in, all listed on the page next
+to it — drag to turn, throw it and it keeps going, scroll or pinch to zoom,
+hover to read the proof, click to lock one and turn the globe to it, locking
+draws arcs to the rest of its discipline, filter by discipline, filter by
+production work, arrow keys turn and +/− zoom, Enter steps through and Escape
+lets go. Without a GPU it is the same 48 skills as a list.
+
+The globe is a real one. Coastlines and every border between two countries come
+from Natural Earth 1:50m (public domain), and the night side is GeoNames'
+populated places (CC BY 4.0) — 4,956 cities above 90,000 people, each one's
+brightness taken from its population, which is why the eastern United States
+glows and the Sahara does not. Both are generated into modules by
+`npm run globe:map` and `npm run globe:lights`, so no map data is fetched at
+build or run time.
+
+**The shaft** behind every section is one scene driven by scroll velocity, so
+stopping stops the fall and flicking down accelerates it. Its dust is pushed
+away from the cursor.
+
+Both designs read the same files in `src/content`, so the words and the numbers
+can never drift apart between them. Nothing else is shared: each has its own
+components, stylesheet and webfonts, and `next.config.ts` aliases
+`@/design/entry` and `@/design/fonts` to the design being built — so a build
+carries nothing at all from the other one. Adding the second design cost the
+first one zero bytes, which is the only reason it was built this way.
+
+| Design | Desktop | Mobile | First-load JS | DOM |
+|---|:-:|:-:|:-:|:-:|
+| `stack` | 98 | 92 | 199 KB / 10 chunks | 1,840 |
+| `depth` | 100 | 95 | 190 KB / 9 chunks | 635 |
+
+<sub>Lighthouse 12, production builds, cold cache, median of three runs, 21 September 2026.</sub>
 
 ### ◈ Edit the content
 
@@ -213,6 +298,8 @@ All copy lives in `src/content`, so updating the site never means touching compo
 | `layers.ts` | The five disciplines, with evidence and tools for each |
 | `projects.ts` | The Aethra summary, the projects (with their captures) and client sites |
 | `experience.ts` | Roles, most recent first |
+| `skills.ts` | Every skill with the work that proves it, and this site's own stack |
+| `engineering.ts` | The measured numbers, the optimisations, the incident and the decisions |
 | `aethra.ts` | The Aethra case study, its architecture graph and the permission-gate sample |
 
 `src/content/content.test.ts` fails on placeholder text, non-https links, duplicate slugs, a capture that doesn't exist or a broken architecture graph. Run `npm test` after editing.
@@ -227,10 +314,11 @@ Import the repository on [Vercel](https://vercel.com/new); there is nothing to c
 src/
   app/          routes, metadata, share images, icons, sitemap, robots, 404
   content/      all copy and data, with integrity tests
-  components/   chrome (nav, cursor, intro), hero, capabilities, work,
-                experience, about, contact, case study, motion
-  gl/           the 3D stage: plates, etching, shaders, layout (tested), quality tiers
-  lib/          GSAP setup, maths, motion preferences, share-image assets
+  components/   chrome (nav, cursor, intro, Lite switch), hero, capabilities,
+                work, skills, engineering, experience, about, contact, motion
+  gl/           the 3D stage: plates, etching, shaders, layout (tested), quality
+                tiers, and the load-test renderer in gl/lab
+  lib/          motion runtime (loaded on demand), Lite mode, maths, share-image assets
 docs/
   PLAN.md       design notes and the build checklist
   readme/       the artwork and screens on this page

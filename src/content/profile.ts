@@ -37,6 +37,21 @@ export const profile = {
       "At Vectorsoft I build responsive web platforms, desktop integrations and mobile apps. Before that I engineered real-time operations modules at Zyrone Energy and shipped high-performance web apps with Tech Kshatriyas.",
       "In my own time I'm building Aethra, an AI agent that sees the screen and uses the computer for you, with a permission gate in front of every action.",
     ],
+    /** How I work, each with the artefact that shows it. */
+    principles: [
+      {
+        title: "Fail closed",
+        body: "Aethra denies any tool that isn't in its registry. A model can invent a name, and the only safe answer to something unknown is no.",
+      },
+      {
+        title: "Measure before optimising",
+        body: "The 3D scene moved off the critical path because a profile showed it blocking the main thread, not because the page felt slow.",
+      },
+      {
+        title: "Work on the worst device in the room",
+        body: "No GPU, no JavaScript, reduced motion, a throttled connection: each of those has a path through this site that still reads.",
+      },
+    ],
     stats: [
       { value: 3, suffix: "", label: "Product teams shipped with" },
       { value: 6, suffix: "", label: "Real-time modules at Zyrone Energy" },

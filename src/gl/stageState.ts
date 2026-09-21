@@ -10,6 +10,8 @@ export const stage = {
   view: "hero" as StageView,
   /** How far the hero has scrolled away, 0 to 1. Opens the stack. */
   heroProgress: 0,
+  /** How far through the dive, 0 to 1: the camera falls through the layers. */
+  diveProgress: 0,
   /** The plate brought forward in Capabilities, or -1. */
   focus: -1,
   /** Pointer position in normalised device coordinates. */
@@ -47,3 +49,13 @@ export const stageRunning = channel(true);
 
 /** The plate under the pointer, or -1. Written by the render loop. */
 export const stageHover = channel(-1);
+
+export interface StageStats {
+  fps: number;
+  pixelRatio: number;
+  tier: string;
+  mode: "gpu" | "fallback" | "lite";
+}
+
+/** What the stage is doing right now, for the engineering readout. */
+export const stageStats = channel<StageStats | null>(null);

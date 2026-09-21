@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { gsap } from "@/lib/gsap";
-import { hasFinePointer, prefersReducedMotion } from "@/lib/motion";
+import { hasFinePointer } from "@/lib/motion";
+import { motionAllowed, withMotion } from "@/lib/motionRuntime";
 
 interface TiltPanelProps {
   children: ReactNode;
@@ -20,7 +20,9 @@ export function TiltPanel({ children, className = "", max = 5 }: TiltPanelProps)
 
   useEffect(() => {
     const panel = ref.current;
-    if (!panel || !hasFinePointer() || prefersReducedMotion()) return;
+    if (!panel || !hasFinePointer() || !motionAllowed()) return;
+
+    return withMotion(({ gsap }) => {
     const sheen = panel.querySelector<HTMLElement>("[data-sheen]");
     const rotateX = gsap.quickTo(panel, "rotationX", { duration: 0.9, ease: "power3" });
     const rotateY = gsap.quickTo(panel, "rotationY", { duration: 0.9, ease: "power3" });
@@ -48,7 +50,9 @@ export function TiltPanel({ children, className = "", max = 5 }: TiltPanelProps)
     return () => {
       panel.removeEventListener("pointermove", onMove);
       panel.removeEventListener("pointerleave", onLeave);
+      gsap.set(panel, { clearProps: "all" });
     };
+    });
   }, [max]);
 
   return (

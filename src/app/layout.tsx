@@ -1,38 +1,24 @@
+/**
+ * The shared shell. It deliberately imports no stylesheet: the dark design's
+ * Tailwind sheet is pulled in by the pages that use it, so a build of the
+ * other design does not render-block on a stylesheet it never applies.
+ */
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
-import "lenis/dist/lenis.css";
-import "./globals.css";
 import { Cursor } from "@/components/chrome/Cursor";
 import { Frame } from "@/components/chrome/Frame";
 import { Intro } from "@/components/chrome/Intro";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { profile } from "@/content/profile";
+import { activeDesign, isDepth } from "@/design/design";
+import { fontClass } from "@/design/fonts";
 import { siteUrl } from "@/lib/site";
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  display: "swap",
-});
-
-const instrument = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: "italic",
-  variable: "--font-instrument",
-  display: "swap",
-});
-
 const title = `${profile.name}, full-stack engineer`;
+// Aethra is not on the page while it is in progress, so it is not named here
+// either: a share card should describe what a reader will actually find.
 const description =
-  "Full-stack engineer for web, mobile, desktop and AI. Builder of Aethra, an AI agent that uses your computer behind a permission gate. Open to full-time roles.";
+  "Full-stack engineer for web, mobile, desktop and AI. Shipped billing software, client web apps and a bilingual invitation site. Open to full-time roles, client work and freelance builds.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -65,34 +51,37 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export const viewport: Viewport = {
-  themeColor: "#030509",
-  colorScheme: "dark",
-};
+export const viewport: Viewport = isDepth
+  ? { themeColor: "#070608", colorScheme: "dark" }
+  : { themeColor: "#030509", colorScheme: "dark" };
 
 /**
- * Decides before first paint whether to play the intro: once per visit, and
- * never for people who prefer reduced motion.
+ * Runs before first paint: picks Lite mode (an explicit choice, else reduced
+ * motion), and decides whether the intro plays — once per visit, never in Lite.
  */
-const introScript = `try{var d=document.documentElement;if(!matchMedia("(prefers-reduced-motion: reduce)").matches&&!sessionStorage.getItem("gg-intro")&&location.pathname==="/"){d.classList.add("has-intro");sessionStorage.setItem("gg-intro","1")}}catch(e){}`;
+const bootScript = `try{var d=document.documentElement,s=localStorage.getItem("gg-lite"),r=matchMedia("(prefers-reduced-motion: reduce)").matches;if(s==="1"||(s===null&&r))d.classList.add("lite");if(!d.classList.contains("lite")&&!sessionStorage.getItem("gg-intro")&&location.pathname==="/"){d.classList.add("has-intro");sessionStorage.setItem("gg-intro","1")}}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en-IN"
-      className={`${geist.variable} ${geistMono.variable} ${instrument.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en-IN" className={fontClass} data-design={activeDesign} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
-        <Intro />
-        <Nav />
-        {children}
-        <Frame />
-        <Cursor />
-        <SmoothScroll />
+        {isDepth ? (
+          // The depth design brings its own chrome; the dark design's cursor,
+          // frame and smooth scroll belong to it alone.
+          children
+        ) : (
+          <>
+            <Intro />
+            <Nav />
+            {children}
+            <Frame />
+            <Cursor />
+            <SmoothScroll />
+          </>
+        )}
       </body>
     </html>
   );

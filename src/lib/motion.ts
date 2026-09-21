@@ -26,6 +26,15 @@ function subscribeTo(query: string) {
 const subscribeReducedMotion = subscribeTo(REDUCED_MOTION_QUERY);
 const subscribeFinePointer = subscribeTo(FINE_POINTER_QUERY);
 
+/** Live match for any media query; `false` during server rendering. */
+export function useMediaQuery(query: string): boolean {
+  return useSyncExternalStore(
+    subscribeTo(query),
+    () => matches(query),
+    () => false,
+  );
+}
+
 /** Live `prefers-reduced-motion` value; `false` during server rendering. */
 export function useReducedMotion(): boolean {
   return useSyncExternalStore(subscribeReducedMotion, prefersReducedMotion, () => false);

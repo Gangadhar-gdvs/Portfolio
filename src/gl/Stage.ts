@@ -37,6 +37,8 @@ export interface StageOptions {
   reducedMotion: boolean;
   /** CSS font-family list for the small labels etched into the glass. */
   font: string;
+  /** Called about twice a second with the measured frame rate. */
+  onStats?: (fps: number, pixelRatio: number) => void;
 }
 
 const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
@@ -67,6 +69,9 @@ export class Stage {
   private readonly local = new Vector3();
   private readonly anchor = new Vector3();
   private readonly ndc = new Vector2();
+  private readonly onStats?: StageOptions["onStats"];
+  private statsFrames = 0;
+  private statsElapsed = 0;
   private maxPixelRatio: number;
   private width = 1;
   private height = 1;
@@ -86,6 +91,7 @@ export class Stage {
     azimuth: 0,
     tilt: 0,
     lamp: 0,
+    dive: 0,
     focus: new Array<number>(PLATE_COUNT).fill(0),
     hover: new Array<number>(PLATE_COUNT).fill(0),
     // Frame-time monitor for adaptive quality.
@@ -95,8 +101,9 @@ export class Stage {
     degraded: 0,
   };
 
-  constructor({ canvas, layers, labels, tier, reducedMotion, font }: StageOptions) {
+  constructor({ canvas, layers, labels, tier, reducedMotion, font, onStats }: StageOptions) {
     this.labels = labels;
+    this.onStats = onStats;
     this.reducedMotion = reducedMotion;
     this.maxPixelRatio = tier.maxPixelRatio;
 
@@ -190,7 +197,10 @@ export class Stage {
     l.yaw = ease(l.yaw, framing.yaw, 2);
     l.presence = ease(l.presence, framing.presence, 2.4);
     l.explode = ease(l.explode, view === "hero" ? stage.heroProgress : framing.explode, 3.2);
-    const gap = gapFor(l.explode);
+    // The dive is scrubbed by scroll, so it follows directly rather than easing.
+    l.dive = view === "dive" ? stage.diveProgress : damp(l.dive, 0, 4, dt);
+    const dive = l.dive;
+    const gap = gapFor(l.explode) * (1 + dive * 1.5);
 
     // Entrance: the plates land one by one, foundation first.
     const since = this.entranceAt === null ? -1 : t - this.entranceAt;
@@ -219,15 +229,17 @@ export class Stage {
 
     // Camera: fit the stack to its share of the screen, then shift the
     // picture so the stack sits beside (or above) the copy.
-    const distance = fitDistance(boundingRadius(gap), FOV, aspect, l.fillV, l.fillH) * (1 + (1 - settle) * 0.22);
-    const elevation = l.elevation + l.tilt + (1 - settle) * 0.1;
+    const framed = fitDistance(boundingRadius(gap), FOV, aspect, l.fillV, l.fillH) * (1 + (1 - settle) * 0.22);
+    // Falling through the stack: the camera drops to the core and levels out.
+    const distance = lerp(framed, 1.15, dive);
+    const elevation = lerp(l.elevation + l.tilt + (1 - settle) * 0.1, 0.06, dive);
     const float = this.reducedMotion ? 0 : Math.sin(t * 0.8) * 0.03;
     this.camera.position.set(
       Math.sin(l.azimuth) * Math.cos(elevation) * distance,
       Math.sin(elevation) * distance + float,
       Math.cos(l.azimuth) * Math.cos(elevation) * distance,
     );
-    this.camera.lookAt(0, float, 0);
+    this.camera.lookAt(0, float + lerp(0, plateY(PLATE_COUNT - 1, gap), dive), 0);
     this.camera.setViewOffset(this.width, this.height, (-l.x * this.width) / 2, (l.y * this.height) / 2, this.width, this.height);
 
     // The stack
@@ -271,7 +283,8 @@ export class Stage {
       );
       plate.root.updateMatrixWorld();
 
-      const dimmed = lerp(1, 0.36, focusMix);
+      // Diving dims everything except the core we are falling toward.
+      const dimmed = lerp(1, 0.36, focusMix) * lerp(1, i === PLATE_COUNT - 1 ? 1.15 : 0.25, dive);
       const u = plate.uniforms;
       u.uBrightness.value = l.presence * arrived * lerp(dimmed, 1.12, l.focus[i]) * (1 + l.hover[i] * 0.25);
       u.uOpacity.value = l.presence * arrived;
@@ -300,7 +313,19 @@ export class Stage {
 
     this.placeLabels(portrait, focusing, entry);
     this.renderer.render(this.scene, this.camera);
+    this.report(delta);
     this.adapt(delta);
+  }
+
+  /** Frame rate, twice a second, for the engineering readout. */
+  private report(delta: number): void {
+    if (!this.onStats || delta > 0.25) return;
+    this.statsFrames += 1;
+    this.statsElapsed += delta;
+    if (this.statsElapsed < 0.5) return;
+    this.onStats(Math.round(this.statsFrames / this.statsElapsed), this.renderer.getPixelRatio());
+    this.statsFrames = 0;
+    this.statsElapsed = 0;
   }
 
   /** Which plate is under the pointer, top plate first. */
@@ -335,7 +360,10 @@ export class Stage {
   private placeLabels(portrait: boolean, focusing: boolean, entry: (index: number) => number): void {
     const l = this.live;
     const view = stage.view;
-    const shown = !portrait && (view === "hero" || view === "capabilities") ? smoothstep(0.45, 0.9, l.explode) * l.presence : 0;
+    const shown =
+      !portrait && (view === "hero" || view === "capabilities")
+        ? smoothstep(0.45, 0.9, l.explode) * l.presence * (1 - smoothstep(0, 0.15, this.live.dive))
+        : 0;
 
     for (let i = 0; i < PLATE_COUNT; i++) {
       const label = this.labels[i];

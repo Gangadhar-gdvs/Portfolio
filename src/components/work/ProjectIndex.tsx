@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Arrow } from "@/components/ui/Arrow";
 import type { Preview, Project } from "@/content/projects";
+import { hasDiagram, ProjectDiagram } from "./ProjectDiagram";
 import { useFloatingPreview } from "./useFloatingPreview";
 
 /**
@@ -95,7 +96,20 @@ function Details({ project }: { project: Project }) {
         {project.codeNote && <p className="t-small text-fg-3">{project.codeNote}</p>}
         <p className="t-small text-fg-3 md:hidden">{project.stack.join(" · ")}</p>
       </div>
-      {project.preview && <MobilePreview preview={project.preview} />}
+      {project.preview ? (
+        <MobilePreview preview={project.preview} />
+      ) : (
+        hasDiagram(project.slug) && (
+          <figure className="col-span-12 rounded-[12px] bg-night-1 p-4 ring-1 ring-line sm:p-6 md:col-span-7 md:col-start-2">
+            <div className="mx-auto max-w-[32rem]">
+              <ProjectDiagram slug={project.slug} />
+            </div>
+            <figcaption className="t-label mt-4 text-fg-3">
+              How it fits together{project.links.length === 0 ? " · private repository" : ""}
+            </figcaption>
+          </figure>
+        )
+      )}
     </div>
   );
 }

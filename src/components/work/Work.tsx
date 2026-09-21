@@ -6,28 +6,38 @@ import { Arrow } from "@/components/ui/Arrow";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { TiltPanel } from "@/components/ui/TiltPanel";
 import { gateSteps } from "@/content/aethra";
-import { clientSites, featured, projects } from "@/content/projects";
+import { clientSites, featured, projects, showFeatured, type Project, type Story } from "@/content/projects";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
 import { ClientIndex } from "./ClientIndex";
+import { ProjectDiagram, hasDiagram } from "./ProjectDiagram";
 import { ProjectIndex } from "./ProjectIndex";
 
 export function Work() {
+  const deep = projects.filter((project) => project.story);
+  const listed = projects.filter((project) => !project.story);
+
   return (
     <MotionSection id="work" aria-labelledby="work-title" className="wrap pt-24 pb-24 md:pt-32 md:pb-36">
       <SectionHeader
         id="work-title"
-        label={`${projects.length + 1} projects · ${clientSites.length} client websites`}
+        label={`${deep.length + (showFeatured ? 1 : 0)} in depth · ${listed.length} more · ${clientSites.length} client sites`}
         title="Selected Work"
-        intro="Products I've designed and built, from an AI agent that uses your computer to websites in production. Live links where they exist."
+        intro="Problem, what I built, and what came out of it. Live links and public code where they exist; private repositories say so."
       />
-      <Featured />
+      {showFeatured && <Featured />}
 
-      <div className="mt-24 md:mt-32">
-        <ListHeader title="Projects" note="Open a row for details" />
-        <ProjectIndex projects={projects} />
+      <div className="mt-6 grid gap-6 md:mt-8 md:grid-cols-2">
+        {deep.map((project) => (
+          <DeepCard key={project.slug} project={project} />
+        ))}
       </div>
 
-      <div className="mt-24 md:mt-32">
+      <div className="mt-20 md:mt-28">
+        <ListHeader title="Also built" note="Open a row for the sketch" />
+        <ProjectIndex projects={listed} />
+      </div>
+
+      <div className="mt-20 md:mt-28">
         <ListHeader title="Client websites" note="Live sites" />
         <ClientIndex clients={clientSites} />
       </div>
@@ -45,6 +55,24 @@ function ListHeader({ title, note }: { title: string; note: string }) {
         {note}
       </p>
     </div>
+  );
+}
+
+function StoryList({ story, className = "" }: { story: Story; className?: string }) {
+  const rows: [string, string, boolean][] = [
+    ["Problem", story.problem, false],
+    ["Approach", story.approach, false],
+    ["Result", story.result, true],
+  ];
+  return (
+    <dl className={`space-y-5 ${className}`}>
+      {rows.map(([label, body, lead]) => (
+        <div key={label} className="grid gap-1.5 sm:grid-cols-[5.5rem_1fr] sm:gap-5">
+          <dt className="t-label pt-0.5 text-fg-3">{label}</dt>
+          <dd className={`t-small ${lead ? "text-fg" : "text-fg-2"}`}>{body}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -68,6 +96,7 @@ function Featured() {
             {featured.name}
           </h3>
           <p className="t-lead mt-4 max-w-[34rem] text-fg-2">{featured.summary}</p>
+          <StoryList story={featured.story} className="mt-8 max-w-[38rem]" />
           <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-10">
             <Magnetic>
               <LensLink href={featured.caseStudy} className="btn btn-solid">
@@ -121,6 +150,71 @@ function Featured() {
           </ol>
         </div>
       </TiltPanel>
+    </article>
+  );
+}
+
+function DeepCard({ project }: { project: Project }) {
+  if (!project.story) return null;
+  return (
+    <article
+      data-reveal
+      aria-labelledby={`work-${project.slug}`}
+      className="flex flex-col overflow-hidden rounded-[18px] bg-night-1 ring-1 ring-line"
+    >
+      {project.preview ? (
+        <div className="relative aspect-[16/10] border-b border-line bg-night-2">
+          <Image
+            src={project.preview.src}
+            alt={project.preview.alt}
+            fill
+            sizes="(min-width: 768px) 46vw, 92vw"
+            className="object-cover object-top"
+          />
+        </div>
+      ) : (
+        hasDiagram(project.slug) && (
+          // Nothing public to screenshot: show the system instead of faking a picture of it.
+          <div className="flex aspect-[16/10] items-center justify-center border-b border-line bg-night-2 px-5 py-4 sm:px-8 sm:py-6">
+            <ProjectDiagram slug={project.slug} />
+          </div>
+        )
+      )}
+      <div className="flex flex-1 flex-col p-5 sm:p-7 md:p-8">
+        <div className="flex items-baseline justify-between gap-4">
+          <h4 id={`work-${project.slug}`} className="t-h4 text-[1.375rem]">
+            {project.name}
+          </h4>
+          <span className="t-label text-fg-3">{project.year}</span>
+        </div>
+        <p className="t-small mt-1.5 text-fg-3">{project.kind}</p>
+
+        <StoryList story={project.story} className="mt-7" />
+
+        <ul className="mt-7 flex flex-wrap gap-2" aria-label={`${project.name} stack`}>
+          {project.stack.map((tool) => (
+            <li key={tool} className="chip">
+              {tool}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-wrap items-center gap-3 pt-8">
+          {project.links.map((link, index) => (
+            <a
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={index === 0 ? "btn btn-solid btn-sm" : "btn btn-line btn-sm"}
+            >
+              {link.label}
+              <Arrow dir="up-right" />
+            </a>
+          ))}
+          {project.codeNote && <p className="t-small text-fg-3">{project.codeNote}</p>}
+        </div>
+      </div>
     </article>
   );
 }

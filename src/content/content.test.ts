@@ -2,12 +2,29 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { architecture, architectureLayouts, evaluateGate, sampleTools } from "./aethra";
+import { decisions, incident, measured, optimisations } from "./engineering";
+import { siteStack, skillGroups } from "./skills";
 import { roles } from "./experience";
 import { layers } from "./layers";
 import { profile } from "./profile";
 import { clientSites, featured, projects } from "./projects";
 
-const everything = { profile, layers, projects, featured, clientSites, roles, architecture, sampleTools };
+const everything = {
+  profile,
+  layers,
+  projects,
+  featured,
+  clientSites,
+  roles,
+  architecture,
+  sampleTools,
+  skillGroups,
+  siteStack,
+  measured,
+  optimisations,
+  incident,
+  decisions,
+};
 
 describe("content", () => {
   it("contains no placeholder copy", () => {
@@ -125,5 +142,72 @@ describe("evaluateGate", () => {
 
   it("marks exactly one sample tool as unregistered", () => {
     expect(sampleTools.filter((t) => !t.registered)).toHaveLength(1);
+  });
+});
+
+describe("skills", () => {
+  const skills = skillGroups.flatMap((group) => group.skills);
+
+  it("names every skill once", () => {
+    const names = skills.map((skill) => skill.name);
+    expect(new Set(names).size).toBe(names.length);
+  });
+
+  it("backs every skill with where it was used", () => {
+    for (const skill of skills) {
+      expect(skill.proof.length).toBeGreaterThan(6);
+      expect(["production", "project"]).toContain(skill.level);
+    }
+  });
+
+  it("gives every group at least three skills", () => {
+    for (const group of skillGroups) expect(group.skills.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("pins a version and a reason for everything in this site's stack", () => {
+    for (const item of siteStack) {
+      expect(item.version).toMatch(/^\d/);
+      expect(item.role.length).toBeGreaterThan(10);
+    }
+  });
+});
+
+describe("engineering", () => {
+  it("scores every Lighthouse run in all four categories", () => {
+    for (const run of measured.lighthouse) {
+      expect(run.scores).toHaveLength(measured.categories.length);
+      for (const score of run.scores) {
+        expect(score).toBeGreaterThan(0);
+        expect(score).toBeLessThanOrEqual(100);
+      }
+    }
+  });
+
+  it("says how the numbers were taken", () => {
+    expect(measured.how).toMatch(/Lighthouse/);
+    expect(measured.takenOn).toMatch(/2026/);
+  });
+
+  it("gives every optimisation a before, an after and a method", () => {
+    for (const item of optimisations) {
+      expect(item.before).not.toBe(item.after);
+      expect(item.unit.length).toBeGreaterThan(3);
+      expect(item.how.length).toBeGreaterThan(40);
+    }
+  });
+
+  it("writes the incident up as symptom, cause, fix and prevention", () => {
+    const labels = incident.entries.map((entry) => entry.label);
+    expect(labels.slice(0, 3)).toEqual(["Symptom", "Cause", "Fix"]);
+    expect(labels).toContain("Prevention");
+    for (const entry of incident.entries) expect(entry.body.length).toBeGreaterThan(40);
+  });
+
+  it("records the alternative that each decision turned down", () => {
+    for (const item of decisions) {
+      expect(item.instead.length).toBeGreaterThan(8);
+      expect(item.why.length).toBeGreaterThan(40);
+      expect(item.result.length).toBeGreaterThan(8);
+    }
   });
 });

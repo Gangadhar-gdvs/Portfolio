@@ -9,7 +9,12 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:depth": "NEXT_PUBLIC_DESIGN=depth next dev -p 5001 -H localhost",
+    "build:depth": "NEXT_PUBLIC_DESIGN=depth next build",
+    "start:depth": "NEXT_PUBLIC_DESIGN=depth next start -p 5001 -H localhost",
+    "globe:map": "node scripts/globe/borders.mjs",
+    "globe:lights": "node scripts/globe/lights.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -26,10 +31,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.186.0",
+    "all-the-cities": "^3.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "simple-icons": "^16.32.0",
     "tailwindcss": "^4",
+    "topojson-client": "^3.1.0",
     "typescript": "^5",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.1",
+    "world-atlas": "^2.0.2"
   }
 }

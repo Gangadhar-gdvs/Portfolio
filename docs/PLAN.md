@@ -159,3 +159,111 @@ Hero: *Gangadhara Gooti — Full-Stack Engineer* and the README line. Sections: 
 - Lighthouse, production build: home desktop 99 / 100 / 100 / 100; home mobile 96 / 100 / 100 / 100; case study mobile 95 / 100 / 100 / 100.
 - No console errors through a full scroll, a drag, the lens transition to the case study and back.
 - Checked at 1440 × 900 and 390 × 844 on a real GPU, with reduced motion, and on the static fallback path.
+
+# v3 — Proof (21 Sep 2026)
+
+**Feedback on v2:** the theme and the cards work, but About, Experience, Projects and Client websites are unattractive and read as overdone rather than professional. No Skills or Stack section. Wanted: every section demonstrating a different capability (cinematic reveal, 3D, scroll craft, particles, an IMAX moment), and a portfolio that shows a recruiter what this engineer can actually do: robustness, load handling, performance, interaction, optimisation.
+
+## What the research says
+
+Three threads: how recruiters evaluate portfolios, what earns ₹1Cr-band offers in India, and what engineers respect in developer portfolios.
+
+**On the target.** ₹1Cr is a level line, not a skill line: levels.fyi India puts Senior SWE median at ₹49.6L and p90 at ₹101.2L; Google India L5 ≈ ₹132L, L6 ≈ ₹214L, typically 8–12 years with cross-team scope. A portfolio cannot manufacture organisational scope, real traffic, or multi-year consequences. Its honest ceiling is *"this person reasons like someone with five years, at one"* — and that is worth a lot, because portfolios matter most early-career and at staff+ they barely matter at all.
+
+**On attention.** The famous "7 second scan" (Ladders, 2018) is a rejection timer, not a reading time; better-documented replications (Tegze 2023, n=114; ResumeGo 2024, n=418) say 12 s–1 min. Fixation lands on name, current role, then experience. Visual quality is judged in 50 ms (Lindgaard et al.) and design look drives 46.1% of credibility judgements (Fogg, Stanford, n=2,684) — so the craft matters, but it buys attention, not belief.
+
+**On motion.** NN/g's studies are blunt: scroll-triggered reveals make people think the system is slow, and task-oriented users — recruiters — are the least tolerant. Engineers in Hacker News teardowns punish slow 3D sites, idle GPU burn, undiscoverable interaction and "all the clicks and delays it takes to get to your actual work".
+
+**On what does land.** A perf section that *is* the benchmark (live FPS, draw calls, a count slider). Before/after with a real number. "How this is built" with bundle size and scores. Render-on-demand, stated. An escape hatch from the fanfare. Load tests quoted as percentiles, not averages. Decision records with the rejected alternative. Documentation and tests over novelty. And no skill percentage bars: an invented number with no scale, invisible to keyword scans.
+
+## Principles for v3
+
+1. **Work first.** Name, role, links and real work inside the first screen and the first scroll.
+2. **Motion never gates content.** Everything is readable immediately; reveals are short and additive.
+3. **Every effect earns its place as proof.** The particle section is a load test. The 3D section is the WebGL demo. Nothing is decorative-only.
+4. **An escape hatch, advertised.** A Lite switch turns off 3D, smooth scroll, the custom cursor and reveals. Reduced motion enables it automatically.
+5. **Numbers carry methodology** — device, warm-up, percentiles — or they don't ship.
+6. **Nothing invented.** No skill bars, no fake screenshots (private projects get system diagrams), no claim without an artefact.
+
+## Checklist (v3)
+
+- [x] Lite mode: switch in the nav, stored per visitor, default on for reduced motion; disables 3D, smooth scroll, cursor and reveals.
+- [x] Hero: keep the stack; add the primary links and a proof strip of hard numbers under it.
+- [x] Selected Work, restructured: five deep projects (Aethra, TaskFlow, the wedding invitation, Medcare, Network Traffic Analyser) as problem → approach → result with a measured outcome; the rest as a compact list with system diagrams instead of screenshots; client sites as a small strip with live links. Medcare is private and desktop-only, so its card carries the system sketch where a screenshot would go.
+- [x] Skills & Stack (new): grouped, plain, each skill tagged production or side project, filterable with a FLIP re-layout; plus this site's own stack with versions.
+- [x] Engineering (new), five panels:
+  - [x] Load test: a particle field with a count slider, p50/p95/p99 frame times, draw calls, a frame-budget sparkline, and a shed-load ladder (pixel ratio, then detail) that logs each step. Methodology stated.
+  - [x] This site, measured: Lighthouse, LCP, CLS, TBT, first-load JS, lazy 3D chunk, tests, CI, security headers, and a live readout of FPS, pixel ratio, device tier and GPU path.
+  - [x] Incident and fix: the software-renderer A/B, measured both ways today.
+  - [x] Decisions: ADR-style, each with the alternative rejected and the measured result.
+- [x] Experience: plain and tight, outcomes with numbers.
+- [x] About: short, first person, principles backed by artefacts, education, résumé.
+- [x] A short scroll-linked dive into Engineering (never scroll-jacked, skipped in Lite).
+- [x] Repo hygiene: CI running lint, typecheck, tests and build; security headers; state which browsers were actually tested.
+- [x] Verify: tests, typecheck, lint, build, Lighthouse both modes, screenshots desktop and mobile, no console errors.
+
+## Verified (21 Sep 2026)
+
+- 36 tests, typecheck and ESLint clean, production build static with no warnings.
+- Lighthouse, production build, cold cache: home desktop 99 / 100 / 100 / 100; home mobile 94 / 100 / 100 / 100; case study mobile 97 / 100 / 100 / 100. FCP 0.2 s desktop, 0.9 s mobile. CLS 0.
+- First-load JavaScript 199 KB gzipped across 10 chunks; the 3D scene is another 143 KB, fetched on idle and only with a GPU; the load test is split out again on top of that.
+- The load test reports p50/p95/p99 from the visitor's own GPU, with warm-up discarded, and its shedding ladder was watched running (pixel ratio 2 → 1.75 → 1.5 under load).
+- Checked at 1440 × 900 and 390 × 844, in Lite mode, with reduced motion, and on the no-GPU path. No console errors through a full scroll.
+
+### Notes for the next pass
+
+- Mobile LCP (2.8 s on the throttled profile) is bound by the webfont swap, not by JavaScript. Dropping to a system font would fix the metric and cost the design; the accent faces are already `display: optional`.
+- The A/B that justified the no-GPU guard no longer reproduces on this build: with the motion layer behind idle, Lighthouse scores the same either way. The guard stays because the metric moved, not the problem.
+
+
+
+## A second design (21 September 2026)
+
+The dark design was kept exactly as it is, and a second complete design was
+built beside it, chosen at build time by `NEXT_PUBLIC_DESIGN`. A first attempt
+at the second design (a daylight South Indian theme) was built, measured and
+then removed at the user's request; what follows is the one that stayed.
+
+**`depth` — a descent.** The page opens like a title sequence: letterbox bars
+retract *around* the name, never over it, and a single sweep of heat crosses
+letters that were already painted. Then scrolling becomes falling. One scene
+behind the whole page — rings of rock, rising dust, warming light — is driven
+by scroll velocity, so stopping stops the fall. A readout at the edge counts
+the depth in metres, and each section is marked with the depth it sits at.
+
+**The globe.** `src/design/depth/gl/globe.ts` builds a world out of
+`skills.ts`: a Fibonacci sphere so nothing clumps, one colour per discipline,
+labels drawn into canvas textures, and arcs that appear between the skills of
+one discipline when you take hold of one. Ten interactions, listed on the page
+beside it so a reader knows what is there: drag, momentum, zoom by wheel or
+pinch, hover for the proof, click to lock and turn to it, arcs on lock,
+discipline filter, production filter, arrow keys and +/−, Enter to step and
+Escape to release. Without a GPU the same 48 skills render as a list.
+
+**What it cost the dark design: nothing.** Three leaks were found and closed
+while measuring, and they are the reason the architecture is what it is:
+
+1. A stylesheet imported by a component is collected into the route's CSS
+   whether or not the component renders, so each design's CSS is a module that
+   inlines itself.
+2. next/font preloads every face in the graph on every route; the second
+   design's faces cost the first about a second of mobile LCP until
+   `@/design/fonts` was aliased per design.
+3. Putting the dark design behind a dynamic import to slim the other build cost
+   it a round trip before first paint (mobile 93 → 83). The alias is the fix;
+   lazy imports are not.
+
+**Measured, both designs, 21 September 2026, median of three runs.**
+
+| Design | Desktop | Mobile | First-load JS | DOM |
+|---|:-:|:-:|:-:|:-:|
+| stack | 98 | 92 | 199 KB / 10 chunks | 1,840 |
+| depth | 100 | 95 | 190 KB / 9 chunks | 635 |
+
+Depth's CLS is 0.005, from the display face swapping in; everything else on the
+page holds still. Its accessibility was 96 until the label grey was raised to
+#8a8397 — #6d6779 on this background is 4.0:1, under the 4.5:1 small text needs.
+
+**Still open:** the Aethra case study is the dark design on both builds. It
+reads correctly, but a reader crossing into it from the depth design meets a
+different world.
