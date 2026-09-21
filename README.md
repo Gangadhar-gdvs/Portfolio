@@ -18,7 +18,7 @@
 
 <a href="https://github.com/Gangadhar-gdvs"><img src="https://img.shields.io/badge/GITHUB-EEF2F7?style=for-the-badge&logo=github&logoColor=030509" alt="GitHub profile"></a>&nbsp;<a href="https://www.linkedin.com/in/gangadhar-gooti"><img src="https://img.shields.io/badge/LINKEDIN-EEF2F7?style=for-the-badge&logoColor=030509" alt="LinkedIn"></a>&nbsp;<a href="mailto:gangadhargdvs0@gmail.com"><img src="https://img.shields.io/badge/EMAIL_ME-7CE7FF?style=for-the-badge&logo=gmail&logoColor=030509" alt="Email Gangadhara"></a>&nbsp;<a href="https://drive.google.com/file/d/17II87o3DU8JI0LzT6W-ElN9-YTB3yFQt/view?usp=drive_link"><img src="https://img.shields.io/badge/R%C3%89SUM%C3%89-FFB86B?style=for-the-badge&logo=googledrive&logoColor=030509" alt="Résumé"></a>
 
-<sub><a href="#idea">THE IDEA</a> &nbsp;·&nbsp; <a href="#stack">THE STACK</a> &nbsp;·&nbsp; <a href="#screens">SCREENS</a> &nbsp;·&nbsp; <a href="#how">HOW IT WORKS</a> &nbsp;·&nbsp; <a href="#built">BUILT WITH</a> &nbsp;·&nbsp; <a href="#run">RUN IT</a></sub>
+<sub><a href="#idea">THE IDEA</a> &nbsp;·&nbsp; <a href="#stack">THE STACK</a> &nbsp;·&nbsp; <a href="#screens">SCREENS</a> &nbsp;·&nbsp; <a href="#how">HOW IT WORKS</a> &nbsp;·&nbsp; <a href="#built">BUILT WITH</a> &nbsp;·&nbsp; <a href="#run">RUN IT</a> &nbsp;·&nbsp; <a href="#designs">TWO DESIGNS</a></sub>
 
 <img src="docs/readme/divider.svg" width="100%" alt="">
 
@@ -32,7 +32,9 @@ A full-stack engineer's work lives in layers: an interface on top, then the devi
 
 It opens on a dark stage with **five etched glass plates** stacked into one sleek slab. Up close it looks simple, like good software should. Move the cursor and a light moves across the glass. Drag and the stack turns. Scroll and it **opens up**. Each plate then slides out beside the work that proves it, and the stack closes again at the contact section.
 
-The rule for everything here is that an effect has to earn its place as proof. The 3D is the WebGL demo. The particle section is a **load test that runs on your machine** and reports percentiles. The performance section shows this page's own numbers, live. And a **Lite switch** in the header turns all of it off, because the fastest way to lose a reader is to make them wait for a show they didn't ask for.
+The rule for everything here is that an effect has to earn its place as proof. The 3D is the WebGL demo. The particle section is a **load test that runs on your machine** and reports percentiles. The performance section shows this page's own numbers, live. And anyone whose device asks for reduced motion gets **Lite mode** instead: a plain, fast page, because the fastest way to lose a reader is to make them wait for a show they didn't ask for.
+
+The same site also comes in a second design, **Depth**, one click away from the **Glass | Depth** switch in the nav. See [Two designs](#designs).
 
 <div align="center">
 
@@ -45,7 +47,7 @@ The rule for everything here is that an effect has to earn its place as proof. T
 | | Screen | What happens |
 |:-:|---|---|
 | 01 | **Intro** | A line of light, a count to 100, then the screen opens top and bottom like a cinema curtain. First visit only, and never in Lite mode. |
-| 02 | **Hero** | The plates land one by one, foundation first. The cursor lights the glass, dragging turns it, and four numbers sit underneath. |
+| 02 | **Hero** | The plates land one by one, foundation first. The cursor lights the glass and dragging turns it. Underneath, three numbers from the work: 3 product teams, 6 real-time modules, 99/100 PageSpeed. |
 <!-- AETHRA: | 03 | **Selected work** | Aethra with its architecture and permission gate, then the lead projects as problem → approach → result, then everything else with a system sketch. | -->
 | 03 | **Selected work** | The lead projects as problem → approach → result, then everything else with a system sketch, then client sites. |
 | 04 | **Capabilities** | The stack opens. Each discipline pulls its plate out beside the work that proves it. |
@@ -61,16 +63,19 @@ The rule for everything here is that an effect has to earn its place as proof. T
 
 Each plate is etched with a drawing of its layer. The drawings are generated in code when the page loads (`src/gl/stack/etch.ts`), so nothing is downloaded and they stay sharp at any size:
 
-<img src="docs/readme/stack-layers.svg" width="100%" alt="The five plates, surface to core, lighting up in turn beside a list: 01 Interface, frontend engineering. 02 Devices, mobile and desktop apps. 03 Services, backend and real-time systems. 04 Data and storage. 05 Intelligence, AI agents and LLM systems.">
+<img src="docs/readme/stack-layers.svg" width="100%" alt="The five plates, surface to core, lighting up in turn beside a list: 01 Interface, frontend engineering. 02 Devices, mobile and desktop apps. 03 Services, backend and real-time systems. 04 Data and storage. 05 Intelligence, AI and machine learning.">
 
 | | Layer | Etched on the plate | The proof on the page |
 |:-:|---|---|---|
 | 01 | **Frontend Engineering** | A web app mid-interaction, with a live chart | 99/100 PageSpeed · 99% SEO · a client web app in Ireland |
 <!-- AETHRA: | 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · the Rust device layer in Aethra · Tauri | -->
 | 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · Tauri · Medcare in Electron |
-| 03 | **Backend & Real-time Systems** | A hub with services routed like circuit traces | 6 real-time modules at Zyrone Energy · JWT with roles · WebSockets |
-| 04 | **Data & Storage** | A table, two databases and a vector search | Vector memory in SQLite · PostgreSQL pipelines · MongoDB models |
-| 05 | **AI Agents & LLM Systems** | A glowing core with a dial and firing nodes | 44 tools behind one fail-closed permission gate |
+<!-- AETHRA: | 03 | **Backend & Real-time Systems** | A hub with services routed like circuit traces | 6 real-time modules at Zyrone Energy · JWT with roles · WebSockets | -->
+| 03 | **Backend & Real-time Systems** | A hub with services routed like circuit traces | 6 real-time modules at Zyrone Energy · JWT with role-based access in TaskFlow |
+<!-- AETHRA: | 04 | **Data & Storage** | A table, two databases and a vector search | Vector memory in SQLite · PostgreSQL pipelines · MongoDB models | -->
+| 04 | **Data & Storage** | A table, two databases and a vector search | A PostgreSQL event pipeline in Docker Compose · MongoDB models for G-Mart and TaskFlow |
+<!-- AETHRA: | 05 | **AI Agents & LLM Systems** | A glowing core with a dial and firing nodes | 44 tools behind one fail-closed permission gate | -->
+| 05 | **AI & Machine Learning** | A glowing core with a dial and firing nodes | A symptom classifier prepared in pandas, trained with scikit-learn and served with Flask |
 
 <a name="screens"></a>
 
@@ -111,19 +116,20 @@ Each plate is etched with a drawing of its layer. The drawings are generated in 
   </tr>
 </table>
 
-<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with the stack above the name, the load test running with its readouts, and the skills grid.">
+<img src="docs/readme/screens/mobile.jpg" width="100%" alt="Three phone screens: the hero with the stack above the name, the load test running at 60 frames per second, and the skills grid with its filters.">
 
 <details>
-<summary><b>More screens</b>: decisions, the case study, experience, about and contact</summary>
+<!-- AETHRA: <summary><b>More screens</b>: decisions, the case study, experience, about and contact</summary> -->
+<summary><b>More screens</b>: decisions, about, experience and contact</summary>
 <br>
 
 <table>
+  <!-- AETHRA: <tr>
+    <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td>
+    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td>
+  </tr> -->
   <tr>
-    <td width="50%"><img src="docs/readme/screens/decisions.jpg" alt="Decision records: each decision with the alternative it turned down and the measured result."></td>
-    <!-- AETHRA: <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td> -->
-  </tr>
-  <tr>
-    <!-- AETHRA: <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td> -->
+    <td width="50%"><img src="docs/readme/screens/decisions.jpg" alt="Changes with a number attached, then the post-mortem of the page freezing on machines without a GPU."></td>
     <td width="50%"><img src="docs/readme/screens/about.jpg" alt="About: the portrait beside the introduction, three principles and the education."></td>
   </tr>
   <tr>
@@ -179,10 +185,10 @@ Every word is server-rendered and every route is prerendered as static HTML. The
 </details>
 
 <details open>
-<summary><b>◈ An escape hatch</b>: Lite mode, in the header</summary>
+<summary><b>◈ An escape hatch</b>: Lite mode</summary>
 <br>
 
-One switch turns off the 3D, the smooth scrolling, the custom cursor and every reveal, leaving a plain, fast document. It is remembered per visitor, applied before first paint so there is no flash, and it is the default for anyone with `prefers-reduced-motion`.
+Lite mode turns off the 3D, the smooth scrolling, the custom cursor and every reveal, leaving a plain, fast document. It is on automatically for anyone with `prefers-reduced-motion`, applied before first paint so there is no flash, and remembered per visitor. The Depth design also has a Lite switch in its footer, and the choice carries across both designs.
 
 </details>
 
@@ -198,7 +204,7 @@ Links to the case study use React's `<ViewTransition>` with Next.js `transitionT
 <summary><b>◉ For everyone</b>: accessibility, reduced motion and hardening</summary>
 <br>
 
-100 on accessibility, with visible focus, a skip link, a mobile menu that traps and returns focus and closes on <kbd>Esc</kbd>, and the 3D layer hidden from assistive technology. With `prefers-reduced-motion` the site starts in Lite mode. Every response carries a Content-Security-Policy, `frame-ancestors: none`, `nosniff`, a strict referrer policy and HSTS, and CI runs lint, types, 36 tests and a production build on every push.
+100 on accessibility, with visible focus, a skip link, a mobile menu that traps and returns focus and closes on <kbd>Esc</kbd>, and the 3D layer hidden from assistive technology. With `prefers-reduced-motion` the site starts in Lite mode. Every response carries a Content-Security-Policy, `frame-ancestors: none`, `nosniff`, a strict referrer policy and HSTS, and CI runs lint, types, 39 tests and a production build on every push.
 
 </details>
 
@@ -218,11 +224,11 @@ Links to the case study use React's `<ViewTransition>` with Next.js `transitionT
 
 | Lighthouse, production build | Performance | Accessibility | Best practices | SEO |
 |---|:-:|:-:|:-:|:-:|
-| **Home, desktop** | 98 | 100 | 100 | 100 |
-| **Home, mobile** (simulated slow 4G, 4× CPU slowdown) | 92 | 100 | 100 | 100 |
+| **Home, desktop** | 99 | 100 | 100 | 100 |
+| **Home, mobile** (simulated slow 4G, 4× CPU slowdown) | 93 | 100 | 100 | 100 |
 <!-- AETHRA: | **Aethra case study, mobile** | 96 | 100 | 100 | 100 | -->
 
-<sub>Measured on 21 September 2026 from a cold cache, median of three runs. First contentful paint is 0.4 s on desktop and 1.5 s on the phone profile; largest contentful paint is 0.7 s and 2.9 s, where it waits on the webfont. Layout shift is 0. Every route is prerendered as static HTML, first-load JavaScript is 199 KB gzipped, and there are 7 runtime dependencies.</sub>
+<sub>The Glass design, measured with Lighthouse 12.8 on 22 September 2026 against its own production build, from a cold cache, median of three runs. First contentful paint is 0.3 s on desktop and 1.4 s on the phone profile; largest contentful paint is 0.5 s and 2.8 s, where it waits on the webfont. Layout shift is 0. Every route is prerendered as static HTML, first-load JavaScript is 198 KB gzipped across 10 chunks, and there are 7 runtime dependencies. The Depth design's numbers are in <a href="#designs">Two designs</a>.</sub>
 
 <a name="run"></a>
 
@@ -230,9 +236,9 @@ Links to the case study use React's `<ViewTransition>` with Next.js `transitionT
 
 ```bash
 npm install
-npm run dev          # the dark design, http://localhost:5000
-npm run dev:south    # the south design, http://localhost:5001
-npm test             # layout maths, kolam geometry and content checks
+npm run dev          # http://localhost:5000, the design picked in .env
+npm run dev:depth    # the Depth design at /, http://localhost:5001
+npm test             # content integrity, layout maths and the design switch
 npm run lint
 npm run typecheck
 npm run build && npm start
@@ -240,58 +246,63 @@ npm run build && npm start
 
 Requires Node 22.12 or newer. On macOS, AirPlay Receiver also listens on port 5000, so the scripts bind to `localhost` only. Open **http://localhost:5000**, not `127.0.0.1:5000`.
 
+<a name="designs"></a>
+
 ### ◈ Two designs, one site
 
-The site is built in two complete designs, chosen at build time by
-`NEXT_PUBLIC_DESIGN`:
+The same content in two complete designs. Visitors switch between them with the **Glass | Depth** pill in the nav, or in the menu on a phone.
 
-| Value | Design |
-|---|---|
-| `stack` *(default)* | Dark, glass plates etched with the stack, cyan light, cursor lamp. |
-| `depth` | A descent. The page opens like a title sequence, then scroll becomes a fall down a shaft: rings of rock pass, dust rises, and the light warms from cold at the surface to molten at the core. Halfway down, every skill is a place on a globe you can take hold of. |
+| Design | What it is | Where it lives |
+|---|---|---|
+| **Glass** (`stack`) | Dark, glass plates etched with the stack, cyan light, cursor lamp. | `/`, or `/glass` when Depth is the home page |
+| **Depth** (`depth`) | A descent. The page opens like a title sequence, then scroll becomes a fall down a shaft: rings of rock pass, dust rises, and the light warms from cold at the surface to molten at the core. Halfway down, every skill is a place on a globe you can take hold of. | `/`, or `/depth` when Glass is the home page |
+
+**Which one is the home page** is set by `NEXT_PUBLIC_DESIGN` in `.env`, which holds both lines with one commented out. Swap the `#` and restart. The other design is always one click away at its own path, and a design's own path redirects to `/` when it is already the home page, so each page has one address. Both declare `/` as canonical, so search engines see one site.
 
 ```bash
-npm run dev:depth                       # develop it
+npm run dev:depth                       # develop Depth as the home page
 NEXT_PUBLIC_DESIGN=depth npm run build  # build it
 ```
 
-**The globe** is the piece to look at. It is generated from `skills.ts` rather
-than drawn: each skill is placed on a Fibonacci sphere as an **extruded 3D
-icon** — 39 brand marks from simple-icons (CC0) and 9 glyphs drawn in
-`scripts/globe/icons.mjs` for skills with no logo to borrow, all turned into
-geometry with `ExtrudeGeometry` so they carry a bevel and catch the light.
-Each is coloured by discipline and carries the work that proves it. Ten ways in, all listed on the page next
-to it — drag to turn, throw it and it keeps going, scroll or pinch to zoom,
-hover to read the proof, click to lock one and turn the globe to it, locking
-draws arcs to the rest of its discipline, filter by discipline, filter by
-production work, arrow keys turn and +/− zoom, Enter steps through and Escape
-lets go. Without a GPU it is the same 48 skills as a list.
+**How switching stays clean.** Each design is its own root layout (`src/app/(home)`, `(glass)/glass` and `(depth)/depth`, all rendering `src/design/RootDocument.tsx`). The switch is a plain link, so opening the other design is a fresh page load that brings only that design's components, stylesheet and webfonts, and nothing from the one you left. Pointing at the switch starts fetching the page early. Addresses that match no route get a 404 from `app/global-not-found.tsx`, since there is no single layout to render one inside.
 
-The globe is a real one. Coastlines and every border between two countries come
-from Natural Earth 1:50m (public domain), and the night side is GeoNames'
-populated places (CC BY 4.0) — 4,956 cities above 90,000 people, each one's
-brightness taken from its population, which is why the eastern United States
-glows and the Sahara does not. Both are generated into modules by
-`npm run globe:map` and `npm run globe:lights`, so no map data is fetched at
-build or run time.
+<table>
+  <tr>
+    <td width="50%"><img src="docs/readme/screens/depth-hero.jpg" alt="The Depth design's opening: the name in heavy type over a shaft of rings, and four outcomes underneath: 99% SEO score at Vectorsoft, 6 real-time modules at Zyrone Energy, 99/100 PageSpeed at Tech Kshatriyas, 3 client sites."></td>
+    <td width="50%"><img src="docs/readme/screens/depth-globe.jpg" alt="The skills globe: coastlines and city lights on a dark Earth, with extruded skill icons such as Python, MySQL, Tauri and Express standing on its surface."></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>SURFACE</b> · outcomes from the work, not the page's own scores</sub></td>
+    <td align="center"><sub><b>THE WORLD</b> · every skill a place you can turn to</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/readme/screens/depth-work.jpg" alt="Four project cards, each with its screenshot beside a one-line summary, stack tags, a How it was built toggle and live links."></td>
+    <td width="50%"><img src="docs/readme/screens/depth-mobile.jpg" alt="Three phone screens of the Depth design: the opening, the globe, and the menu with the Glass and Depth switch."></td>
+  </tr>
+  <tr>
+    <td align="center"><sub><b>WORK</b> · the story folds open on each card</sub></td>
+    <td align="center"><sub><b>ON A PHONE</b> · the menu carries the switch</sub></td>
+  </tr>
+</table>
 
-**The shaft** behind every section is one scene driven by scroll velocity, so
-stopping stops the fall and flicking down accelerates it. Its dust is pushed
-away from the cursor.
+**The globe** is the piece to look at. It is generated from `skills.ts` rather than drawn: each of the 40 skills is placed on a Fibonacci sphere as an **extruded 3D icon**, 36 of them brand marks from simple-icons (CC0) and 4 glyphs drawn in `scripts/globe/icons.mjs` for skills with no logo to borrow. All of them are turned into geometry with `ExtrudeGeometry`, so they carry a bevel and catch the light. Each brand mark keeps its brand colour and each drawn glyph takes its discipline's; every icon is labelled and carries the work that proves it.
 
-Both designs read the same files in `src/content`, so the words and the numbers
-can never drift apart between them. Nothing else is shared: each has its own
-components, stylesheet and webfonts, and `next.config.ts` aliases
-`@/design/entry` and `@/design/fonts` to the design being built — so a build
-carries nothing at all from the other one. Adding the second design cost the
-first one zero bytes, which is the only reason it was built this way.
+You can drag to turn it, throw it and it keeps going, and zoom with a pinch, the +/− buttons or ⌘-scroll. Hovering or tapping an icon shows where that skill was used; clicking locks one, turns the globe to it and draws arcs to the rest of its discipline. It filters by discipline or by client work, the arrow keys turn it, Enter steps through and Escape lets go. One line under the globe gives the basics, and the full list folds out under *Every way to use it*. Without a GPU it is the same 40 skills as a list.
 
-| Design | Desktop | Mobile | First-load JS | DOM |
-|---|:-:|:-:|:-:|:-:|
-| `stack` | 98 | 92 | 199 KB / 10 chunks | 1,840 |
-| `depth` | 100 | 95 | 190 KB / 9 chunks | 635 |
+The globe is a real one. Coastlines and every border between two countries come from Natural Earth 1:50m (public domain), and the night side is GeoNames' populated places (CC BY 4.0): 4,956 cities above 90,000 people, each one's brightness taken from its population, which is why the eastern United States glows and the Sahara does not. Both are generated into modules by `npm run globe:map` and `npm run globe:lights`, so no map data is fetched at build or run time. Building the icons and lights is a long task, so it starts only when the reader is about a screen away from the globe, never during page load.
 
-<sub>Lighthouse 12, production builds, cold cache, median of three runs, 21 September 2026.</sub>
+**The shaft** behind every section is one scene driven by scroll velocity, so stopping stops the fall and flicking down accelerates it. Its dust is pushed away from the cursor.
+
+**What the page says.** The opening carries real outcomes (99% SEO at Vectorsoft, 6 real-time modules at Zyrone Energy, 99/100 PageSpeed at Tech Kshatriyas, 3 client sites) rather than the page's own scores; those sit further down in *Measured, not claimed*, with the method beside them. Section labels are plain words. Each project card shows its screenshot, a one-line summary, the stack and its links, with problem, approach and result folded under *How it was built*.
+
+Both designs read the same files in `src/content`, so the words and the numbers can never drift apart between them. Nothing else is shared.
+
+| Design | Desktop | Mobile | Accessibility | First-load JS | DOM |
+|---|:-:|:-:|:-:|:-:|:-:|
+| Glass | 99 | 93 | 100 | 198 KB / 10 chunks | 1,491 |
+| Depth | 100 | 92 | 100 | 190 KB / 10 chunks | 589 |
+
+<sub>Lighthouse 12.8 on 22 September 2026, each design measured as the home page of its own production build, cold cache, median of three runs; the mobile column is Lighthouse's phone profile (4× CPU slowdown, simulated slow 4G). First-load JavaScript is every script the initial HTML requests, gzipped. DOM is Lighthouse's element count for the whole page.</sub>
 
 ### ◈ Edit the content
 
@@ -304,8 +315,10 @@ All copy lives in `src/content`, so updating the site never means touching compo
 | `projects.ts` | The projects (with their captures) and client sites; the Aethra entry is kept but hidden by `showFeatured` |
 | `experience.ts` | Roles, most recent first |
 | `skills.ts` | Every skill with the work that proves it, and this site's own stack |
-| `engineering.ts` | The measured numbers, the optimisations, the incident and the decisions |
+| `engineering.ts` | The Glass design's measured numbers, the optimisations, the incident and the decisions |
 | `aethra.ts` | The Aethra case study data — hidden while it is in progress (`grep -rn AETHRA: src` lists every hidden line) |
+
+The Depth design measures its own build, so its numbers live beside it in `src/design/depth/measured.ts`.
 
 `src/content/content.test.ts` fails on placeholder text, non-https links, duplicate slugs, a capture that doesn't exist or a broken architecture graph. Run `npm test` after editing.
 
@@ -317,18 +330,27 @@ Import the repository on [Vercel](https://vercel.com/new); there is nothing to c
 
 ```
 src/
-  app/          routes, metadata, share images, icons, sitemap, robots, 404
+  app/          one root layout per design, plus icons, sitemap, robots
+    (home)/     `/` in the .env design, share images, the hidden case study
+    (glass)/    the Glass design at /glass
+    (depth)/    the Depth design at /depth
+    global-not-found.tsx   the 404 for addresses no route matches
   content/      all copy and data, with integrity tests
-  components/   chrome (nav, cursor, intro, Lite switch), hero, capabilities,
-                work, skills, engineering, experience, about, contact, motion
-  gl/           the 3D stage: plates, etching, shaders, layout (tested), quality
-                tiers, and the load-test renderer in gl/lab
+  design/       the switch: RootDocument, DesignSwitch, routes, the .env flag
+    depth/      the Depth design: sections, chrome, styles, measured numbers,
+                and gl/ (the shaft, the globe, map, lights and icon data)
+  components/   the Glass design: chrome (nav, cursor, intro), hero,
+                capabilities, work, skills, engineering, experience, about,
+                contact, motion
+  gl/           Glass's 3D stage: plates, etching, shaders, layout (tested),
+                quality tiers, and the load-test renderer in gl/lab
   lib/          motion runtime (loaded on demand), Lite mode, maths, share-image assets
 docs/
   PLAN.md       design notes and the build checklist
   readme/       the artwork and screens on this page
 scripts/
   readme/       regenerates that artwork from the site's own fonts
+  globe/        generates the globe's borders, city lights and icons
 ```
 
 <br>

@@ -9,26 +9,26 @@
  */
 
 export const measured = {
-  takenOn: "21 September 2026",
+  takenOn: "22 September 2026",
   how: "Lighthouse 12 against this design's production build, from a cold cache, median of three runs on the same machine. The mobile column uses Lighthouse's phone profile: 4× CPU slowdown and a simulated slow 4G connection.",
   lighthouse: [
-    { page: "Home", profile: "Desktop", scores: [98, 100, 100, 100] },
-    { page: "Home", profile: "Mobile", scores: [92, 100, 100, 100] },
+    { page: "Home", profile: "Desktop", scores: [99, 100, 100, 100] },
+    { page: "Home", profile: "Mobile", scores: [93, 100, 100, 100] },
     // AETHRA: the case study is the Aethra page, hidden with it.
     // AETHRA: { page: "Case study", profile: "Mobile", scores: [96, 100, 100, 100] },
   ] as { page: string; profile: string; scores: [number, number, number, number] }[],
   categories: ["Performance", "Accessibility", "Best practices", "SEO"],
   vitals: [
-    { label: "First contentful paint", value: "0.4 s", note: "desktop · 1.5 s on the phone profile" },
-    { label: "Largest contentful paint", value: "0.7 s", note: "desktop · 2.9 s on the phone profile, where it waits on the webfont" },
+    { label: "First contentful paint", value: "0.3 s", note: "desktop · 1.4 s on the phone profile" },
+    { label: "Largest contentful paint", value: "0.5 s", note: "desktop · 2.8 s on the phone profile, where it waits on the webfont" },
     { label: "Cumulative layout shift", value: "0", note: "nothing moves once it is painted" },
-    { label: "Total blocking time", value: "0 ms", note: "desktop · 90 ms on the phone profile" },
+    { label: "Total blocking time", value: "0 ms", note: "desktop · 80 ms on the phone profile" },
   ],
   budget: [
-    { label: "First-load JavaScript", value: "199 KB", note: "gzipped, across 10 chunks" },
+    { label: "First-load JavaScript", value: "198 KB", note: "gzipped, across 10 chunks" },
     { label: "3D scene", value: "143 KB", note: "gzipped, loaded after idle and only with a GPU" },
     { label: "Images on first paint", value: "0", note: "the stack is geometry, its etching is drawn in a canvas" },
-    { label: "DOM nodes", value: "1,840", note: "on this whole page" },
+    { label: "DOM nodes", value: "1,491", note: "on this whole page, as Lighthouse counts them" },
   ],
   guards: [
     "Every route is prerendered as static HTML; the words are there before any script runs.",

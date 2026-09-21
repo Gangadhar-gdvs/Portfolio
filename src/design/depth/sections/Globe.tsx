@@ -60,9 +60,24 @@ export function Globe() {
 
     let cancelled = false;
     const cleanups: (() => void)[] = [];
+    let handle: number | undefined;
 
+    // Building 40 extruded icons and five thousand city lights is a long task,
+    // so it waits until the reader is about a screen away from the globe
+    // rather than landing on the first idle moment after load, where it held
+    // a phone's main thread for over a second before anyone had scrolled.
     const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
-    const handle = idle(async () => {
+    const approach = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        approach.disconnect();
+        handle = idle(build) as number;
+      },
+      { rootMargin: "100% 0px" },
+    );
+    approach.observe(canvas);
+
+    const build = async () => {
       const { SkillGlobe } = await import("../gl/globe");
       if (cancelled) return;
 
@@ -158,11 +173,12 @@ export function Globe() {
       });
       observer.observe(canvas);
       cleanups.push(() => observer.disconnect());
-    });
+    };
 
     return () => {
       cancelled = true;
-      if (window.cancelIdleCallback) window.cancelIdleCallback(handle as number);
+      approach.disconnect();
+      if (handle !== undefined && window.cancelIdleCallback) window.cancelIdleCallback(handle);
       for (const cleanup of cleanups) cleanup();
       globeRef.current?.dispose();
       globeRef.current = null;

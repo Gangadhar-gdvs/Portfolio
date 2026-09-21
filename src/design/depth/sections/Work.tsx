@@ -167,9 +167,9 @@ function Slab({ project, index }: { project: Project; index: number }) {
       </div>
       <div className="d-slab-body">
         <div className="d-slab-head">
-          <h4 id={`work-${project.slug}`} className="d-h3">
+          <h3 id={`work-${project.slug}`} className="d-h3">
             {project.name}
-          </h4>
+          </h3>
           {project.year && <span className="d-data">{project.year}</span>}
         </div>
         <p className="d-data d-slab-kind">{project.kind}</p>

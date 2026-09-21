@@ -9,29 +9,29 @@
  */
 
 export const depthMeasured = {
-  takenOn: "21 September 2026",
+  takenOn: "22 September 2026",
   how: "Lighthouse 12 against this design's production build, from a cold cache, median of three runs on the same machine. The mobile column uses Lighthouse's phone profile: 4× CPU slowdown and a simulated slow 4G connection.",
   lighthouse: [
     { page: "Home", profile: "Desktop", scores: [100, 100, 100, 100] },
-    { page: "Home", profile: "Mobile", scores: [95, 100, 100, 100] },
+    { page: "Home", profile: "Mobile", scores: [92, 100, 100, 100] },
   ] as { page: string; profile: string; scores: [number, number, number, number] }[],
   categories: ["Performance", "Accessibility", "Best practices", "SEO"],
   vitals: [
     { label: "First contentful paint", value: "0.3 s", note: "desktop · 1.2 s on the phone profile" },
-    { label: "Largest contentful paint", value: "0.6 s", note: "desktop · 2.8 s on the phone profile" },
-    { label: "Cumulative layout shift", value: "0.005", note: "the display face swapping in; everything else holds still" },
-    { label: "Total blocking time", value: "0 ms", note: "desktop · 20 ms on the phone profile" },
+    { label: "Largest contentful paint", value: "0.7 s", note: "desktop · 3.3 s on the phone profile, where the name waits on the display face" },
+    { label: "Cumulative layout shift", value: "0", note: "on both profiles: nothing moves once it is painted" },
+    { label: "Total blocking time", value: "0 ms", note: "desktop · 4 ms on the phone profile" },
   ],
   budget: [
-    { label: "First-load JavaScript", value: "190 KB", note: "gzipped, across 9 chunks" },
-    { label: "Scenes", value: "2", note: "the shaft and the globe, both fetched after the page is interactive" },
-    { label: "DOM nodes", value: "635", note: "on this whole page" },
+    { label: "First-load JavaScript", value: "190 KB", note: "gzipped, across 10 chunks" },
+    { label: "Scenes", value: "2", note: "the shaft after the page is interactive, the globe only as you near it" },
+    { label: "DOM nodes", value: "589", note: "on this whole page, as Lighthouse counts them" },
     { label: "Images on first paint", value: "0", note: "the shaft is geometry and the globe draws its own labels" },
   ],
   guards: [
     "The first screen never waits for JavaScript: the opening animates around the words, not over them.",
     "Both scenes are WebGL only where there is a GPU worth using; without one the globe is a list and the shaft is a gradient.",
     "Lite mode and reduced motion switch off the fall, the opening and every reveal.",
-    "The design that is not built ships nothing: no components, no stylesheet, no webfont.",
+    "The other design sends this page nothing: no components, no stylesheet, no webfont.",
   ],
 };
