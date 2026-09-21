@@ -1,18 +1,21 @@
 /**
- * The shared shell. It deliberately imports no stylesheet: the dark design's
- * Tailwind sheet is pulled in by the pages that use it, so a build of the
- * other design does not render-block on a stylesheet it never applies.
+ * The document every page is rendered into, shared by the three root layouts:
+ * the home page, and each design at its own path.
+ *
+ * Each design is its own root layout so it can own the whole document — its
+ * fonts on <html>, its `data-design`, its chrome — and switching between them
+ * is a full page load that brings only the design being opened.
  */
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import { Cursor } from "@/components/chrome/Cursor";
 import { Frame } from "@/components/chrome/Frame";
 import { Intro } from "@/components/chrome/Intro";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { profile } from "@/content/profile";
-import { activeDesign, isDepth } from "@/design/design";
-import { fontClass } from "@/design/fonts";
 import { siteUrl } from "@/lib/site";
+import type { Design } from "./design";
 
 const title = `${profile.name}, full-stack engineer`;
 // Aethra is not on the page while it is in progress, so it is not named here
@@ -20,7 +23,7 @@ const title = `${profile.name}, full-stack engineer`;
 const description =
   "Full-stack engineer for web, mobile, desktop and AI. Shipped billing software, client web apps and a bilingual invitation site. Open to full-time roles, client work and freelance builds.";
 
-export const metadata: Metadata = {
+export const siteMetadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: title, template: `%s · ${profile.name}` },
   description,
@@ -35,9 +38,10 @@ export const metadata: Metadata = {
     "Flutter",
     "Tauri",
     "Node.js",
-    "AI agents",
+    // AETHRA: "AI agents",
     "Andhra Pradesh",
   ],
+  // Both designs carry the same words, so `/` is the one address search engines keep.
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -51,9 +55,9 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export const viewport: Viewport = isDepth
-  ? { themeColor: "#070608", colorScheme: "dark" }
-  : { themeColor: "#030509", colorScheme: "dark" };
+export function viewportFor(design: Design): Viewport {
+  return design === "depth" ? { themeColor: "#070608", colorScheme: "dark" } : { themeColor: "#030509", colorScheme: "dark" };
+}
 
 /**
  * Runs before first paint: picks Lite mode (an explicit choice, else reduced
@@ -61,14 +65,16 @@ export const viewport: Viewport = isDepth
  */
 const bootScript = `try{var d=document.documentElement,s=localStorage.getItem("gg-lite"),r=matchMedia("(prefers-reduced-motion: reduce)").matches;if(s==="1"||(s===null&&r))d.classList.add("lite");if(!d.classList.contains("lite")&&!sessionStorage.getItem("gg-intro")&&location.pathname==="/"){d.classList.add("has-intro");sessionStorage.setItem("gg-intro","1")}}catch(e){}`;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export function RootDocument({ design, fontClass, children }: { design: Design; fontClass: string; children: ReactNode }) {
   return (
-    <html lang="en-IN" className={fontClass} data-design={activeDesign} suppressHydrationWarning>
+    <html lang="en-IN" className={fontClass} data-design={design} suppressHydrationWarning>
+      {/* This is a root layout's document, shared by three layouts; the rule only sees it outside app/. */}
+      {/* eslint-disable-next-line @next/next/no-head-element */}
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body>
-        {isDepth ? (
+        {design === "depth" ? (
           // The depth design brings its own chrome; the dark design's cursor,
           // frame and smooth scroll belong to it alone.
           children

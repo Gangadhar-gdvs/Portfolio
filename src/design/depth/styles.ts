@@ -232,53 +232,6 @@ html[data-design="depth"] {
   }
 }
 
-/* ── Instruments: the depth readout that follows the scroll ───────────── */
-
-[data-design="depth"] .d-hud {
-  position: fixed;
-  right: max(1rem, 2.2vw);
-  top: 50%;
-  z-index: 40;
-  transform: translateY(-50%);
-  display: none;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.6rem;
-  pointer-events: none;
-}
-
-[data-design="depth"] .d-hud-value {
-  font-family: var(--font-data), monospace;
-  font-size: 0.8125rem;
-  color: var(--bone);
-  font-variant-numeric: tabular-nums;
-}
-
-[data-design="depth"] .d-hud-rail {
-  width: 2px;
-  height: 34vh;
-  background: var(--line-2);
-  position: relative;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-[data-design="depth"] .d-hud-fill {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: calc(var(--descent, 0) * 100%);
-  background: linear-gradient(var(--cool), var(--magma));
-}
-
-[data-design="depth"] .d-hud-label {
-  writing-mode: vertical-rl;
-  font-family: var(--font-data), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--ash-2);
-}
-
 /* ── Chrome ───────────────────────────────────────────────────────────── */
 
 [data-design="depth"] .d-skip {
@@ -392,6 +345,148 @@ html[data-design="depth"] {
   border-color: var(--cool);
 }
 
+/* ── Phone menu: a button that folds into an X, and a sheet that opens
+   out of it like an aperture ─────────────────────────────────────────── */
+
+[data-design="depth"] .d-burger {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: auto;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: rgb(7 6 8 / 0.55);
+  backdrop-filter: blur(8px);
+  color: var(--bone);
+  cursor: pointer;
+  transition: border-color 0.4s var(--fall), background-color 0.4s var(--fall), transform 0.4s var(--fall);
+}
+
+[data-design="depth"] .d-burger:active {
+  transform: scale(0.94);
+}
+
+[data-design="depth"] .d-nav.is-open .d-burger {
+  border-color: var(--magma);
+  background: rgb(255 107 44 / 0.12);
+}
+
+[data-design="depth"] .d-burger-lines {
+  position: relative;
+  width: 1.1rem;
+  height: 0.7rem;
+}
+
+[data-design="depth"] .d-burger-lines span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.5s var(--fall), top 0.5s var(--fall), width 0.5s var(--fall);
+}
+
+[data-design="depth"] .d-burger-lines span:first-child {
+  top: 0;
+}
+
+[data-design="depth"] .d-burger-lines span:last-child {
+  top: calc(100% - 1.5px);
+  width: 70%;
+}
+
+[data-design="depth"] .d-nav.is-open .d-burger-lines span:first-child {
+  top: calc(50% - 0.75px);
+  transform: rotate(45deg);
+}
+
+[data-design="depth"] .d-nav.is-open .d-burger-lines span:last-child {
+  top: calc(50% - 0.75px);
+  width: 100%;
+  transform: rotate(-45deg);
+}
+
+[data-design="depth"] .d-nav.is-open {
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+[data-design="depth"] .d-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(5.5rem + env(safe-area-inset-top, 0px)) var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(255 107 44 / 0.16), transparent 55%),
+    rgb(7 6 8 / 0.96);
+  backdrop-filter: blur(14px);
+  /* Opens out of the button: a circle from its centre to past the far corner. */
+  clip-path: circle(0 at calc(100% - var(--gutter) - 1.375rem) 2.4rem);
+  visibility: hidden;
+  transition: clip-path 0.7s var(--drive), visibility 0s linear 0.7s;
+}
+
+[data-design="depth"] .d-menu.is-open {
+  clip-path: circle(150% at calc(100% - var(--gutter) - 1.375rem) 2.4rem);
+  visibility: visible;
+  transition: clip-path 0.75s var(--drive), visibility 0s;
+}
+
+[data-design="depth"] .d-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-menu-list li {
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s var(--fall), transform 0.45s var(--fall);
+}
+
+[data-design="depth"] .d-menu.is-open .d-menu-list li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.18s + var(--i, 0) * 0.055s);
+}
+
+[data-design="depth"] .d-menu-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 1rem;
+  color: var(--bone);
+  text-decoration: none;
+}
+
+[data-design="depth"] .d-menu-label {
+  font-weight: 600;
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: color 0.3s var(--fall), transform 0.4s var(--fall);
+}
+
+[data-design="depth"] .d-menu-list a:hover .d-menu-label,
+[data-design="depth"] .d-menu-list a:focus-visible .d-menu-label {
+  color: var(--ember);
+  transform: translateX(6px);
+}
+
+[data-design="depth"] .d-menu-foot {
+  margin: 0;
+}
+
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 
 [data-design="depth"] .d-button {
@@ -429,11 +524,11 @@ html[data-design="depth"] {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--line-2);
+  padding: 0.34rem 0.75rem;
+  border: 1px solid rgb(244 241 247 / 0.28);
   border-radius: 999px;
-  background: rgb(244 241 247 / 0.05);
-  color: var(--bone);
+  background: rgb(244 241 247 / 0.08);
+  color: #ffffff;
   font-size: 0.8125rem;
   font-family: var(--font-data), monospace;
   cursor: pointer;
@@ -474,8 +569,7 @@ html[data-design="depth"] {
   transition: none;
 }
 
-[data-design="depth"].lite .d-curtain,
-[data-design="depth"].lite .d-hud {
+[data-design="depth"].lite .d-curtain {
   display: none;
 }
 
@@ -488,6 +582,12 @@ html[data-design="depth"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-design="depth"] .d-menu,
+  [data-design="depth"] .d-menu.is-open,
+  [data-design="depth"] .d-menu-list li {
+    transition: none;
+  }
+
   [data-design="depth"] [data-d-reveal],
   [data-design="depth"] [data-d-reveal].is-in {
     opacity: 1;
@@ -512,13 +612,37 @@ html[data-design="depth"] {
   }
 }
 
+[data-design="depth"] .d-nav-switch {
+  display: none;
+  margin-left: auto;
+}
+
+[data-design="depth"] .d-menu-switch {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  margin-top: 2rem;
+}
+
+[data-design="depth"] .d-colophon-end {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 @media (min-width: 62rem) {
   [data-design="depth"] .d-nav-links {
     display: flex;
   }
 
-  [data-design="depth"] .d-hud {
-    display: flex;
+  [data-design="depth"] .d-nav-switch {
+    display: inline-flex;
+  }
+
+  [data-design="depth"] .d-burger,
+  [data-design="depth"] .d-menu {
+    display: none;
   }
 }
 
@@ -634,6 +758,24 @@ html[data-design="depth"] {
   margin: 0.3rem 0 0;
   font-size: 1.375rem;
   font-weight: 600;
+}
+
+[data-design="depth"] .d-surface-proof dt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+[data-design="depth"] .d-surface-proof-where {
+  color: var(--ash-2);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+[data-design="depth"] .d-surface-proof div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
 }
 
 [data-design="depth"] .d-surface-cue {
@@ -875,6 +1017,124 @@ html[data-design="depth"] {
   padding: clamp(1.1rem, 1.8vw, 1.5rem);
 }
 
+/* Project cards run shorter than client ones: a strip of the capture, not a poster. */
+[data-design="depth"] .d-slab-deep .d-slab-shot img {
+  aspect-ratio: 16 / 6.5;
+  object-position: center;
+  /* Project captures are the evidence, so they stay near full light; only
+     the glare of an all-white page is taken off. */
+  opacity: 1;
+  filter: brightness(0.96);
+}
+
+[data-design="depth"] .d-slab-deep:hover .d-slab-shot img {
+  filter: none;
+}
+
+/* Wide screens: the capture beside the words, not above them, which halves
+   each card's height and lets two sit on one screen. */
+@media (min-width: 62rem) {
+  [data-design="depth"] .d-slab-deep {
+    flex-direction: row;
+  }
+
+  [data-design="depth"] .d-slab-deep .d-slab-shot {
+    flex: 0 0 36%;
+    border-bottom: 0;
+    border-right: 1px solid var(--line);
+  }
+
+  [data-design="depth"] .d-slab-deep .d-slab-shot img,
+  [data-design="depth"] .d-slab-deep .d-slab-shot-empty {
+    height: 100%;
+    aspect-ratio: auto;
+    /* The middle of a capture is where its subject is — the sign-in card,
+       the doors, the filters — not the empty top-left corner. */
+    object-position: center;
+  }
+}
+
+[data-design="depth"] .d-slab-shot-empty {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 6.5;
+  margin: 0;
+  padding: 1rem;
+  text-align: center;
+  color: var(--ash-2);
+  background:
+    repeating-linear-gradient(135deg, rgb(244 241 247 / 0.035) 0 1px, transparent 1px 12px),
+    #0c0a10;
+}
+
+[data-design="depth"] .d-slab-deep .d-slab-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+[data-design="depth"] .d-slab-kind {
+  margin: 0.35rem 0 0;
+}
+
+[data-design="depth"] .d-slab-line {
+  margin: 0.85rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+[data-design="depth"] .d-slab-deep .d-tags {
+  margin-top: 1rem;
+}
+
+[data-design="depth"] .d-slab-more {
+  margin-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-slab-more summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.85rem 0.1rem;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-data), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
+
+[data-design="depth"] .d-slab-more summary::-webkit-details-marker {
+  display: none;
+}
+
+[data-design="depth"] .d-slab-more summary::after {
+  content: "+";
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--ember);
+  transition: transform 0.3s var(--fall);
+}
+
+[data-design="depth"] .d-slab-more[open] summary::after {
+  transform: rotate(45deg);
+}
+
+[data-design="depth"] .d-slab-more summary:focus-visible {
+  outline: 2px solid var(--cool);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Links sit on the card's floor, so a row of cards shares one baseline. */
+[data-design="depth"] .d-slab-deep .d-actions {
+  margin-top: auto;
+  padding-top: 1.1rem;
+}
+
 [data-design="depth"] .d-slab-head {
   display: flex;
   align-items: baseline;
@@ -943,7 +1203,7 @@ html[data-design="depth"] {
 
 [data-design="depth"] .d-globe {
   position: relative;
-  padding-block: var(--section);
+  padding-block: var(--section) clamp(3rem, 6vw, 5rem);
 }
 
 [data-design="depth"] .d-globe-head {
@@ -980,7 +1240,7 @@ html[data-design="depth"] {
   height: 100%;
   display: block;
   cursor: grab;
-  touch-action: none;
+  touch-action: pan-y;
   border-radius: 18px;
 }
 
@@ -996,8 +1256,8 @@ html[data-design="depth"] {
   padding: 1.1rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgb(9 8 12 / 0.82);
-  backdrop-filter: blur(8px);
+  background: rgb(7 6 8 / 0.88);
+  backdrop-filter: blur(10px);
   pointer-events: none;
 }
 
@@ -1010,10 +1270,34 @@ html[data-design="depth"] {
   font-size: 0.9375rem;
 }
 
+/* The shaft keeps falling behind this section, and its rings converge right
+   where the middle of this list sits — which left the text there competing
+   with a bright tunnel while the edges read fine. The controls get their own
+   ground to stand on. */
 [data-design="depth"] .d-globe-controls {
+  position: relative;
   margin-top: 2.5rem;
   display: grid;
-  gap: 2rem;
+  gap: 1.75rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgb(7 6 8 / 0.82);
+  backdrop-filter: blur(10px);
+}
+
+[data-design="depth"] .d-globe-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+
+[data-design="depth"] .d-globe-hint {
+  margin: 0;
+  color: #ffffff;
+  font-size: 0.9375rem;
 }
 
 [data-design="depth"] .d-globe-zoom {
@@ -1022,38 +1306,85 @@ html[data-design="depth"] {
 }
 
 [data-design="depth"] .d-globe-zoom .d-chip {
-  min-width: 2.25rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   justify-content: center;
+  border-radius: 10px;
+}
+
+/* A label on the left, the options in an even grid on the right: every
+   chip the same width, so the eye reads rows rather than a ragged cloud. */
+[data-design="depth"] .d-globe-group {
+  display: grid;
+  gap: 0.6rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
 }
 
 [data-design="depth"] .d-globe-filters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
+}
+
+[data-design="depth"] .d-globe-filters .d-chip {
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  text-align: left;
+  line-height: 1.25;
 }
 
 [data-design="depth"] .d-swatch {
   width: 8px;
   height: 8px;
+  flex: none;
   border-radius: 50%;
+}
+
+[data-design="depth"] .d-globe-more {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-globe-more summary {
+  cursor: pointer;
+  color: var(--bone);
 }
 
 [data-design="depth"] .d-globe-controls-list {
   display: grid;
   gap: 0.4rem 2rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  color: var(--bone);
-  font-size: 0.875rem;
+  margin: 1rem 0 0;
+  padding: 0 0 0 1.4rem;
+  color: #ffffff;
+  font-size: 0.9375rem;
 }
 
 [data-design="depth"] .d-globe-controls-list > li {
-  display: flex;
-  gap: 0.75rem;
-  align-items: baseline;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-globe-controls-list > li::marker {
+  color: var(--ash-2);
+  font-family: var(--font-data), monospace;
+  font-size: 0.8em;
+}
+
+@media (min-width: 720px) {
+  [data-design="depth"] .d-globe-group {
+    grid-template-columns: 7rem minmax(0, 1fr);
+    align-items: center;
+  }
+
+  [data-design="depth"] .d-globe-filters {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  [data-design="depth"] .d-globe-filters-view {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 [data-design="depth"] .d-globe-list {
@@ -1445,8 +1776,26 @@ html[data-design="depth"] {
     padding: 0.28rem 0.6rem;
   }
 
+  /* On a phone the readout sits under the globe rather than over it, so the
+     stage grows to hold both; a fixed height let the card overflow and hide
+     under the controls panel. */
   [data-design="depth"] .d-globe-stage {
+    height: auto;
+  }
+
+  [data-design="depth"] .d-globe-canvas {
     height: min(64svh, 34rem);
+    border-radius: 0;
+  }
+
+  /* Edge to edge on a phone: the gutter every other section uses left an
+     empty strip down each side of the globe. The readout keeps its margin. */
+  [data-design="depth"] .d-globe-stage {
+    padding-inline: 0;
+  }
+
+  [data-design="depth"] .d-globe-readout {
+    margin-inline: var(--gutter);
   }
 
   [data-design="depth"] .d-globe-readout {

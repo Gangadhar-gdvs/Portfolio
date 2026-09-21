@@ -19,10 +19,10 @@ export function Work() {
     <section id="work" className="d-section d-wrap" aria-labelledby="work-title">
       <SectionHead
         id="work"
-        depth={600}
+        label="Work"
         title="Selected work"
         note={`${deep.length + (showFeatured ? 1 : 0)} in depth · ${listed.length} more · ${clientSites.length} client sites`}
-        lead="Problem, what I built, and what came out of it. Live links and public code where they exist; private repositories say so."
+        lead="What each one is, what it runs on, and where to see it. Open any card for the problem, the approach and the result."
       />
 
       {showFeatured && (
@@ -158,11 +158,13 @@ function Slab({ project, index }: { project: Project; index: number }) {
       style={{ ["--delay" as string]: `${index * 0.05}s` }}
       aria-labelledby={`work-${project.slug}`}
     >
-      {project.preview && (
-        <div className="d-slab-shot">
+      <div className="d-slab-shot">
+        {project.preview ? (
           <Image src={project.preview.src} alt={project.preview.alt} width={1440} height={900} sizes="(min-width: 62rem) 44vw, 92vw" />
-        </div>
-      )}
+        ) : (
+          <p className="d-slab-shot-empty d-data">{project.codeNote ?? "No public screenshots"}</p>
+        )}
+      </div>
       <div className="d-slab-body">
         <div className="d-slab-head">
           <h4 id={`work-${project.slug}`} className="d-h3">
@@ -170,20 +172,8 @@ function Slab({ project, index }: { project: Project; index: number }) {
           </h4>
           {project.year && <span className="d-data">{project.year}</span>}
         </div>
-        <p className="d-data">{project.kind}</p>
-
-        <dl className="d-story d-story-tight">
-          {[
-            ["Problem", project.story.problem],
-            ["Approach", project.story.approach],
-            ["Result", project.story.result],
-          ].map(([label, body]) => (
-            <div key={label}>
-              <dt className="d-data">{label}</dt>
-              <dd className="d-body">{body}</dd>
-            </div>
-          ))}
-        </dl>
+        <p className="d-data d-slab-kind">{project.kind}</p>
+        <p className="d-body d-slab-line">{project.summary}</p>
 
         <ul className="d-tags" aria-label={`${project.name} stack`}>
           {project.stack.map((tool) => (
@@ -191,13 +181,30 @@ function Slab({ project, index }: { project: Project; index: number }) {
           ))}
         </ul>
 
+        {/* The whole story is one tap away rather than printed on every card. */}
+        <details className="d-slab-more">
+          <summary>How it was built</summary>
+          <dl className="d-story d-story-tight">
+            {[
+              ["Problem", project.story.problem],
+              ["Approach", project.story.approach],
+              ["Result", project.story.result],
+            ].map(([label, body]) => (
+              <div key={label}>
+                <dt className="d-data">{label}</dt>
+                <dd className="d-body">{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </details>
+
         <div className="d-actions">
           {project.links.map((link) => (
             <a key={link.href} href={link.href} target="_blank" rel="noreferrer noopener" className="d-client-link">
               {link.label} ↗
             </a>
           ))}
-          {project.codeNote && <span className="d-data">{project.codeNote}</span>}
+          {project.codeNote && project.preview && <span className="d-data">{project.codeNote}</span>}
         </div>
       </div>
     </article>

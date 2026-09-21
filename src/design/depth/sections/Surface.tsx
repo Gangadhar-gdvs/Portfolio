@@ -1,8 +1,18 @@
+import { roles } from "@/content/experience";
 import { profile } from "@/content/profile";
-import { clientSites, projects, showFeatured } from "@/content/projects";
-import { depthMeasured } from "../measured";
+import { clientSites } from "@/content/projects";
 
-const deep = projects.filter((project) => project.story).length + (showFeatured ? 1 : 0);
+/**
+ * What the production work came to, as the roles themselves record it:
+ * "6 real-time modules" reads as the figure "6" over "Real-time modules".
+ */
+const outcomes = roles
+  .filter((role) => role.highlight)
+  .map((role) => {
+    const [value, ...rest] = role.highlight!.split(" ");
+    const label = rest.join(" ");
+    return { value, label: label.charAt(0).toUpperCase() + label.slice(1), company: role.company };
+  });
 
 /**
  * The surface, where the fall starts.
@@ -13,14 +23,12 @@ const deep = projects.filter((project) => project.story).length + (showFeatured 
  * delays the words is a title sequence that delays the page.
  */
 export function Surface() {
-  const lighthouse = depthMeasured.lighthouse[0].scores[0];
-  const firstLoad = depthMeasured.budget.find((item) => item.label === "First-load JavaScript")?.value;
-
   return (
     <section id="top" className="d-surface" aria-labelledby="surface-name">
       <div className="d-wrap d-surface-inner">
         <p className="d-data d-surface-meta">
-          <span>0 m · surface</span>
+          <span>{profile.availability}</span>
+          <span>{profile.locationShort}</span>
         </p>
 
         <h1 id="surface-name" className="d-display d-surface-name">
@@ -49,20 +57,20 @@ export function Surface() {
         </div>
 
         <dl className="d-surface-proof">
+          {outcomes.map((outcome) => (
+            <div key={outcome.company}>
+              <dt className="d-data">
+                {outcome.label}
+                <span className="d-surface-proof-where">{outcome.company}</span>
+              </dt>
+              <dd className="d-num">{outcome.value}</dd>
+            </div>
+          ))}
           <div>
-            <dt className="d-data">Lighthouse</dt>
-            <dd className="d-num">{lighthouse}/100</dd>
-          </div>
-          <div>
-            <dt className="d-data">First load</dt>
-            <dd className="d-num">{firstLoad}</dd>
-          </div>
-          <div>
-            <dt className="d-data">Projects in depth</dt>
-            <dd className="d-num">{deep}</dd>
-          </div>
-          <div>
-            <dt className="d-data">Client sites</dt>
+            <dt className="d-data">
+              Client sites
+              <span className="d-surface-proof-where">Live on the web</span>
+            </dt>
             <dd className="d-num">{clientSites.length}</dd>
           </div>
         </dl>

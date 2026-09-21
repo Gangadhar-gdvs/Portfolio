@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 import { profile } from "@/content/profile";
-import { DepthHud, DepthNav, LiteSwitch, Reveal } from "./chrome";
+import { DepthNav, LiteSwitch, Reveal } from "./chrome";
+import { DesignSwitch } from "../DesignSwitch";
 import { DescentMount } from "./gl/DescentMount";
 import { depthStyles } from "./styles";
 
 /**
- * The page's surround: the shaft behind everything, the instruments at the
- * edge, and the opening bars that retract on the first frame.
+ * The page's surround: the shaft behind everything, the navigation, and the
+ * opening bars that retract on the first frame.
  */
 export function DepthShell({ children }: { children: ReactNode }) {
   return (
@@ -21,7 +22,6 @@ export function DepthShell({ children }: { children: ReactNode }) {
       </div>
       <DescentMount />
       <DepthNav name={profile.name} />
-      <DepthHud />
       {children}
       <footer className="d-colophon">
         <div className="d-wrap d-colophon-row">
@@ -32,7 +32,10 @@ export function DepthShell({ children }: { children: ReactNode }) {
             </p>
             <p className="d-data">Built with Next.js and three.js · the globe is generated from the skills file</p>
           </div>
-          <LiteSwitch />
+          <div className="d-colophon-end">
+            <DesignSwitch current="depth" />
+            <LiteSwitch />
+          </div>
         </div>
       </footer>
       <Reveal />

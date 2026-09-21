@@ -42,6 +42,11 @@ const securityHeaders = [
 const design = process.env.NEXT_PUBLIC_DESIGN?.trim().toLowerCase() === "depth" ? "depth" : "stack";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Each design is its own root layout, so unmatched addresses need a 404
+    // that isn't rendered inside any one of them.
+    globalNotFound: true,
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },

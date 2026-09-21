@@ -14,7 +14,8 @@
     "build:depth": "NEXT_PUBLIC_DESIGN=depth next build",
     "start:depth": "NEXT_PUBLIC_DESIGN=depth next start -p 5001 -H localhost",
     "globe:map": "node scripts/globe/borders.mjs",
-    "globe:lights": "node scripts/globe/lights.mjs"
+    "globe:lights": "node scripts/globe/lights.mjs",
+    "globe:icons": "node scripts/globe/icons.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

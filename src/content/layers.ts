@@ -1,3 +1,7 @@
+// Lines marked `AETHRA:` are hidden while Aethra is still being built. To bring
+// it back, uncomment them, delete the line each one replaced, and set
+// `showFeatured` in projects.ts to true. `grep -rn AETHRA: src` lists them all.
+
 export type LayerId = "interface" | "devices" | "services" | "data" | "intelligence";
 
 export interface Evidence {
@@ -41,7 +45,7 @@ export const layers: Layer[] = [
     summary: "Cross-platform mobile apps in Flutter, and desktop apps in Tauri with native Rust underneath.",
     evidence: [
       { source: "SuperCabs", detail: "Flutter and Firebase rental app with OTP sign-up and push notifications" },
-      { source: "Aethra", detail: "One Rust interface for screen, mouse, keyboard, shell and UI trees, per operating system" },
+      // AETHRA: { source: "Aethra", detail: "One Rust interface for screen, mouse, keyboard, shell and UI trees, per operating system" },
       { source: "Vectorsoft", detail: "Tauri desktop integrations, Flutter apps and the Zoom Video SDK" },
     ],
     tools: ["Flutter", "Dart", "Tauri", "Rust", "Capacitor", "Electron"],
@@ -50,21 +54,24 @@ export const layers: Layer[] = [
     id: "services",
     name: "Backend & Real-time Systems",
     short: "Services",
-    summary: "APIs, WebSockets, authentication and push notifications that keep products running.",
+    // AETHRA: summary: "APIs, WebSockets, authentication and push notifications that keep products running.",
+    summary: "APIs, authentication and push notifications that keep products running.",
     evidence: [
       { source: "Zyrone Energy", detail: "6 real-time modules that replaced manual workflows, on NestJS and Firebase Cloud Messaging" },
       { source: "TaskFlow", detail: "JWT auth with role-based access and a live analytics dashboard" },
-      { source: "Aethra", detail: "WebSocket task loop on Bun and Elysia, with Swagger-documented routes" },
+      // AETHRA: { source: "Aethra", detail: "WebSocket task loop on Bun and Elysia, with Swagger-documented routes" },
     ],
-    tools: ["Node.js", "NestJS", "Express", "Bun", "Elysia", "WebSockets", "Firebase"],
+    // AETHRA: tools: ["Node.js", "NestJS", "Express", "Bun", "Elysia", "WebSockets", "Firebase"],
+    tools: ["Node.js", "NestJS", "Express", "Bun", "Elysia", "Firebase"],
   },
   {
     id: "data",
     name: "Data & Storage",
     short: "Data",
-    summary: "Schemas, queries and pipelines, from MongoDB and PostgreSQL to vectors in on-device SQLite.",
+    // AETHRA: summary: "Schemas, queries and pipelines, from MongoDB and PostgreSQL to vectors in on-device SQLite.",
+    summary: "Schemas, queries and pipelines, from MongoDB and PostgreSQL to SQLite on the machine itself.",
     evidence: [
-      { source: "Aethra", detail: "Long-term memory stored as vectors in local SQLite and searched by cosine similarity" },
+      // AETHRA: { source: "Aethra", detail: "Long-term memory stored as vectors in local SQLite and searched by cosine similarity" },
       { source: "event_analysis", detail: "Event generator into PostgreSQL, SQL analysis and charts, all in Docker Compose" },
       { source: "G-Mart and TaskFlow", detail: "MongoDB models for products, orders, projects and tasks" },
     ],
@@ -72,14 +79,18 @@ export const layers: Layer[] = [
   },
   {
     id: "intelligence",
-    name: "AI Agents & LLM Systems",
+    // AETHRA: name: "AI Agents & LLM Systems",
+    name: "AI & Machine Learning",
     short: "Intelligence",
-    summary: "Agents that plan, remember and use tools, behind a permission system that decides what they may do.",
+    // AETHRA: summary: "Agents that plan, remember and use tools, behind a permission system that decides what they may do.",
+    summary: "Models that turn data into a decision: a symptom classifier prepared, trained, evaluated and served end to end.",
     evidence: [
-      { source: "Aethra", detail: "44 tools behind one fail-closed permission gate" },
-      { source: "Aethra", detail: "Local models through Ollama, Gemini as fallback, background subagents for long tasks" },
+      // AETHRA: { source: "Aethra", detail: "44 tools behind one fail-closed permission gate" },
+      // AETHRA: { source: "Aethra", detail: "Local models through Ollama, Gemini as fallback, background subagents for long tasks" },
       { source: "Medical recommendation", detail: "Support-vector classifier that maps symptoms to conditions, served with Flask" },
+      { source: "Medical recommendation", detail: "Symptom dataset prepared in pandas; the model built and evaluated in a Jupyter notebook" },
     ],
-    tools: ["Gemini", "Ollama", "OpenAI", "RAG", "Embeddings", "Python", "scikit-learn"],
+    // AETHRA: tools: ["Gemini", "Ollama", "OpenAI", "RAG", "Embeddings", "Python", "scikit-learn"],
+    tools: ["Python", "scikit-learn", "pandas", "Flask", "Jupyter"],
   },
 ];

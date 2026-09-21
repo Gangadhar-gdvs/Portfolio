@@ -1,3 +1,7 @@
+// Lines marked `AETHRA:` are hidden while Aethra is still being built. To bring
+// it back, uncomment them, delete the line each one replaced, and set
+// `showFeatured` in projects.ts to true. `grep -rn AETHRA: src` lists them all.
+
 /**
  * Who Gangadhara is, in one place. Every page reads its copy from `src/content`,
  * so updating the site never means hunting through components.
@@ -32,16 +36,21 @@ export const profile = {
   },
   about: {
     intro:
-      "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and AI agents that can act.",
+      // AETHRA: "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and AI agents that can act.",
+      "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and machine-learning models that make a call from data.",
     body: [
       "At Vectorsoft I build responsive web platforms, desktop integrations and mobile apps. Before that I engineered real-time operations modules at Zyrone Energy and shipped high-performance web apps with Tech Kshatriyas.",
-      "In my own time I'm building Aethra, an AI agent that sees the screen and uses the computer for you, with a permission gate in front of every action.",
+      // AETHRA: "In my own time I'm building Aethra, an AI agent that sees the screen and uses the computer for you, with a permission gate in front of every action.",
     ],
     /** How I work, each with the artefact that shows it. */
     principles: [
+      // AETHRA: {
+        // AETHRA: title: "Fail closed",
+        // AETHRA: body: "Aethra denies any tool that isn't in its registry. A model can invent a name, and the only safe answer to something unknown is no.",
+      // AETHRA: },
       {
-        title: "Fail closed",
-        body: "Aethra denies any tool that isn't in its registry. A model can invent a name, and the only safe answer to something unknown is no.",
+        title: "Hand over something they own",
+        body: "Medcare installs on the clinic's own machine, with its records on that machine, delivered as a licensed build rather than an account on someone else's service.",
       },
       {
         title: "Measure before optimising",
@@ -56,7 +65,7 @@ export const profile = {
       { value: 3, suffix: "", label: "Product teams shipped with" },
       { value: 6, suffix: "", label: "Real-time modules at Zyrone Energy" },
       { value: 99, suffix: "/100", label: "PageSpeed at Tech Kshatriyas" },
-      { value: 44, suffix: "", label: "Tools in the Aethra agent" },
+      // AETHRA: { value: 44, suffix: "", label: "Tools in the Aethra agent" },
     ],
   },
   education: {

@@ -12,20 +12,29 @@ import { TiltPanel } from "@/components/ui/TiltPanel";
 import { ArchitectureDiagram } from "@/components/work/ArchitectureDiagram";
 import { caseStudy } from "@/content/aethra";
 import { profile } from "@/content/profile";
-import { featured } from "@/content/projects";
+import { featured, showFeatured } from "@/content/projects";
+import { notFound } from "next/navigation";
 import { vars } from "@/lib/style";
 
 const description = caseStudy.tagline;
 
-export const metadata: Metadata = {
-  title: "Aethra case study",
-  description,
-  alternates: { canonical: "/work/aethra" },
-  openGraph: { type: "article", url: "/work/aethra", title: "Aethra case study", description },
-  twitter: { card: "summary_large_image", title: "Aethra case study", description },
-};
+// AETHRA: while the project is hidden this route is a 404, and a 404's <head>
+// must not describe it either — so the real metadata only applies when shown.
+export const metadata: Metadata = showFeatured
+  ? {
+      title: "Aethra case study",
+      description,
+      alternates: { canonical: "/work/aethra" },
+      openGraph: { type: "article", url: "/work/aethra", title: "Aethra case study", description },
+      twitter: { card: "summary_large_image", title: "Aethra case study", description },
+    }
+  : { title: "Page not found", robots: { index: false, follow: false } };
 
 export default function AethraCaseStudy() {
+  // AETHRA: hidden while the project is in progress; the page is intact and
+  // returns when `showFeatured` in projects.ts is set back to true.
+  if (!showFeatured) notFound();
+
   return (
     <PageTransition>
       <main id="main" tabIndex={-1} className="relative min-h-screen overflow-x-clip bg-night outline-none">

@@ -205,9 +205,11 @@ PITCH_OPEN = THICK + 0.64
 LAYERS = [
     ("interface", "Interface", "Frontend Engineering", "React · Next.js · TypeScript · Three.js"),
     ("devices", "Devices", "Mobile & Desktop Apps", "Flutter · Tauri · Rust · Capacitor"),
-    ("services", "Services", "Backend & Real-time Systems", "Node.js · NestJS · Bun · WebSockets"),
+    # AETHRA: ("services", "Services", "Backend & Real-time Systems", "Node.js · NestJS · Bun · WebSockets"),
+    ("services", "Services", "Backend & Real-time Systems", "Node.js · NestJS · Express · Firebase"),
     ("data", "Data", "Data & Storage", "PostgreSQL · MongoDB · SQLite · Redis"),
-    ("intelligence", "Intelligence", "AI Agents & LLM Systems", "Gemini · Ollama · RAG · Python"),
+    # AETHRA: ("intelligence", "Intelligence", "AI Agents & LLM Systems", "Gemini · Ollama · RAG · Python"),
+    ("intelligence", "Intelligence", "AI & Machine Learning", "Python · scikit-learn · pandas · Flask"),
 ]
 
 
@@ -660,7 +662,7 @@ def stack_layers() -> str:
     return svg(
         W, H,
         "The stack, surface to core: 01 Interface, frontend engineering. 02 Devices, mobile and desktop apps. "
-        "03 Services, backend and real-time systems. 04 Data and storage. 05 Intelligence, AI agents and LLM systems. "
+        "03 Services, backend and real-time systems. 04 Data and storage. 05 Intelligence, AI and machine learning. "
         "Each glass layer slides out in turn with its etching lit.",
         body, card_defs + stack_defs(uid),
     )

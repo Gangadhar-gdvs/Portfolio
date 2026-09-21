@@ -78,7 +78,8 @@ function PersonJsonLd() {
     alumniOf: { "@type": "CollegeOrUniversity", name: profile.education.school },
     worksFor: { "@type": "Organization", name: "Vectorsoft LLC" },
     sameAs: [profile.links.github, profile.links.linkedin],
-    knowsAbout: ["Full-stack development", "React", "Next.js", "Flutter", "Tauri", "Node.js", "AI agents"],
+    // AETHRA: knowsAbout: ["Full-stack development", "React", "Next.js", "Flutter", "Tauri", "Node.js", "AI agents"],
+    knowsAbout: ["Full-stack development", "React", "Next.js", "Flutter", "Tauri", "Node.js"],
   };
   return (
     <script

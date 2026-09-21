@@ -46,7 +46,8 @@ The rule for everything here is that an effect has to earn its place as proof. T
 |:-:|---|---|
 | 01 | **Intro** | A line of light, a count to 100, then the screen opens top and bottom like a cinema curtain. First visit only, and never in Lite mode. |
 | 02 | **Hero** | The plates land one by one, foundation first. The cursor lights the glass, dragging turns it, and four numbers sit underneath. |
-| 03 | **Selected work** | Aethra with its architecture and permission gate, then the lead projects as problem → approach → result, then everything else with a system sketch. |
+<!-- AETHRA: | 03 | **Selected work** | Aethra with its architecture and permission gate, then the lead projects as problem → approach → result, then everything else with a system sketch. | -->
+| 03 | **Selected work** | The lead projects as problem → approach → result, then everything else with a system sketch, then client sites. |
 | 04 | **Capabilities** | The stack opens. Each discipline pulls its plate out beside the work that proves it. |
 | 05 | **The dive** | Scrolling falls the camera through the open stack to the core, letterboxed, while the line resolves from *simple on the surface* to *engineered deeply underneath*. |
 | 06 | **Skills** | Every skill with the work behind it, filterable, re-laid out with a FLIP. No percentage bars. |
@@ -65,7 +66,8 @@ Each plate is etched with a drawing of its layer. The drawings are generated in 
 | | Layer | Etched on the plate | The proof on the page |
 |:-:|---|---|---|
 | 01 | **Frontend Engineering** | A web app mid-interaction, with a live chart | 99/100 PageSpeed · 99% SEO · a client web app in Ireland |
-| 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · the Rust device layer in Aethra · Tauri |
+<!-- AETHRA: | 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · the Rust device layer in Aethra · Tauri | -->
+| 02 | **Mobile & Desktop Apps** | A laptop, a phone, a terminal and a video call | Flutter and Firebase apps · Tauri · Medcare in Electron |
 | 03 | **Backend & Real-time Systems** | A hub with services routed like circuit traces | 6 real-time modules at Zyrone Energy · JWT with roles · WebSockets |
 | 04 | **Data & Storage** | A table, two databases and a vector search | Vector memory in SQLite · PostgreSQL pipelines · MongoDB models |
 | 05 | **AI Agents & LLM Systems** | A glowing core with a dial and firing nodes | 44 tools behind one fail-closed permission gate |
@@ -84,11 +86,11 @@ Each plate is etched with a drawing of its layer. The drawings are generated in 
     <td align="center"><sub><b>LOAD TEST</b> · percentiles from your own GPU</sub></td>
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/work.jpg" alt="Selected work: the Aethra panel with problem, approach and result, its facts and a live architecture diagram."></td>
+    <!-- AETHRA: <td width="50%"><img src="docs/readme/screens/work.jpg" alt="Selected work: the Aethra panel with problem, approach and result, its facts and a live architecture diagram."></td> -->
     <td width="50%"><img src="docs/readme/screens/deep.jpg" alt="TaskFlow and the wedding invitation side by side, each with a capture of the live product and its problem, approach and result."></td>
   </tr>
   <tr>
-    <td align="center"><sub><b>AETHRA</b> · the architecture is the cover</sub></td>
+    <!-- AETHRA: <td align="center"><sub><b>AETHRA</b> · the architecture is the cover</sub></td> -->
     <td align="center"><sub><b>PROJECTS</b> · problem → approach → result</sub></td>
   </tr>
   <tr>
@@ -118,10 +120,10 @@ Each plate is etched with a drawing of its layer. The drawings are generated in 
 <table>
   <tr>
     <td width="50%"><img src="docs/readme/screens/decisions.jpg" alt="Decision records: each decision with the alternative it turned down and the measured result."></td>
-    <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td>
+    <!-- AETHRA: <td width="50%"><img src="docs/readme/screens/case.jpg" alt="The Aethra case study header with role, status, platforms and four facts."></td> -->
   </tr>
   <tr>
-    <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td>
+    <!-- AETHRA: <td width="50%"><img src="docs/readme/screens/gate.jpg" alt="The permission-gate simulator: sending an email is high risk, so the gate answers ASK."></td> -->
     <td width="50%"><img src="docs/readme/screens/about.jpg" alt="About: the portrait beside the introduction, three principles and the education."></td>
   </tr>
   <tr>
@@ -218,7 +220,7 @@ Links to the case study use React's `<ViewTransition>` with Next.js `transitionT
 |---|:-:|:-:|:-:|:-:|
 | **Home, desktop** | 98 | 100 | 100 | 100 |
 | **Home, mobile** (simulated slow 4G, 4× CPU slowdown) | 92 | 100 | 100 | 100 |
-| **Aethra case study, mobile** | 96 | 100 | 100 | 100 |
+<!-- AETHRA: | **Aethra case study, mobile** | 96 | 100 | 100 | 100 | -->
 
 <sub>Measured on 21 September 2026 from a cold cache, median of three runs. First contentful paint is 0.4 s on desktop and 1.5 s on the phone profile; largest contentful paint is 0.7 s and 2.9 s, where it waits on the webfont. Layout shift is 0. Every route is prerendered as static HTML, first-load JavaScript is 199 KB gzipped, and there are 7 runtime dependencies.</sub>
 
@@ -254,8 +256,11 @@ NEXT_PUBLIC_DESIGN=depth npm run build  # build it
 ```
 
 **The globe** is the piece to look at. It is generated from `skills.ts` rather
-than drawn: each skill is placed on a Fibonacci sphere, coloured by discipline,
-and carries the work that proves it. Ten ways in, all listed on the page next
+than drawn: each skill is placed on a Fibonacci sphere as an **extruded 3D
+icon** — 39 brand marks from simple-icons (CC0) and 9 glyphs drawn in
+`scripts/globe/icons.mjs` for skills with no logo to borrow, all turned into
+geometry with `ExtrudeGeometry` so they carry a bevel and catch the light.
+Each is coloured by discipline and carries the work that proves it. Ten ways in, all listed on the page next
 to it — drag to turn, throw it and it keeps going, scroll or pinch to zoom,
 hover to read the proof, click to lock one and turn the globe to it, locking
 draws arcs to the rest of its discipline, filter by discipline, filter by
@@ -296,11 +301,11 @@ All copy lives in `src/content`, so updating the site never means touching compo
 |---|---|
 | `profile.ts` | Name, statement, availability, email, links, résumé, portrait, about, education |
 | `layers.ts` | The five disciplines, with evidence and tools for each |
-| `projects.ts` | The Aethra summary, the projects (with their captures) and client sites |
+| `projects.ts` | The projects (with their captures) and client sites; the Aethra entry is kept but hidden by `showFeatured` |
 | `experience.ts` | Roles, most recent first |
 | `skills.ts` | Every skill with the work that proves it, and this site's own stack |
 | `engineering.ts` | The measured numbers, the optimisations, the incident and the decisions |
-| `aethra.ts` | The Aethra case study, its architecture graph and the permission-gate sample |
+| `aethra.ts` | The Aethra case study data — hidden while it is in progress (`grep -rn AETHRA: src` lists every hidden line) |
 
 `src/content/content.test.ts` fails on placeholder text, non-https links, duplicate slugs, a capture that doesn't exist or a broken architecture graph. Run `npm test` after editing.
 

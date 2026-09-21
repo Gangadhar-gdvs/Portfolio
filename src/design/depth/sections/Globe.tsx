@@ -29,10 +29,10 @@ const SKILLS: GlobeSkill[] = skillGroups.flatMap((group) =>
 
 /** What a reader can do with it, said out loud rather than left to be found. */
 const CONTROLS = [
-  "Drag to turn it — the page keeps scrolling past it",
+  "Drag to turn it — on a phone swipe sideways; up and down still scrolls the page",
   "Throw it and it keeps going",
   "Pinch, the + and − buttons, or ⌘-scroll to zoom",
-  "Hover to read where a skill was used",
+  "Hover an icon to read where that skill was used",
   "Click to lock one and turn the globe to it",
   "Locking draws the arcs to the rest of its discipline",
   "Filter by discipline",
@@ -224,15 +224,15 @@ export function Globe() {
     <section id="globe" className="d-globe" aria-labelledby="globe-title">
       <div className="d-wrap d-globe-head">
         <span className="d-data" data-d-reveal>
-          2,100 m · world
+          Skills
         </span>
         <h2 id="globe-title" className="d-h2" data-d-reveal>
           Everything I work with, as one place
         </h2>
         <p className="d-body" data-d-reveal>
-          {SKILLS.length} skills, each sitting where it belongs and carrying the work that proves it. Turn it, zoom
-          it, lock one and it shows you the rest of its discipline. No percentage bars: a bar filled to 80% is a
-          number with no scale under it.
+          {SKILLS.length} skills, each one an icon standing on the surface, carrying the work that proves it. Turn it,
+          zoom it, lock one and it shows you the rest of its discipline. No percentage bars: a bar filled to 80% is
+          a number with no scale under it.
         </p>
         <p className="d-data" data-d-reveal>
           Coastlines and borders: Natural Earth 1:50m, public domain · City lights: GeoNames populated places, CC BY 4.0
@@ -275,7 +275,7 @@ export function Globe() {
               <>
                 <span className="d-data">Idle</span>
                 <p className="d-h3">Take hold of it</p>
-                <p className="d-body">Drag to turn, scroll to zoom, hover a name to see where it was used.</p>
+                <p className="d-body">Drag to turn, pinch or use the buttons to zoom, tap or hover an icon to see where that skill was used.</p>
               </>
             )}
           </div>
@@ -284,61 +284,74 @@ export function Globe() {
 
       {webgl && (
         <div className="d-wrap d-globe-controls">
-          <div className="d-globe-zoom" role="group" aria-label="Zoom the globe">
-            <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(-0.45)} aria-label="Zoom in">
-              +
-            </button>
-            <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(0.45)} aria-label="Zoom out">
-              −
-            </button>
-            <button type="button" className="d-chip" onClick={() => globeRef.current?.reset()}>
-              Reset
-            </button>
+          <div className="d-globe-bar">
+            <p className="d-globe-hint">Drag to turn · pinch or +/− to zoom · tap an icon to see where it was used</p>
+            <div className="d-globe-zoom" role="group" aria-label="Zoom the globe">
+              <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(-0.45)} aria-label="Zoom in">
+                +
+              </button>
+              <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(0.45)} aria-label="Zoom out">
+                −
+              </button>
+              <button type="button" className="d-chip" onClick={() => globeRef.current?.reset()}>
+                Reset
+              </button>
+            </div>
           </div>
 
-          <div className="d-globe-filters" role="group" aria-label="Filter by discipline">
-            <button
-              type="button"
-              className="d-chip"
-              aria-pressed={group === null && level === null}
-              onClick={() => {
-                setGroup(null);
-                setLevel(null);
-                globeRef.current?.reset();
-              }}
-            >
-              All {SKILLS.length}
-            </button>
-            {skillGroups.map((item) => (
+          <div className="d-globe-group">
+            <span className="d-data">Show</span>
+            <div className="d-globe-filters d-globe-filters-view" role="group" aria-label="Which skills to show">
               <button
-                key={item.id}
                 type="button"
                 className="d-chip"
-                aria-pressed={group === item.id}
-                onClick={() => setGroup(group === item.id ? null : item.id)}
+                aria-pressed={group === null && level === null}
+                onClick={() => {
+                  setGroup(null);
+                  setLevel(null);
+                  globeRef.current?.reset();
+                }}
               >
-                <span className="d-swatch" style={{ background: GROUP_COLOURS[item.id] }} aria-hidden="true" />
-                {item.name}
+                All {SKILLS.length}
               </button>
-            ))}
-            <button
-              type="button"
-              className="d-chip"
-              aria-pressed={level === "production"}
-              onClick={() => setLevel(level === "production" ? null : "production")}
-            >
-              Shipped for a client
-            </button>
+              <button
+                type="button"
+                className="d-chip"
+                aria-pressed={level === "production"}
+                onClick={() => setLevel(level === "production" ? null : "production")}
+              >
+                Shipped for a client
+              </button>
+            </div>
           </div>
 
-          <ol className="d-globe-controls-list">
-            {CONTROLS.map((control, index) => (
-              <li key={control}>
-                <span className="d-data">{String(index + 1).padStart(2, "0")}</span>
-                {control}
-              </li>
-            ))}
-          </ol>
+          <div className="d-globe-group">
+            <span className="d-data">Discipline</span>
+            <div className="d-globe-filters" role="group" aria-label="Filter by discipline">
+              {skillGroups.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="d-chip"
+                  aria-pressed={group === item.id}
+                  onClick={() => setGroup(group === item.id ? null : item.id)}
+                >
+                  <span className="d-swatch" style={{ background: GROUP_COLOURS[item.id] }} aria-hidden="true" />
+                  {item.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* The full list stays for keyboard readers, folded so it doesn't bury the globe. */}
+          <details className="d-globe-more">
+            <summary className="d-data">Every way to use it</summary>
+            <ol className="d-globe-controls-list">
+              {CONTROLS.map((control) => (
+                <li key={control}>{control}</li>
+              ))}
+            </ol>
+          </details>
         </div>
       )}
     </section>

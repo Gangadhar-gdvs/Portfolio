@@ -1,3 +1,7 @@
+// Lines marked `AETHRA:` are hidden while Aethra is still being built. To bring
+// it back, uncomment them, delete the line each one replaced, and set
+// `showFeatured` in projects.ts to true. `grep -rn AETHRA: src` lists them all.
+
 /**
  * Numbers about this site, and the engineering behind them. Everything here
  * was measured on the production build, and every figure says how. Anything
@@ -10,7 +14,8 @@ export const measured = {
   lighthouse: [
     { page: "Home", profile: "Desktop", scores: [98, 100, 100, 100] },
     { page: "Home", profile: "Mobile", scores: [92, 100, 100, 100] },
-    { page: "Case study", profile: "Mobile", scores: [96, 100, 100, 100] },
+    // AETHRA: the case study is the Aethra page, hidden with it.
+    // AETHRA: { page: "Case study", profile: "Mobile", scores: [96, 100, 100, 100] },
   ] as { page: string; profile: string; scores: [number, number, number, number] }[],
   categories: ["Performance", "Accessibility", "Best practices", "SEO"],
   vitals: [
@@ -93,12 +98,12 @@ export const decisions = [
     why: "Images would be either heavy or soft when the camera gets close. The drawings are code: a few milliseconds at startup, sharp at any size, and they change when the content changes.",
     result: "No image bytes on first paint",
   },
-  {
-    decision: "Fail closed in the Aethra permission kernel",
-    instead: "Allow by default with a blocklist",
-    why: "A model can invent a tool name. If the registry doesn't know a tool, there is no rule to check, and the only safe answer is no.",
-    result: "44 tools, each with a risk tier; anything unregistered is denied",
-  },
+  // AETHRA: {
+    // AETHRA: decision: "Fail closed in the Aethra permission kernel",
+    // AETHRA: instead: "Allow by default with a blocklist",
+    // AETHRA: why: "A model can invent a tool name. If the registry doesn't know a tool, there is no rule to check, and the only safe answer is no.",
+    // AETHRA: result: "44 tools, each with a risk tier; anything unregistered is denied",
+  // AETHRA: },
   {
     decision: "One mutable object between scroll and the render loop",
     instead: "React state for scene state",

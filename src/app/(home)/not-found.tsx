@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import Link from "next/link";
 import { Arrow } from "@/components/ui/Arrow";
 

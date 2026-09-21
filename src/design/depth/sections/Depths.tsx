@@ -13,7 +13,7 @@ export function Core() {
     <section id="core" className="d-section d-wrap" aria-labelledby="core-title">
       <SectionHead
         id="core"
-        depth={3000}
+        label="How it holds up"
         title="Measured, not claimed"
         note={`Taken ${depthMeasured.takenOn}`}
         lead={depthMeasured.how}
@@ -101,7 +101,7 @@ export function Core() {
 export function Strata() {
   return (
     <section id="strata" className="d-section d-wrap" aria-labelledby="strata-title">
-      <SectionHead id="strata" depth={3400} title="The path so far" note={`${roles.length} teams`} lead="Where the production work happened, and what it was." />
+      <SectionHead id="strata" label="Path" title="The path so far" note={`${roles.length} teams`} lead="Where the production work happened, and what it was." />
 
       <ol className="d-strata">
         {roles.map((role, index) => (
@@ -173,7 +173,7 @@ export function Surfacing() {
   return (
     <>
       <section id="about" className="d-section d-wrap" aria-labelledby="about-title">
-        <SectionHead id="about" depth={3700} title="How I work" note={profile.locationShort} lead={profile.about.intro} />
+        <SectionHead id="about" label="About" title="How I work" note={profile.locationShort} lead={profile.about.intro} />
 
         <div className="d-about">
           <div className="d-about-text">
@@ -197,7 +197,7 @@ export function Surfacing() {
 
       <section id="contact" className="d-section d-wrap d-contact" aria-labelledby="contact-title">
         <p className="d-data" data-d-reveal>
-          4,000 m · floor
+          Contact
         </p>
         <h2 id="contact-title" className="d-display d-contact-title" data-d-reveal>
           Come up with me

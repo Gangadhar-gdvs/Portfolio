@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { setLite, useLite } from "@/lib/lite";
+import { DesignSwitch } from "../DesignSwitch";
 
 const SECTIONS = [
   { id: "work", label: "Work" },
@@ -9,13 +10,33 @@ const SECTIONS = [
   { id: "core", label: "Core" },
   { id: "strata", label: "Path" },
   { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
 ];
 
-/** How deep the whole page goes. A readout has to be in some unit; this is ours. */
-export const FLOOR_METRES = 4000;
+/**
+ * Scroll to where a section's content begins, just under the fixed bar.
+ *
+ * A plain `#id` jump puts the section's top edge at the top of the window,
+ * and every section here opens with a deep band of padding — so the reader
+ * landed on empty space with the heading halfway down, partly under the bar.
+ * This measures the padding and the bar and lands on the words.
+ */
+function goTo(id: string) {
+  const section = document.getElementById(id);
+  if (!section) return;
+  const bar = document.querySelector<HTMLElement>(".d-nav")?.offsetHeight ?? 0;
+  const padding = id === "top" ? 0 : parseFloat(getComputedStyle(section).paddingTop) || 0;
+  const top = section.getBoundingClientRect().top + window.scrollY + padding - bar - 20;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: Math.max(0, top), behavior: still ? "auto" : "smooth" });
+  history.replaceState(null, "", id === "top" ? location.pathname : `#${id}`);
+}
 
 export function DepthNav({ name }: { name: string }) {
   const [deep, setDeep] = useState(false);
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const onScroll = () => setDeep(window.scrollY > 40);
@@ -24,20 +45,93 @@ export function DepthNav({ name }: { name: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // While the menu is open: the page behind it holds still, Escape closes it,
+  // and focus moves into it — then back to the button when it closes.
+  useEffect(() => {
+    if (!open) return;
+    const button = buttonRef.current;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = "hidden";
+    firstLinkRef.current?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      root.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+      button?.focus();
+    };
+  }, [open]);
+
+  // Land on a section after the menu has closed and the page can scroll again.
+  const follow = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    event.preventDefault();
+    if (open) {
+      setOpen(false);
+      requestAnimationFrame(() => requestAnimationFrame(() => goTo(id)));
+    } else {
+      goTo(id);
+    }
+  };
+
   return (
-    <header className={`d-nav${deep ? " is-deep" : ""}`}>
-      <a href="#top" className="d-brand">
-        <span className="d-brand-mark" aria-hidden="true" />
-        <span>{name}</span>
-      </a>
-      <ul className="d-nav-links">
-        {SECTIONS.map((section) => (
-          <li key={section.id}>
-            <a href={`#${section.id}`}>{section.label}</a>
-          </li>
-        ))}
-      </ul>
-    </header>
+    <>
+      <header className={`d-nav${deep ? " is-deep" : ""}${open ? " is-open" : ""}`}>
+        <a href="#top" className="d-brand" onClick={(event) => follow(event, "top")}>
+          <span className="d-brand-mark" aria-hidden="true" />
+          <span>{name}</span>
+        </a>
+        <ul className="d-nav-links">
+          {SECTIONS.filter((section) => section.id !== "contact").map((section) => (
+            <li key={section.id}>
+              <a href={`#${section.id}`} onClick={(event) => follow(event, section.id)}>
+                {section.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <DesignSwitch current="depth" className="d-nav-switch" />
+        <button
+          ref={buttonRef}
+          type="button"
+          className="d-burger"
+          aria-expanded={open}
+          aria-controls="d-menu"
+          aria-label={open ? "Close the menu" : "Open the menu"}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <span className="d-burger-lines" aria-hidden="true">
+            <span />
+            <span />
+          </span>
+        </button>
+      </header>
+
+      <div id="d-menu" className={`d-menu${open ? " is-open" : ""}`} aria-hidden={!open} inert={!open}>
+        <nav aria-label="Sections">
+          <ol className="d-menu-list">
+            {SECTIONS.map((section, index) => (
+              <li key={section.id} style={{ ["--i" as string]: index }}>
+                <a
+                  ref={index === 0 ? firstLinkRef : undefined}
+                  href={`#${section.id}`}
+                  onClick={(event) => follow(event, section.id)}
+                >
+                  <span className="d-menu-label">{section.label}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <div className="d-menu-switch">
+          <p className="d-data">Same work, another design</p>
+          <DesignSwitch current="depth" className="ds-lg" />
+        </div>
+        <p className="d-menu-foot d-data">{name} · the deeper you go, the closer to the work</p>
+      </div>
+    </>
   );
 }
 
@@ -49,50 +143,6 @@ export function LiteSwitch() {
       <span className="d-lite-dot" data-on={lite ? "" : undefined} aria-hidden="true" />
       Lite
     </button>
-  );
-}
-
-/**
- * The instrument panel: how far down the reader is, in metres, and a rail that
- * fills as they fall. It writes to the DOM on an animation frame rather than
- * through React state, because scroll fires far more often than a page should
- * re-render.
- */
-export function DepthHud() {
-  const valueRef = useRef<HTMLSpanElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let frame = 0;
-    let shown = -1;
-
-    const tick = () => {
-      frame = requestAnimationFrame(tick);
-      const span = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = span > 0 ? Math.min(Math.max(window.scrollY / span, 0), 1) : 0;
-      const metres = Math.round((progress * FLOOR_METRES) / 5) * 5;
-
-      if (metres !== shown) {
-        shown = metres;
-        if (valueRef.current) valueRef.current.textContent = `${metres.toLocaleString("en-GB")} m`;
-      }
-      railRef.current?.style.setProperty("--descent", progress.toFixed(4));
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
-  return (
-    <div className="d-hud" aria-hidden="true">
-      <span ref={valueRef} className="d-hud-value">
-        0 m
-      </span>
-      <div ref={railRef} className="d-hud-rail">
-        <div className="d-hud-fill" />
-      </div>
-      <span className="d-hud-label">Depth</span>
-    </div>
   );
 }
 
@@ -130,16 +180,16 @@ export function Reveal() {
   return null;
 }
 
-/** A section opening, marked with the depth it sits at. */
+/** A section opening: a plain label, the heading, and an optional lead. */
 export function SectionHead({
   id,
-  depth,
+  label,
   title,
   note,
   lead,
 }: {
   id: string;
-  depth: number;
+  label: string;
   title: string;
   note?: string;
   lead?: string;
@@ -147,9 +197,7 @@ export function SectionHead({
   return (
     <div className="d-head">
       <div className="d-head-top" data-d-reveal>
-        <span className="d-data">
-          {depth.toLocaleString("en-GB")} m · {id}
-        </span>
+        <span className="d-data">{label}</span>
         {note && <span className="d-data d-head-note">{note}</span>}
       </div>
       <h2 id={`${id}-title`} className="d-h2 d-head-title" data-d-reveal>

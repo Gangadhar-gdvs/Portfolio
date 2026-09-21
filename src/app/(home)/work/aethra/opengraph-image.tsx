@@ -1,14 +1,19 @@
 import { ImageResponse } from "next/og";
 import { caseStudy } from "@/content/aethra";
 import { profile } from "@/content/profile";
-import { featured } from "@/content/projects";
+import { featured, showFeatured } from "@/content/projects";
+import { notFound } from "next/navigation";
 import { loadOgFonts, loadPublicImage, ogColors as c } from "@/lib/ogFonts";
 
-export const alt = "Aethra case study: an AI agent that uses your computer behind a permission gate";
+// AETHRA: neutral while the project is hidden, so a 404's tags say nothing about it.
+export const alt = showFeatured ? "Aethra case study: an AI agent that uses your computer behind a permission gate" : "Page not found";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpenGraphImage() {
+  // AETHRA: hidden with the case study it belongs to.
+  if (!showFeatured) notFound();
+
   const [fonts, logo] = await Promise.all([loadOgFonts(), loadPublicImage("aethra-logo.png")]);
   const decisions = [
     { label: "ALLOW", color: c.glow },

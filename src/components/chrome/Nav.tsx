@@ -7,8 +7,9 @@ import { getLenis, scrollToTarget } from "@/components/motion/SmoothScroll";
 import { Arrow } from "@/components/ui/Arrow";
 import { Mark } from "@/components/ui/Mark";
 import { profile } from "@/content/profile";
-import { Magnetic } from "./Magnetic";
-import { LiteToggle } from "./LiteToggle";
+import { DesignSwitch } from "@/design/DesignSwitch";
+// import { Magnetic } from "./Magnetic";
+// import { LiteToggle } from "./LiteToggle";
 
 export const SECTIONS = [
   { id: "work", label: "Work" },
@@ -23,7 +24,9 @@ type SectionId = (typeof SECTIONS)[number]["id"];
 
 export function Nav() {
   const pathname = usePathname();
-  const onHome = pathname === "/";
+  // The glass design is also readable at /glass, and that is a home page too.
+  const home = pathname === "/glass" ? "/glass" : "/";
+  const onHome = pathname === home;
   // The menu belongs to the page it was opened on, so navigating closes it.
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === pathname;
@@ -109,7 +112,7 @@ export function Nav() {
       </a>
 
       <div className="wrap relative flex h-16 items-center justify-between gap-4 md:h-20">
-        <Link href="/" className="flex shrink-0 items-center gap-3">
+        <Link href={home} className="flex shrink-0 items-center gap-3">
           <Mark className="size-[18px] text-fg" />
           <span className="text-[0.875rem] font-medium tracking-[-0.01em]">{profile.name}</span>
           <span className="t-label hidden text-fg-3 2xl:inline">/ {profile.role}</span>
@@ -137,6 +140,11 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <span className="max-lg:hidden">
+            <DesignSwitch current="stack" />
+          </span>
+          {/* Hidden from the bar on request; Lite still follows reduced motion,
+              and the résumé stays in the menu and the contact section.
           <LiteToggle />
           <Magnetic>
             <a
@@ -149,6 +157,7 @@ export function Nav() {
               <Arrow dir="up-right" />
             </a>
           </Magnetic>
+          */}
           <button
             ref={menuButton}
             type="button"
@@ -200,6 +209,10 @@ export function Nav() {
               <span className="dot-live" />
               {profile.availability}
             </p>
+            <div className="space-y-3 pt-4">
+              <p className="t-label text-fg-3">Same work, another design</p>
+              <DesignSwitch current="stack" className="ds-lg" />
+            </div>
           </div>
         </div>
       )}

@@ -1,15 +1,22 @@
 import {
   AdditiveBlending,
+  AmbientLight,
   BufferAttribute,
   BufferGeometry,
   CanvasTexture,
   Color,
+  DirectionalLight,
+  EquirectangularReflectionMapping,
+  LinearFilter,
+  ExtrudeGeometry,
   Group,
   LineBasicMaterial,
   LineSegments,
   Mesh,
   MeshBasicMaterial,
+  MeshStandardMaterial,
   PerspectiveCamera,
+  PMREMGenerator,
   Points,
   PointsMaterial,
   QuadraticBezierCurve3,
@@ -21,7 +28,9 @@ import {
   Vector3,
   WebGLRenderer,
 } from "three";
-import { detectTier, TIERS, type Tier } from "@/gl/quality";
+import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader.js";
+import { detectTier, type Tier } from "@/gl/quality";
+import { ICONS } from "./icons";
 import { LIGHTS, LIGHT_SIZES } from "./lights";
 import { BORDERS, COAST } from "./world";
 
@@ -52,9 +61,12 @@ export interface GlobeFilter {
 interface Place {
   skill: GlobeSkill;
   position: Vector3;
-  sprite: Sprite;
-  /** Width over height of the label, so it can be rescaled without squashing. */
-  aspect: number;
+  /** The extruded icon, standing on the surface. */
+  icon: Mesh;
+  material: MeshStandardMaterial;
+  /** Its name, riding just underneath, with the width it was drawn at. */
+  label: Sprite;
+  labelAspect: number;
   /** 0 filtered out, 1 in play. Eased, so filtering is a movement not a jump. */
   presence: number;
 }
@@ -72,7 +84,9 @@ const MIN_ZOOM = 2.15;
 const MAX_ZOOM = 5.2;
 /* World units for a label's height. The globe has radius 1, so this is small
    on purpose: a name should sit on the surface, not wrap around it. */
-const LABEL_SCALE = 0.076;
+/** How tall an icon stands on a globe of radius 1. */
+const ICON_SIZE = 0.095;
+const LABEL_HEIGHT = 0.042;
 
 /** Fibonacci sphere: the cheapest way to scatter n points evenly on a ball. */
 function fibonacci(index: number, total: number): Vector3 {
@@ -102,38 +116,79 @@ function dotTexture() {
   return new CanvasTexture(canvas);
 }
 
-function labelTexture(text: string, colour: string, level: "production" | "project") {
-  const scale = 2;
-  const font = `${level === "production" ? 600 : 500} ${26 * scale}px ui-sans-serif, system-ui, sans-serif`;
+/** A name, drawn once into a canvas and carried as a sprite under its icon. */
+function labelTexture(text: string, level: "production" | "project") {
+  const scale = 4;
+  const font = `${level === "production" ? 600 : 500} ${18 * scale}px ui-sans-serif, system-ui, sans-serif`;
   const measure = document.createElement("canvas").getContext("2d");
   if (measure) measure.font = font;
-  const width = Math.ceil((measure?.measureText(text).width ?? text.length * 15 * scale) + 26 * scale);
-  const height = 44 * scale;
+  const width = Math.ceil((measure?.measureText(text).width ?? text.length * 10 * scale) + 16 * scale);
+  const height = 28 * scale;
 
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return { texture: new CanvasTexture(canvas), aspect: width / height };
-
-  ctx.font = font;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  // A dot in the discipline's colour, then the name. Production work is set
-  // brighter than a personal project: the difference should be visible.
-  const dotX = 13 * scale;
-  ctx.fillStyle = colour;
-  ctx.beginPath();
-  ctx.arc(dotX, height / 2, 4.5 * scale, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = level === "production" ? "#ffffff" : "#c7c1d2";
-  ctx.fillText(text, width / 2 + 6 * scale, height / 2 + 1);
+  if (ctx) {
+    ctx.font = font;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    // A dark backing, so a name stays readable over the city lights.
+    ctx.fillStyle = "rgba(7, 6, 8, 0.72)";
+    ctx.fillRect(0, height * 0.16, width, height * 0.68);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText(text, width / 2, height / 2);
+  }
 
   const texture = new CanvasTexture(canvas);
-  texture.anisotropy = 4;
+  // Mipmaps are what blur small text: the GPU picks a halved copy and the
+  // letterforms go with it. A straight linear filter keeps the edges.
+  texture.generateMipmaps = false;
+  texture.minFilter = LinearFilter;
+  texture.magFilter = LinearFilter;
+  texture.anisotropy = 8;
   return { texture, aspect: width / height };
+}
+
+const loader = new SVGLoader();
+const geometryCache = new Map<string, ExtrudeGeometry>();
+
+/**
+ * Turns an icon's path data into a solid object.
+ *
+ * SVG is a y-down coordinate system and three.js is y-up, so the shape is
+ * flipped before it is extruded; then it is centred and scaled to sit on the
+ * globe at a readable size. Geometry is cached because several skills share a
+ * mark — Firebase appears twice.
+ */
+function iconGeometry(path: string): ExtrudeGeometry {
+  const cached = geometryCache.get(path);
+  if (cached) return cached;
+
+  const parsed = loader.parse(`<svg viewBox="0 0 24 24"><path d="${path}"/></svg>`);
+  const shapes = parsed.paths.flatMap((subpath) => SVGLoader.createShapes(subpath));
+
+  // Thin, with a fine bevel. A deep extrusion and a fat chamfer is what makes
+  // an icon read as moulded plastic; a plate with a crisp edge reads as metal.
+  const geometry = new ExtrudeGeometry(shapes, {
+    depth: 0.9,
+    bevelEnabled: true,
+    bevelThickness: 0.22,
+    bevelSize: 0.18,
+    bevelSegments: 3,
+    curveSegments: 10,
+  });
+
+  geometry.scale(1, -1, 1); // y-down to y-up
+  geometry.center();
+  geometry.computeBoundingBox();
+  const box = geometry.boundingBox;
+  const extent = box ? Math.max(box.max.x - box.min.x, box.max.y - box.min.y) : 24;
+  geometry.scale(ICON_SIZE / extent, ICON_SIZE / extent, ICON_SIZE / extent);
+  geometry.computeVertexNormals();
+
+  geometryCache.set(path, geometry);
+  return geometry;
 }
 
 export class SkillGlobe {
@@ -164,6 +219,11 @@ export class SkillGlobe {
   private filter: GlobeFilter = { group: null, level: null };
   private pointer = { x: 0, y: 0, active: false };
   private touched = false;
+  /** The distance at which the whole globe, icons and all, fits the canvas. */
+  private fitZoom = 3.1;
+  private maxZoom = MAX_ZOOM;
+  /** Icons and names are scaled up on a narrow screen, where the globe is small. */
+  private uiScale = 1;
 
   constructor({ canvas, skills, colours, tier = detectTier(), onHover, onSelect }: GlobeOptions) {
     this.colours = colours;
@@ -171,12 +231,51 @@ export class SkillGlobe {
     this.onSelect = onSelect;
 
     this.renderer = new WebGLRenderer({ canvas, alpha: true, antialias: tier !== "low" });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, TIERS[tier].maxPixelRatio));
+    // The shaft behind the page is atmosphere and can be soft; this is the
+    // thing a reader looks straight at, and it stops rendering the moment it
+    // leaves the screen — so it gets close to the device's real pixel ratio.
+    // At the tier cap (1.75 on a phone reporting 3) the icons and their names
+    // came out visibly soft.
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, tier === "low" ? 2 : 3));
 
     this.camera = new PerspectiveCamera(42, 1, 0.1, 100);
     this.camera.position.z = this.zoom;
 
     this.scene.add(this.world);
+
+    // Metal needs something to reflect. This is a small gradient standing in
+    // for a sky: cold above, warm below, which is the light the page itself
+    // is in — without it a metallic material renders as a black hole.
+    const sky = document.createElement("canvas");
+    sky.width = 16;
+    sky.height = 128;
+    const skyCtx = sky.getContext("2d");
+    if (skyCtx) {
+      const gradient = skyCtx.createLinearGradient(0, 0, 0, 128);
+      gradient.addColorStop(0, "#9fb4ff");
+      gradient.addColorStop(0.45, "#3a3450");
+      gradient.addColorStop(0.72, "#1a1420");
+      gradient.addColorStop(1, "#ff7a3c");
+      skyCtx.fillStyle = gradient;
+      skyCtx.fillRect(0, 0, 16, 128);
+    }
+    const skyTexture = new CanvasTexture(sky);
+    skyTexture.mapping = EquirectangularReflectionMapping;
+    const pmrem = new PMREMGenerator(this.renderer);
+    this.scene.environment = pmrem.fromEquirectangular(skyTexture).texture;
+    skyTexture.dispose();
+    pmrem.dispose();
+
+    // Everything else here is unlit by design; the icons are the one thing
+    // with a surface, so they get a key light and a little fill.
+    const key = new DirectionalLight(0xfff0e2, 2.5);
+    key.position.set(-1.4, 1.8, 3.2);
+    this.scene.add(key);
+    const rim = new DirectionalLight(0xff8a4a, 1.1);
+    rim.position.set(2.2, -1.2, -1.6);
+    this.scene.add(rim);
+    this.scene.add(new AmbientLight(0xb9c4ff, 0.55));
+
     this.buildShell();
 
     // One dot per skill, all in a single draw call.
@@ -190,16 +289,43 @@ export class SkillGlobe {
       colour.set(colours[skill.group] ?? "#ffffff");
       dotColours.set([colour.r, colour.g, colour.b], index * 3);
 
-      const { texture, aspect } = labelTexture(skill.name, colours[skill.group] ?? "#ffffff", skill.level);
-      const sprite = new Sprite(
-        new SpriteMaterial({ map: texture, transparent: true, depthWrite: false, opacity: 0 }),
-      );
-      sprite.scale.set(LABEL_SCALE * aspect, LABEL_SCALE, 1);
-      sprite.position.copy(position).multiplyScalar(1.055);
-      sprite.renderOrder = 2;
-      this.world.add(sprite);
+      // The icon sits on the surface but turns to face the reader: mounted
+      // flat to the sphere it went edge-on at the rim, which is honest and
+      // unreadable. It keeps its depth and bevel, so it is still an object
+      // catching the light, not a sticker.
+      // Each mark in its own colour — React's cyan, Rust's rust — with the
+      // drawn glyphs falling back to their discipline's. Metalness is kept
+      // low: a metal tints what it reflects instead of showing its own
+      // colour, which is what drained these to grey.
+      const icon = ICONS[skill.name];
+      const tint = new Color(icon?.colour ?? colours[skill.group] ?? "#ffffff");
+      const material = new MeshStandardMaterial({
+        color: tint,
+        roughness: skill.level === "production" ? 0.26 : 0.4,
+        metalness: skill.level === "production" ? 0.5 : 0.3,
+        envMapIntensity: 0.85,
+        // A little of its own light, so a mark keeps its colour even on the
+        // shaded side of the globe.
+        emissive: tint.clone().multiplyScalar(0.22),
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+      });
+      const mesh = new Mesh(iconGeometry((icon ?? ICONS.React).path), material);
+      mesh.position.copy(position).multiplyScalar(1.06);
+      mesh.renderOrder = 2;
+      this.world.add(mesh);
 
-      this.places.push({ skill, position, sprite, aspect, presence: 1 });
+      // The name rides under the icon so a reader never has to guess a mark.
+      const { texture, aspect } = labelTexture(skill.name, skill.level);
+      const label = new Sprite(new SpriteMaterial({ map: texture, transparent: true, depthWrite: false, opacity: 0 }));
+      label.scale.set(LABEL_HEIGHT * aspect, LABEL_HEIGHT, 1);
+      label.center.set(0.5, 1.75);
+      label.position.copy(mesh.position);
+      label.renderOrder = 3;
+      this.world.add(label);
+
+      this.places.push({ skill, position, icon: mesh, material, label, labelAspect: aspect, presence: 1 });
     });
 
     const dotGeometry = new BufferGeometry();
@@ -323,7 +449,7 @@ export class SkillGlobe {
   zoomBy(delta: number) {
     this.touched = true;
     this.idle = 0;
-    this.zoomTarget = Math.min(Math.max(this.zoomTarget + delta, MIN_ZOOM), MAX_ZOOM);
+    this.zoomTarget = Math.min(Math.max(this.zoomTarget + delta, MIN_ZOOM), this.maxZoom);
   }
 
   setPinch(distance: number) {
@@ -351,7 +477,8 @@ export class SkillGlobe {
     const p = place.position;
     this.target.y = -Math.atan2(p.x, p.z);
     this.target.x = Math.asin(Math.min(Math.max(p.y, -1), 1));
-    this.zoomTarget = Math.min(this.zoomTarget, 3.1);
+    // Lean in a little on a locked skill, relative to what fits this screen.
+    this.zoomTarget = Math.min(this.zoomTarget, this.fitZoom * 0.86);
   }
 
   setFilter(filter: GlobeFilter) {
@@ -360,7 +487,8 @@ export class SkillGlobe {
 
   reset() {
     this.target = { x: 0.16, y: 0 };
-    this.zoomTarget = 3.1;
+    this.touched = false;
+    this.zoomTarget = this.fitZoom;
     this.selected = null;
     this.idle = 0;
     this.onSelect?.(null);
@@ -397,7 +525,7 @@ export class SkillGlobe {
 
     for (const place of this.places) {
       if (place.presence < 0.5) continue;
-      const projected = place.sprite.position.clone().applyMatrix4(this.world.matrixWorld).project(this.camera);
+      const projected = place.icon.position.clone().applyMatrix4(this.world.matrixWorld).project(this.camera);
       if (projected.z > 1) continue;
       const dx = projected.x - this.pointer.x;
       const dy = projected.y - this.pointer.y;
@@ -490,8 +618,13 @@ export class SkillGlobe {
     const shown = this.selected ?? this.hovered;
     this.drawArcs(shown);
 
-    // Labels fade as they turn away, and fade out when filtered away.
+    // Icons fade as they turn away, and fade out when filtered away.
     const forward = new Vector3(0, 0, 1);
+    // Each icon turns to face the camera. lookAt wants a world-space point:
+    // an earlier version converted the camera into the globe's rotating local
+    // space first, which aimed the icons somewhere else once the globe turned
+    // and left them edge-on.
+    const eye = this.camera.position;
     for (const place of this.places) {
       const wanted = this.passes(place) ? 1 : 0;
       place.presence += (wanted - place.presence) * 0.12;
@@ -499,13 +632,18 @@ export class SkillGlobe {
       const world = place.position.clone().applyMatrix4(this.world.matrixWorld).normalize();
       const facing = Math.max(0, world.dot(forward));
       const emphasis = place === shown ? 1 : shown && place.skill.group === shown.skill.group ? 0.95 : 0.78;
-      const material = place.sprite.material as SpriteMaterial;
-      // A floor under the fade: a name on the shoulder of the globe should
-      // still be readable, not a rumour.
-      material.opacity = (0.16 + 0.84 * Math.pow(facing, 1.25)) * place.presence * emphasis;
+      // A floor under the fade: an icon on the shoulder of the globe should
+      // still be legible, not a rumour.
+      place.material.opacity = Math.pow(Math.max(facing, 0), 1.9) * place.presence * emphasis;
+      place.material.emissive.copy(place.material.color).multiplyScalar(place === shown ? 0.55 : 0.22);
 
-      const scale = (place === shown ? 1.55 : 1) * (0.55 + place.presence * 0.45);
-      place.sprite.scale.set(LABEL_SCALE * place.aspect * scale, LABEL_SCALE * scale, 1);
+      const scale = (place === shown ? 1.5 : 1) * (0.55 + place.presence * 0.45) * this.uiScale;
+      place.icon.scale.setScalar(scale);
+      place.icon.lookAt(eye);
+
+      const labelMaterial = place.label.material as SpriteMaterial;
+      labelMaterial.opacity = Math.min(1, place.material.opacity * (place === shown ? 1.35 : 1.15));
+      place.label.scale.set(LABEL_HEIGHT * place.labelAspect * scale, LABEL_HEIGHT * scale, 1);
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -520,8 +658,18 @@ export class SkillGlobe {
     this.camera.updateProjectionMatrix();
 
     // A tall, narrow canvas needs the globe further away, or the labels at its
-    // edges are cut off by the sides of the screen.
-    if (!this.touched) this.zoomTarget = width < 700 ? 4.9 : width / height < 1.1 ? 4.2 : 3.1;
+    // edges are cut off by the sides of the screen — and once it is further
+    // away, the marks on it have to be drawn larger to stay legible.
+    // Fit the globe to the narrower of the two fields of view, so the whole
+    // sphere and the icons standing on it are in frame on any screen shape.
+    const vertical = (this.camera.fov * Math.PI) / 180;
+    const horizontal = 2 * Math.atan(Math.tan(vertical / 2) * this.camera.aspect);
+    const fov = Math.min(vertical, horizontal);
+    const radius = width < 700 ? 1.2 : 1.16; // sphere + icons + a margin for names
+    this.fitZoom = radius / Math.sin(fov / 2);
+    this.maxZoom = Math.max(MAX_ZOOM, this.fitZoom * 1.25);
+    if (!this.touched) this.zoomTarget = this.fitZoom;
+    this.uiScale = width < 700 ? 1.5 : width < 1100 ? 1.2 : 1;
   }
 
   dispose() {
@@ -534,11 +682,14 @@ export class SkillGlobe {
         if (Array.isArray(material)) material.forEach((m) => m.dispose());
         else material.dispose();
       }
+      if (object instanceof Mesh && object.material instanceof MeshStandardMaterial) object.material.dispose();
       if (object instanceof Sprite) {
         object.material.map?.dispose();
         object.material.dispose();
       }
     });
+    for (const geometry of geometryCache.values()) geometry.dispose();
+    geometryCache.clear();
     this.renderer.dispose();
   }
 }
