@@ -19,8 +19,8 @@ export const profile = {
   },
   headline: "Full-Stack Engineer for web, mobile, desktop and AI",
   availability: "Available for full-time roles",
-  location: "Pulivendula, Andhra Pradesh, India",
-  locationShort: "Pulivendula, India",
+  location: "Hyderabad, Telangana, India",
+  locationShort: "Hyderabad, India",
   timeZone: "Asia/Kolkata",
   email: "gangadhargdvs0@gmail.com",
   links: {
@@ -37,7 +37,7 @@ export const profile = {
   about: {
     intro:
       // AETHRA: "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and AI agents that can act.",
-      "I'm Gangadhara, a full-stack engineer from Pulivendula, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and machine-learning models that make a call from data.",
+      "I'm Gangadhara, a full-stack engineer based in Hyderabad, India. I build complete products: interfaces people enjoy, apps for phones and desktops, real-time backends, and machine-learning models that make a call from data.",
     body: [
       "At Vectorsoft I build responsive web platforms, desktop integrations and mobile apps. Before that I engineered real-time operations modules at Zyrone Energy and shipped high-performance web apps with Tech Kshatriyas.",
       // AETHRA: "In my own time I'm building Aethra, an AI agent that sees the screen and uses the computer for you, with a permission gate in front of every action.",

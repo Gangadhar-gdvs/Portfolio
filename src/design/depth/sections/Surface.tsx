@@ -1,6 +1,7 @@
 import { roles } from "@/content/experience";
 import { profile } from "@/content/profile";
 import { clientSites } from "@/content/projects";
+import { ShardMount } from "@/design/depth/gl/ShardMount";
 
 /**
  * What the production work came to, as the roles themselves record it:
@@ -25,6 +26,7 @@ const outcomes = roles
 export function Surface() {
   return (
     <section id="top" className="d-surface" aria-labelledby="surface-name">
+      <ShardMount />
       <div className="d-wrap d-surface-inner">
         <p className="d-data d-surface-meta">
           <span>{profile.availability}</span>
@@ -55,6 +57,13 @@ export function Surface() {
             Résumé
           </a>
         </div>
+
+        <p className="d-surface-paths d-data">
+          <span>Here to</span>
+          <a href="/hire">hire full-time</a>
+          <span aria-hidden="true">·</span>
+          <a href="/freelance">start a build</a>
+        </p>
 
         <dl className="d-surface-proof">
           {outcomes.map((outcome) => (

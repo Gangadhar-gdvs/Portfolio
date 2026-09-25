@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { setLite, useLite } from "@/lib/lite";
-import { DesignSwitch } from "../DesignSwitch";
 
 const SECTIONS = [
   { id: "work", label: "Work" },
@@ -92,7 +90,6 @@ export function DepthNav({ name }: { name: string }) {
             </li>
           ))}
         </ul>
-        <DesignSwitch current="depth" className="d-nav-switch" />
         <button
           ref={buttonRef}
           type="button"
@@ -125,24 +122,9 @@ export function DepthNav({ name }: { name: string }) {
             ))}
           </ol>
         </nav>
-        <div className="d-menu-switch">
-          <p className="d-data">Same work, another design</p>
-          <DesignSwitch current="depth" className="ds-lg" />
-        </div>
         <p className="d-menu-foot d-data">{name} · the deeper you go, the closer to the work</p>
       </div>
     </>
-  );
-}
-
-/** The advertised way out of the motion: the same store the dark design uses. */
-export function LiteSwitch() {
-  const lite = useLite();
-  return (
-    <button type="button" className="d-lite" onClick={() => setLite(!lite)} aria-pressed={lite}>
-      <span className="d-lite-dot" data-on={lite ? "" : undefined} aria-hidden="true" />
-      Lite
-    </button>
   );
 }
 
@@ -153,28 +135,90 @@ export function LiteSwitch() {
  */
 export function Reveal() {
   useEffect(() => {
-    const targets = document.querySelectorAll<HTMLElement>("[data-d-reveal]");
-    if (targets.length === 0) return;
+    const pending = new Set(document.querySelectorAll<HTMLElement>("[data-d-reveal]"));
+    if (pending.size === 0) return;
 
-    const show = (el: Element) => el.classList.add("is-in");
+    const show = (el: HTMLElement) => {
+      el.classList.add("is-in");
+      pending.delete(el);
+      observer.unobserve(el);
+    };
+
+    // Reveal an element once it has risen into the reading zone — the lower
+    // third of the viewport — not the instant it peeks in at the very bottom.
+    // Triggering here means the motion plays where the eye actually is, so the
+    // entrance is felt instead of finishing off-screen.
+    const sweep = () => {
+      for (const el of pending) {
+        const box = el.getBoundingClientRect();
+        if (box.top < window.innerHeight * 0.78 && box.bottom > window.innerHeight * 0.05) show(el);
+      }
+      if (pending.size === 0) {
+        window.removeEventListener("scroll", sweep);
+        window.removeEventListener("resize", sweep);
+      }
+    };
+
+    // The observer is the primary trigger; a passive scroll sweep backs it up
+    // so a missed intersection callback can never leave a section hidden.
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          show(entry.target);
-          observer.unobserve(entry.target);
+          if (entry.isIntersecting) show(entry.target as HTMLElement);
         }
       },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+      { rootMargin: "0px 0px -22% 0px", threshold: 0.05 },
     );
 
-    for (const target of targets) {
-      const box = target.getBoundingClientRect();
-      if (box.top < window.innerHeight && box.bottom > 0) show(target);
-      else observer.observe(target);
-    }
+    for (const el of pending) observer.observe(el);
+    sweep();
+    window.addEventListener("scroll", sweep, { passive: true });
+    window.addEventListener("resize", sweep, { passive: true });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", sweep);
+      window.removeEventListener("resize", sweep);
+    };
+  }, []);
+
+  return null;
+}
+
+/**
+ * Pointer tilt for the card language. Each `.d-slab` leans toward the cursor
+ * in 3D, then settles back on leave. Fine pointers only, and never under
+ * reduced motion — touch and reduced-motion readers get the flat card.
+ */
+export function DepthTilt() {
+  useEffect(() => {
+    if (matchMedia("(pointer: coarse)").matches) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".d-slab"));
+    if (cards.length === 0) return;
+
+    const cleanups: (() => void)[] = [];
+    for (const card of cards) {
+      const move = (event: PointerEvent) => {
+        const rect = card.getBoundingClientRect();
+        const px = (event.clientX - rect.left) / rect.width - 0.5;
+        const py = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.transition = "transform 0.12s ease-out";
+        card.style.transform = `perspective(1000px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 7).toFixed(2)}deg) translateY(-2px)`;
+      };
+      const leave = () => {
+        card.style.transition = "";
+        card.style.transform = "";
+      };
+      card.addEventListener("pointermove", move);
+      card.addEventListener("pointerleave", leave);
+      cleanups.push(() => {
+        card.removeEventListener("pointermove", move);
+        card.removeEventListener("pointerleave", leave);
+      });
+    }
+    return () => cleanups.forEach((fn) => fn());
   }, []);
 
   return null;

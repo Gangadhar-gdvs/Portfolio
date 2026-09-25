@@ -71,8 +71,8 @@ function PersonJsonLd() {
     email: `mailto:${profile.email}`,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Pulivendula",
-      addressRegion: "Andhra Pradesh",
+      addressLocality: "Hyderabad",
+      addressRegion: "Telangana",
       addressCountry: "IN",
     },
     alumniOf: { "@type": "CollegeOrUniversity", name: profile.education.school },

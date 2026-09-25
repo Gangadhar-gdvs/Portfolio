@@ -237,7 +237,7 @@ export function Globe() {
   const shown = selected ?? hovered;
 
   return (
-    <section id="globe" className="d-globe" aria-labelledby="globe-title">
+    <section id="globe" className="d-globe" aria-labelledby="globe-title" data-d-effect="zoom">
       <div className="d-wrap d-globe-head">
         <span className="d-data" data-d-reveal>
           Skills

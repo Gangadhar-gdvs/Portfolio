@@ -10,7 +10,7 @@ import { depthMeasured } from "../measured";
  */
 export function Core() {
   return (
-    <section id="core" className="d-section d-wrap" aria-labelledby="core-title">
+    <section id="core" className="d-section d-wrap" aria-labelledby="core-title" data-d-effect="slide">
       <SectionHead
         id="core"
         label="How it holds up"
@@ -100,7 +100,7 @@ export function Core() {
 /** The path so far, read the way a core sample is read: newest layer on top. */
 export function Strata() {
   return (
-    <section id="strata" className="d-section d-wrap" aria-labelledby="strata-title">
+    <section id="strata" className="d-section d-wrap" aria-labelledby="strata-title" data-d-effect="haze">
       <SectionHead id="strata" label="Path" title="The path so far" note={`${roles.length} teams`} lead="Where the production work happened, and what it was." />
 
       <ol className="d-strata">
@@ -172,7 +172,7 @@ const ENGAGEMENTS = [
 export function Surfacing() {
   return (
     <>
-      <section id="about" className="d-section d-wrap" aria-labelledby="about-title">
+      <section id="about" className="d-section d-wrap" aria-labelledby="about-title" data-d-effect="tilt">
         <SectionHead id="about" label="About" title="How I work" note={profile.locationShort} lead={profile.about.intro} />
 
         <div className="d-about">
@@ -195,7 +195,7 @@ export function Surfacing() {
         </div>
       </section>
 
-      <section id="contact" className="d-section d-wrap d-contact" aria-labelledby="contact-title">
+      <section id="contact" className="d-section d-wrap d-contact" aria-labelledby="contact-title" data-d-effect="lift">
         <p className="d-data" data-d-reveal>
           Contact
         </p>

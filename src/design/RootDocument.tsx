@@ -39,7 +39,7 @@ export const siteMetadata: Metadata = {
     "Tauri",
     "Node.js",
     // AETHRA: "AI agents",
-    "Andhra Pradesh",
+    "Hyderabad",
   ],
   // Both designs carry the same words, so `/` is the one address search engines keep.
   alternates: { canonical: "/" },

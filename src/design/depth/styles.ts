@@ -51,27 +51,34 @@ html[data-design="depth"] body {
 }
 
 html[data-design="depth"] {
-  background: #070608;
+  background: #08090e;
   color-scheme: dark;
 }
 
 [data-design="depth"] {
-  /* ── Colour: a warm black that gets hotter the deeper you go ─────────── */
-  --void: #070608;
-  --rock: #131017;
-  --rock-2: #1c1822;
-  --rock-3: #272130;
+  /* ── Colour: an indigo ink, lit by a single electric accent ───────────── */
+  --void: #08090e;
+  --rock: #10121a;
+  --rock-2: #171a26;
+  --rock-3: #212537;
 
-  --bone: #f4f1f7;
-  --ash: #a59fb0;
-  --ash-2: #8a8397;
+  --bone: #edeef4;
+  --ash: #9aa0b4;
+  --ash-2: #6d7288;
 
-  --magma: #ff6b2c;
-  --ember: #ffb03a;
-  --cool: #5ee0c8;
+  /* Accents (names kept for continuity): indigo primary, violet second,
+     a soft blue highlight, and one warm note reserved for "available". */
+  --magma: #6d6cff;
+  --ember: #a78bfa;
+  --cool: #7cc4ff;
+  --live: #ffb454;
 
-  --line: rgb(244 241 247 / 0.08);
-  --line-2: rgb(244 241 247 / 0.16);
+  --line: rgb(237 238 244 / 0.08);
+  --line-2: rgb(237 238 244 / 0.16);
+
+  /* Glass: the readable surface every body section sits on, over the dim 3D. */
+  --panel: rgb(13 15 24 / 0.74);
+  --panel-solid: #0d0f18;
 
   /* ── Space ──────────────────────────────────────────────────────────── */
   --gutter: clamp(1.25rem, 4vw, 4.5rem);
@@ -166,6 +173,16 @@ html[data-design="depth"] {
 [data-design="depth"] .d-section {
   position: relative;
   padding-block: var(--section);
+  /* The body rides on glass: a dark sheet over the dim 3D, so every line of
+     text is crisp while the lattice still breathes faintly behind it. */
+  background: rgb(9 10 16 / 0.82);
+}
+
+/* A hairline seam of light where one glass sheet meets the next. */
+[data-design="depth"] .d-section + .d-section,
+[data-design="depth"] .d-globe + .d-section,
+[data-design="depth"] .d-section + .d-globe {
+  box-shadow: 0 -1px 0 var(--line);
 }
 
 /* ── The opening: a letterbox that retracts ───────────────────────────── */
@@ -261,7 +278,7 @@ html[data-design="depth"] {
   justify-content: space-between;
   gap: 1.5rem;
   padding: 1rem var(--gutter);
-  transition: background-color 0.5s var(--fall), backdrop-filter 0.5s var(--fall);
+  transition: background-color 0.5s var(--fall), backdrop-filter 0.5s var(--fall), opacity 0.45s ease;
 }
 
 [data-design="depth"] .d-nav.is-deep {
@@ -311,38 +328,6 @@ html[data-design="depth"] {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-}
-
-[data-design="depth"] .d-lite {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--ash);
-  font: inherit;
-  font-size: 0.8125rem;
-  cursor: pointer;
-  transition: border-color 0.3s var(--fall), color 0.3s var(--fall);
-}
-
-[data-design="depth"] .d-lite:hover {
-  border-color: var(--cool);
-  color: var(--bone);
-}
-
-[data-design="depth"] .d-lite-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1px solid var(--ash-2);
-}
-
-[data-design="depth"] .d-lite-dot[data-on] {
-  background: var(--cool);
-  border-color: var(--cool);
 }
 
 /* ── Phone menu: a button that folds into an X, and a sheet that opens
@@ -546,26 +531,82 @@ html[data-design="depth"] {
   border-color: var(--cool);
 }
 
-/* ── Reveals: nothing above the fold waits for JavaScript ─────────────── */
+/* ── Reveals: a different cinematic entrance per section ──────────────────
+   Every section carries a data-d-effect; each [data-d-reveal] inside it shares
+   that one entrance, so a section arrives as a single move rather than a
+   scatter, and no two sections arrive the same way. */
 
 [data-design="depth"] [data-d-reveal] {
   opacity: 0;
   transform: translateY(26px);
+  transition:
+    opacity 1s var(--fall),
+    transform 1.05s var(--fall),
+    filter 1s var(--fall),
+    clip-path 1.1s var(--fall);
+  transition-delay: var(--delay, 0s);
 }
 
 [data-design="depth"] [data-d-reveal].is-in {
   opacity: 1;
   transform: none;
-  transition: opacity 1s var(--fall), transform 1s var(--fall);
-  transition-delay: var(--delay, 0s);
+  filter: none;
 }
 
-/* ── Lite mode and reduced motion ─────────────────────────────────────── */
+/* A gentle stagger so sibling cards and lines arrive in sequence. */
+[data-design="depth"] [data-d-effect] [data-d-reveal]:nth-child(2) { --delay: 0.07s; }
+[data-design="depth"] [data-d-effect] [data-d-reveal]:nth-child(3) { --delay: 0.14s; }
+[data-design="depth"] [data-d-effect] [data-d-reveal]:nth-child(4) { --delay: 0.21s; }
+[data-design="depth"] [data-d-effect] [data-d-reveal]:nth-child(5) { --delay: 0.28s; }
+[data-design="depth"] [data-d-effect] [data-d-reveal]:nth-child(n+6) { --delay: 0.34s; }
+
+/* Each effect is the FROM state, scoped to :not(.is-in) so that the moment
+   .is-in lands the rule stops matching and every property transitions back to
+   the clean base (transform:none, filter:none) — otherwise these equal-weight
+   rules, sitting later in the sheet, would pin the content in its from state. */
+
+/* wipe — a curtain lifts the content up from behind its own baseline */
+[data-design="depth"] [data-d-effect="wipe"] [data-d-reveal]:not(.is-in) {
+  transform: translateY(44px);
+  clip-path: inset(0 0 100% 0);
+}
+
+/* zoom — eases back from slightly large and soft, like a rack focus */
+[data-design="depth"] [data-d-effect="zoom"] [data-d-reveal]:not(.is-in) {
+  transform: scale(1.07);
+  filter: blur(7px);
+}
+
+/* slide — enters laterally from the left margin */
+[data-design="depth"] [data-d-effect="slide"] [data-d-reveal]:not(.is-in) {
+  transform: translateX(-52px);
+}
+
+/* haze — resolves out of a blur with a small settle */
+[data-design="depth"] [data-d-effect="haze"] [data-d-reveal]:not(.is-in) {
+  transform: translateY(14px) scale(0.985);
+  filter: blur(13px);
+}
+
+/* tilt — swings up on a floor-anchored axis */
+[data-design="depth"] [data-d-effect="tilt"] [data-d-reveal]:not(.is-in) {
+  transform: perspective(1000px) rotateX(16deg) translateY(34px);
+  transform-origin: 50% 100%;
+}
+
+/* lift — rises with a small scale, for the closing beats */
+[data-design="depth"] [data-d-effect="lift"] [data-d-reveal]:not(.is-in) {
+  transform: translateY(52px) scale(0.955);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────── */
 
 [data-design="depth"].lite [data-d-reveal],
 [data-design="depth"].lite [data-d-reveal].is-in {
   opacity: 1;
   transform: none;
+  filter: none;
+  clip-path: none;
   transition: none;
 }
 
@@ -592,6 +633,8 @@ html[data-design="depth"] {
   [data-design="depth"] [data-d-reveal].is-in {
     opacity: 1;
     transform: none;
+    filter: none;
+    clip-path: none;
     transition: none;
   }
 
@@ -612,32 +655,9 @@ html[data-design="depth"] {
   }
 }
 
-[data-design="depth"] .d-nav-switch {
-  display: none;
-  margin-left: auto;
-}
-
-[data-design="depth"] .d-menu-switch {
-  display: grid;
-  gap: 0.75rem;
-  justify-items: start;
-  margin-top: 2rem;
-}
-
-[data-design="depth"] .d-colophon-end {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-}
-
 @media (min-width: 62rem) {
   [data-design="depth"] .d-nav-links {
     display: flex;
-  }
-
-  [data-design="depth"] .d-nav-switch {
-    display: inline-flex;
   }
 
   [data-design="depth"] .d-burger,
@@ -646,7 +666,7 @@ html[data-design="depth"] {
   }
 }
 
-/* ── The shaft behind everything ──────────────────────────────────────── */
+/* ── The static backdrop behind everything ────────────────────────────── */
 
 [data-design="depth"] .d-shaft {
   position: fixed;
@@ -654,16 +674,9 @@ html[data-design="depth"] {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(120% 80% at 50% -20%, #151327 0%, transparent 55%),
-    radial-gradient(120% 90% at 50% 120%, #2a0d05 0%, transparent 60%),
+    radial-gradient(90% 70% at 82% 12%, rgb(63 58 138 / 0.35) 0%, transparent 55%),
+    radial-gradient(80% 80% at 12% 100%, rgb(24 22 54 / 0.6) 0%, transparent 60%),
     var(--void);
-}
-
-[data-design="depth"] .d-shaft-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  opacity: 0.85;
 }
 
 [data-design="depth"] .d-main {
@@ -680,6 +693,102 @@ html[data-design="depth"] {
   display: flex;
   align-items: center;
   padding-block: clamp(7rem, 14vh, 11rem) clamp(3rem, 8vh, 6rem);
+}
+
+/* The hero shows the 3D at full strength; this scrim keeps the type crisp over
+   it — darkest at the lower-left where the name and copy live, clear to the
+   upper-right where the lattice is the hero. */
+[data-design="depth"] .d-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(140% 120% at 12% 88%, rgb(8 9 14 / 0.94) 0%, rgb(8 9 14 / 0.55) 38%, transparent 68%),
+    linear-gradient(to bottom, transparent 55%, var(--void) 100%);
+}
+
+[data-design="depth"] .d-surface-inner {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  /* Left-align the hero copy to the page gutter so it lines up with the nav,
+     instead of sitting inside the centred column with a wide gap on the left. */
+  max-width: none;
+  margin-inline: 0;
+  width: 100%;
+}
+
+[data-design="depth"] .d-surface-inner > * {
+  pointer-events: auto;
+}
+
+/* The fractured-sphere centrepiece, bounded to the right of the hero and sitting
+   over the lattice. Hidden on phones, where the hero keeps the lattice alone. */
+[data-design="depth"] .d-shard {
+  position: absolute;
+  inset: 0 0 0 52%;
+  z-index: 0;
+  background: transparent;
+  /* The sphere takes drag + scroll; the scene itself only reacts when the
+     cursor is actually over it, so the page still scrolls everywhere else. */
+  pointer-events: auto;
+  touch-action: none;
+  display: none;
+  /* Grows to fill the hero when zoomed in (see .sphere-in below). */
+  transition: inset 0.6s cubic-bezier(0.65, 0, 0.35, 1), background-color 0.5s ease;
+  /* Feather generously so the object dissolves into the hero with no seam,
+     centred on the box where the sphere now renders. */
+  -webkit-mask-image: radial-gradient(60% 60% at 54% 50%, #000 24%, transparent 90%);
+  mask-image: radial-gradient(60% 60% at 54% 50%, #000 24%, transparent 90%);
+}
+
+[data-design="depth"] .d-shard-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Immersive: zoom the sphere in and it takes over the whole hero ──────── */
+
+/* The object grows to fill the screen on a dark field, unmasked. */
+[data-design="depth"].sphere-in .d-shard {
+  inset: 0;
+  z-index: 20;
+  background: #05060a;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* Everything else in the hero steps aside so only the sphere is on screen. */
+[data-design="depth"].sphere-in .d-nav,
+[data-design="depth"].sphere-in .d-surface-inner {
+  opacity: 0;
+  pointer-events: none;
+}
+
+[data-design="depth"] .d-surface-inner {
+  transition: opacity 0.45s ease;
+}
+
+@media (min-width: 62rem) {
+  [data-design="depth"] .d-shard {
+    display: block;
+  }
+
+  /* With the sphere on the right, the role + statement stay in the left half so
+     the copy never runs under the object. The name still spans wide, riding
+     over the dark upper shards on purpose. */
+  [data-design="depth"] .d-surface-row {
+    max-width: 56%;
+  }
+
+  [data-design="depth"] .d-surface-actions,
+  [data-design="depth"] .d-surface-paths,
+  [data-design="depth"] .d-surface-meta {
+    max-width: 56%;
+  }
 }
 
 [data-design="depth"] .d-surface-meta {
@@ -735,7 +844,12 @@ html[data-design="depth"] {
 
 [data-design="depth"] .d-surface-statement em {
   font-style: normal;
-  color: var(--bone);
+  /* The one signature accent: the line the whole site is built around, drawn
+     in the cool-to-hot gradient the descent travels through. */
+  background: linear-gradient(96deg, var(--cool), var(--ember) 70%, var(--magma));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 [data-design="depth"] .d-surface-actions {
@@ -743,6 +857,25 @@ html[data-design="depth"] {
   flex-wrap: wrap;
   gap: 0.75rem;
   margin-top: 2.25rem;
+}
+
+[data-design="depth"] .d-surface-paths {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0 0;
+}
+
+[data-design="depth"] .d-surface-paths a {
+  color: var(--cool);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--fall);
+}
+
+[data-design="depth"] .d-surface-paths a:hover {
+  border-color: var(--cool);
 }
 
 [data-design="depth"] .d-surface-proof {
@@ -1204,6 +1337,7 @@ html[data-design="depth"] {
 [data-design="depth"] .d-globe {
   position: relative;
   padding-block: var(--section) clamp(3rem, 6vw, 5rem);
+  background: rgb(9 10 16 / 0.82);
 }
 
 [data-design="depth"] .d-globe-head {
@@ -1867,6 +2001,358 @@ html[data-design="depth"] {
 
   [data-design="depth"] .d-gauges {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* ── Pitch pages (/hire, /freelance) ──────────────────────────────────────
+   A standalone page in the depth design's language: the same background and
+   type, a slimmer bar, and one clear call at the top and the bottom. */
+
+[data-design="depth"] .d-pitch-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  font-family: var(--font-data), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+[data-design="depth"] .d-pitch-nav a {
+  color: var(--ash);
+  text-decoration: none;
+  transition: color 0.3s var(--fall);
+}
+
+[data-design="depth"] .d-pitch-nav a:hover {
+  color: var(--bone);
+}
+
+[data-design="depth"] .d-pitch-nav-home {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+[data-design="depth"] .d-pitch-nav-full {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  [data-design="depth"] .d-pitch-nav-full {
+    display: inline;
+  }
+
+  [data-design="depth"] .d-pitch-nav-short {
+    display: none;
+  }
+}
+
+[data-design="depth"] .d-pitch-hero {
+  position: relative;
+  padding-block: clamp(7.5rem, 16vh, 11rem) clamp(3rem, 7vw, 5rem);
+}
+
+/* Same scrim discipline as the home hero: the 3D stays bold, the type stays
+   crisp over it. */
+[data-design="depth"] .d-pitch-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(150% 130% at 12% 62%, rgb(8 9 14 / 0.93) 0%, rgb(8 9 14 / 0.5) 42%, transparent 72%),
+    linear-gradient(to bottom, transparent 58%, var(--void) 100%);
+}
+
+[data-design="depth"] .d-pitch-hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Body sections of the pitch pages ride the same glass as the home body. */
+[data-design="depth"] .d-pitch-section,
+[data-design="depth"] .d-pitch-close {
+  background: rgb(9 10 16 / 0.82);
+}
+
+[data-design="depth"] .d-pitch-eyebrow {
+  color: var(--magma);
+  margin-bottom: 1.5rem;
+}
+
+[data-design="depth"] .d-pitch-title {
+  max-width: 18ch;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+}
+
+[data-design="depth"] .d-pitch-lead {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  max-width: 46ch;
+  font-size: 1.1875rem;
+  color: var(--ash);
+}
+
+[data-design="depth"] .d-pitch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.25rem;
+}
+
+[data-design="depth"] .d-pitch-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 2rem;
+  margin: clamp(3rem, 7vw, 5rem) 0 0;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-stats dt {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ember);
+}
+
+[data-design="depth"] .d-pitch-stats dd {
+  margin: 0.5rem 0 0;
+}
+
+[data-design="depth"] .d-pitch-section {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+
+[data-design="depth"] .d-pitch-section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+[data-design="depth"] .d-pitch-card {
+  padding: clamp(1.25rem, 2.4vw, 1.85rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+[data-design="depth"] .d-pitch-card .d-body {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Roles: the same facts as the site's path, tuned for a quick scan. */
+[data-design="depth"] .d-pitch-roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border-block: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-role {
+  background: var(--void);
+  padding: clamp(1.25rem, 3vw, 2rem) 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+[data-design="depth"] .d-pitch-role-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+[data-design="depth"] .d-pitch-role-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+[data-design="depth"] .d-pitch-role-title {
+  margin: 0;
+  color: var(--cool);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+[data-design="depth"] .d-pitch-role .d-body {
+  margin: 0;
+}
+
+[data-design="depth"] .d-pitch-role-metric {
+  margin: 0;
+  color: var(--ember);
+  font-weight: 600;
+}
+
+[data-design="depth"] .d-pitch-facts {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem 3rem;
+  margin: 0;
+}
+
+[data-design="depth"] .d-pitch-facts dt {
+  margin-bottom: 0.5rem;
+  color: var(--ash-2);
+}
+
+[data-design="depth"] .d-pitch-facts dd {
+  margin: 0;
+}
+
+/* Process: numbered because the order is the point — scope, build, handover. */
+[data-design="depth"] .d-pitch-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border-block: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-step {
+  background: var(--void);
+  padding: clamp(1.25rem, 3vw, 2rem) 0;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+[data-design="depth"] .d-pitch-step-n {
+  color: var(--magma);
+  font-size: 1.1rem;
+}
+
+[data-design="depth"] .d-pitch-step .d-body {
+  margin: 0.5rem 0 0;
+}
+
+[data-design="depth"] .d-pitch-engage .d-data {
+  color: var(--magma);
+}
+
+[data-design="depth"] .d-pitch-engage-list {
+  list-style: none;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+[data-design="depth"] .d-pitch-engage-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  color: var(--ash);
+  font-size: 0.9375rem;
+}
+
+[data-design="depth"] .d-pitch-engage-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.45rem;
+  height: 1px;
+  background: var(--cool);
+}
+
+[data-design="depth"] .d-pitch-clients {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+  border-block: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-client {
+  background: var(--void);
+  padding: clamp(1.25rem, 3vw, 1.85rem) 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+[data-design="depth"] .d-pitch-client-name {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+[data-design="depth"] .d-pitch-client .d-body {
+  margin: 0 0 0.85rem;
+  font-size: 1rem;
+}
+
+[data-design="depth"] .d-pitch-client-link {
+  color: var(--cool);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.3s var(--fall);
+}
+
+[data-design="depth"] .d-pitch-client-link:hover {
+  color: var(--ember);
+}
+
+[data-design="depth"] .d-pitch-close {
+  padding-block: clamp(4rem, 9vw, 7rem);
+  border-top: 1px solid var(--line);
+}
+
+[data-design="depth"] .d-pitch-close .d-body {
+  margin: 1.25rem 0 0;
+  max-width: 42ch;
+}
+
+[data-design="depth"] .d-pitch-close .d-pitch-actions {
+  margin-top: 2rem;
+}
+
+[data-design="depth"] .d-pitch-foot-link {
+  color: var(--cool);
+  text-decoration: none;
+}
+
+@media (min-width: 48rem) {
+  [data-design="depth"] .d-pitch-section-head {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  [data-design="depth"] .d-pitch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-design="depth"] .d-pitch-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 62rem) {
+  [data-design="depth"] .d-pitch-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 `;

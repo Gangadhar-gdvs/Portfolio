@@ -16,7 +16,7 @@ export function Work() {
   const listed = projects.filter((project) => !project.story);
 
   return (
-    <section id="work" className="d-section d-wrap" aria-labelledby="work-title">
+    <section id="work" className="d-section d-wrap" aria-labelledby="work-title" data-d-effect="wipe">
       <SectionHead
         id="work"
         label="Work"
