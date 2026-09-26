@@ -166,7 +166,7 @@ function iconGeometry(path: string): ExtrudeGeometry {
   if (cached) return cached;
 
   const parsed = loader.parse(`<svg viewBox="0 0 24 24"><path d="${path}"/></svg>`);
-  const shapes = parsed.paths.flatMap((subpath) => SVGLoader.createShapes(subpath));
+  const shapes = parsed.paths.flatMap((subpath) => subpath.toShapes());
 
   // Thin, with a fine bevel. A deep extrusion and a fat chamfer is what makes
   // an icon read as moulded plastic; a plate with a crisp edge reads as metal.
@@ -420,12 +420,6 @@ export class SkillGlobe {
       new LineBasicMaterial({ color: 0x6f6880, transparent: true, opacity: 0.55 }),
     );
     this.world.add(borders);
-
-    const glow = new Mesh(
-      new SphereGeometry(1.24, 48, 32),
-      new MeshBasicMaterial({ color: 0xff6b2c, transparent: true, opacity: 0.055, blending: AdditiveBlending, side: 1 }),
-    );
-    this.scene.add(glow);
   }
 
   // ── Interaction ──────────────────────────────────────────────────────

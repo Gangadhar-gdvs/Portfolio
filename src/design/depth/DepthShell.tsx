@@ -26,7 +26,7 @@ export function DepthShell({ children }: { children: ReactNode }) {
           <div>
             <p className="d-colophon-name">{profile.name}</p>
             <p className="d-data">
-              {profile.locationShort} · {profile.timeZone.split("/")[1]} · {profile.availability}
+              {profile.locationShort} · {profile.timeZoneShort} · {profile.availability}
             </p>
             <p className="d-data d-surface-paths">
               <a href="/hire">Hire full-time</a>

@@ -22,6 +22,8 @@ export const profile = {
   location: "Hyderabad, Telangana, India",
   locationShort: "Hyderabad, India",
   timeZone: "Asia/Kolkata",
+  /** Short label for the zone, for places that show it beside the city. */
+  timeZoneShort: "IST",
   email: "gangadhargdvs0@gmail.com",
   links: {
     github: "https://github.com/Gangadhar-gdvs",

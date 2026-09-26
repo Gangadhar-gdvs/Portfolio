@@ -27,20 +27,6 @@ const SKILLS: GlobeSkill[] = skillGroups.flatMap((group) =>
   })),
 );
 
-/** What a reader can do with it, said out loud rather than left to be found. */
-const CONTROLS = [
-  "Drag to turn it — on a phone swipe sideways; up and down still scrolls the page",
-  "Throw it and it keeps going",
-  "Pinch, the + and − buttons, or ⌘-scroll to zoom",
-  "Hover an icon to read where that skill was used",
-  "Click to lock one and turn the globe to it",
-  "Locking draws the arcs to the rest of its discipline",
-  "Filter by discipline",
-  "Filter by production work or own project",
-  "Arrow keys turn it, + and − zoom",
-  "Enter steps through, Escape lets go",
-];
-
 export function Globe() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const globeRef = useRef<SkillGlobe | null>(null);
@@ -291,7 +277,7 @@ export function Globe() {
               <>
                 <span className="d-data">Idle</span>
                 <p className="d-h3">Take hold of it</p>
-                <p className="d-body">Drag to turn, pinch or use the buttons to zoom, tap or hover an icon to see where that skill was used.</p>
+                <p className="d-body">Hover any icon to see where that skill was used.</p>
               </>
             )}
           </div>
@@ -300,20 +286,7 @@ export function Globe() {
 
       {webgl && (
         <div className="d-wrap d-globe-controls">
-          <div className="d-globe-bar">
-            <p className="d-globe-hint">Drag to turn · pinch or +/− to zoom · tap an icon to see where it was used</p>
-            <div className="d-globe-zoom" role="group" aria-label="Zoom the globe">
-              <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(-0.45)} aria-label="Zoom in">
-                +
-              </button>
-              <button type="button" className="d-chip" onClick={() => globeRef.current?.zoomBy(0.45)} aria-label="Zoom out">
-                −
-              </button>
-              <button type="button" className="d-chip" onClick={() => globeRef.current?.reset()}>
-                Reset
-              </button>
-            </div>
-          </div>
+          <p className="d-globe-hint">Drag to explore</p>
 
           <div className="d-globe-group">
             <span className="d-data">Show</span>
@@ -358,16 +331,6 @@ export function Globe() {
               ))}
             </div>
           </div>
-
-          {/* The full list stays for keyboard readers, folded so it doesn't bury the globe. */}
-          <details className="d-globe-more">
-            <summary className="d-data">Every way to use it</summary>
-            <ol className="d-globe-controls-list">
-              {CONTROLS.map((control) => (
-                <li key={control}>{control}</li>
-              ))}
-            </ol>
-          </details>
         </div>
       )}
     </section>

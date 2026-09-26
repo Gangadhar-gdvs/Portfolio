@@ -53,7 +53,7 @@ export function PitchShell({
           <div>
             <p className="d-colophon-name">{profile.name}</p>
             <p className="d-data">
-              {profile.locationShort} · {profile.timeZone.split("/")[1]} · {profile.availability}
+              {profile.locationShort} · {profile.timeZoneShort} · {profile.availability}
             </p>
             <p className="d-data">
               <a href={other.href} className="d-pitch-foot-link">

@@ -35,11 +35,11 @@ const securityHeaders = [
 ];
 
 /**
- * Which design this build is. `@/design/entry` resolves to that design's entry
- * module, so each build statically imports only the design it is building and
- * carries none of the other one's components, CSS or webfonts.
+ * There is one design, `depth`. `@/design/entry` and `@/design/fonts` resolve
+ * to it, so the build carries only the depth design's components, CSS and
+ * webfonts.
  */
-const design = process.env.NEXT_PUBLIC_DESIGN?.trim().toLowerCase() === "depth" ? "depth" : "stack";
+const design = "depth";
 
 const nextConfig: NextConfig = {
   experimental: {

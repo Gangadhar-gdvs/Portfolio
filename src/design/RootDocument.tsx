@@ -1,18 +1,11 @@
 /**
- * The document every page is rendered into, shared by the three root layouts:
- * the home page, and each design at its own path.
+ * The document every page is rendered into.
  *
- * Each design is its own root layout so it can own the whole document — its
- * fonts on <html>, its `data-design`, its chrome — and switching between them
- * is a full page load that brings only the design being opened.
+ * The root layout owns the whole document — the depth design's fonts on
+ * <html>, its `data-design` and its own chrome.
  */
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Cursor } from "@/components/chrome/Cursor";
-import { Frame } from "@/components/chrome/Frame";
-import { Intro } from "@/components/chrome/Intro";
-import { Nav } from "@/components/chrome/Nav";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { profile } from "@/content/profile";
 import { siteUrl } from "@/lib/site";
 import type { Design } from "./design";
@@ -55,8 +48,8 @@ export const siteMetadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export function viewportFor(design: Design): Viewport {
-  return design === "depth" ? { themeColor: "#070608", colorScheme: "dark" } : { themeColor: "#030509", colorScheme: "dark" };
+export function viewportFor(_design: Design): Viewport {
+  return { themeColor: "#070608", colorScheme: "dark" };
 }
 
 /**
@@ -68,27 +61,13 @@ const bootScript = `try{var d=document.documentElement,s=localStorage.getItem("g
 export function RootDocument({ design, fontClass, children }: { design: Design; fontClass: string; children: ReactNode }) {
   return (
     <html lang="en-IN" className={fontClass} data-design={design} suppressHydrationWarning>
-      {/* This is a root layout's document, shared by three layouts; the rule only sees it outside app/. */}
+      {/* This is a root layout's document; the rule only sees it outside app/. */}
       {/* eslint-disable-next-line @next/next/no-head-element */}
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body>
-        {design === "depth" ? (
-          // The depth design brings its own chrome; the dark design's cursor,
-          // frame and smooth scroll belong to it alone.
-          children
-        ) : (
-          <>
-            <Intro />
-            <Nav />
-            {children}
-            <Frame />
-            <Cursor />
-            <SmoothScroll />
-          </>
-        )}
-      </body>
+      {/* The depth design brings its own chrome. */}
+      <body>{children}</body>
     </html>
   );
 }

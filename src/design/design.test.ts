@@ -16,7 +16,7 @@ describe("readDesign", () => {
     expect(readDesign("gopuram")).toBe(defaultDesign);
   });
 
-  it("keeps the dark design as the default", () => {
-    expect(defaultDesign).toBe("stack");
+  it("keeps depth as the default", () => {
+    expect(defaultDesign).toBe("depth");
   });
 });

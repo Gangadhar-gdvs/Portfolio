@@ -3,4 +3,4 @@
  * build time the alias in next.config.ts swaps in the faces for the design
  * being built.
  */
-export { fontClass } from "./fonts.stack";
+export { fontClass } from "./fonts.depth";
