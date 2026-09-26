@@ -165,7 +165,11 @@ html[data-design="depth"] {
 
 [data-design="depth"] .d-wrap {
   width: 100%;
-  max-width: 88rem;
+  /* Fills a large screen so the body lines up with the full-bleed hero and the
+     nav at the page gutter, instead of a narrow centred column with wide empty
+     margins. Body copy still caps its own line length via --measure. Capped so
+     ultra-wide monitors don't stretch the grids absurdly. */
+  max-width: 120rem;
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
@@ -728,7 +732,13 @@ html[data-design="depth"] {
    over the lattice. Hidden on phones, where the hero keeps the lattice alone. */
 [data-design="depth"] .d-shard {
   position: absolute;
-  inset: 0 0 0 52%;
+  /* Pinned to the viewport height (not the taller hero), so the sphere's centre
+     lands at the middle of the screen rather than being pushed low when the hero
+     content overflows one viewport. .sphere-in below overrides this to fill. */
+  top: 0;
+  right: 0;
+  left: 52%;
+  height: 100svh;
   z-index: 0;
   background: transparent;
   /* The sphere takes drag + scroll; the scene itself only reacts when the
