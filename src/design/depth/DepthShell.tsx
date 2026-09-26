@@ -14,10 +14,6 @@ export function DepthShell({ children }: { children: ReactNode }) {
       <a href="#main" className="d-skip">
         Skip to content
       </a>
-      <div className="d-curtain" aria-hidden="true">
-        <span />
-        <span />
-      </div>
       <div className="d-shaft" aria-hidden="true" />
       <DepthNav name={profile.name} />
       {children}

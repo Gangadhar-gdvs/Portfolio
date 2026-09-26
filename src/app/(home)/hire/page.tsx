@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PitchHero, PitchSection, PitchShell } from "@/design/depth/PitchShell";
 import { fullTime } from "@/content/hire";
 import { profile } from "@/content/profile";
+import { ResumeButton } from "@/components/ResumeButton";
 import { roles } from "@/content/experience";
 
 const description =

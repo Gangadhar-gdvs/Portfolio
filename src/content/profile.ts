@@ -28,7 +28,7 @@ export const profile = {
   links: {
     github: "https://github.com/Gangadhar-gdvs",
     linkedin: "https://www.linkedin.com/in/gangadhar-gooti",
-    resume: "https://drive.google.com/file/d/17II87o3DU8JI0LzT6W-ElN9-YTB3yFQt/view?usp=drive_link",
+    resume: "https://drive.google.com/file/d/17II87o3DU8JI0LzT6W-ElN9-YTB3yFQt/view",
   },
   portrait: {
     src: "/images/gangadhara.jpg",

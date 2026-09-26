@@ -67,7 +67,7 @@ export function Core() {
         ))}
       </ul>
 
-      <div className="d-incident" data-d-reveal>
+      <div className="d-incident">
         <h3 className="d-h3">{incident.title}</h3>
         <dl>
           {incident.entries.map((entry) => (
@@ -100,12 +100,12 @@ export function Core() {
 /** The path so far, read the way a core sample is read: newest layer on top. */
 export function Strata() {
   return (
-    <section id="strata" className="d-section d-wrap" aria-labelledby="strata-title" data-d-effect="haze">
-      <SectionHead id="strata" label="Path" title="The path so far" note={`${roles.length} teams`} lead="Where the production work happened, and what it was." />
+    <section id="strata" className="d-section d-wrap" aria-labelledby="strata-title" data-d-effect="lift">
+      <SectionHead id="strata" label="Experience" title="The path so far" note={`${roles.length} teams`} lead="Where the production work happened, and what it was." />
 
       <ol className="d-strata">
         {roles.map((role, index) => (
-          <li key={role.company} data-d-reveal style={{ ["--delay" as string]: `${index * 0.06}s` }}>
+          <li key={role.company} data-d-reveal style={{ ["--delay" as string]: `${index * 0.15}s` }}>
             <div className="d-strata-edge" aria-hidden="true" />
             <div className="d-strata-body">
               <div className="d-strata-role">
@@ -129,7 +129,7 @@ export function Strata() {
           </li>
         ))}
 
-        <li data-d-reveal>
+        <li className="d-strata-edu" data-d-reveal style={{ ["--delay" as string]: `${roles.length * 0.15}s` }}>
           <div className="d-strata-edge" aria-hidden="true" />
           <div className="d-strata-body">
             <div className="d-strata-role">
@@ -186,7 +186,7 @@ export function Surfacing() {
 
           <ul className="d-principles">
             {profile.about.principles.map((principle, index) => (
-              <li key={principle.title} className="d-slab" data-d-reveal style={{ ["--delay" as string]: `${index * 0.06}s` }}>
+              <li key={principle.title} className="d-slab" style={{ ["--delay" as string]: `${index * 0.06}s` }}>
                 <h3 className="d-index-name">{principle.title}</h3>
                 <p className="d-body">{principle.body}</p>
               </li>
@@ -207,7 +207,7 @@ export function Surfacing() {
         </p>
         <ul className="d-offers">
           {ENGAGEMENTS.map((offer, index) => (
-            <li key={offer.title} className="d-offer" data-d-reveal style={{ ["--delay" as string]: `${index * 0.05}s` }}>
+            <li key={offer.title} className="d-offer" style={{ ["--delay" as string]: `${index * 0.05}s` }}>
               <span className="d-data">{offer.label}</span>
               <h3>{offer.title}</h3>
               <p>{offer.body}</p>
@@ -225,6 +225,12 @@ export function Surfacing() {
           <a className="d-button d-button-ghost" href={profile.links.linkedin} target="_blank" rel="noreferrer noopener">
             LinkedIn
           </a>
+        </div>
+
+        <div style={{ marginTop: "140px", paddingBottom: "20px", display: "flex", flexDirection: "column", alignItems: "center", gap: "24px", opacity: 1, position: "relative" }} data-d-reveal>
+          
+          <img src="/images/logo-desc-no-bg.png" alt="Gooti Gangadhara - Full Stack Developer" style={{ height: "160px", width: "auto", objectFit: "contain", mixBlendMode: "screen", zIndex: 1, position: "relative" }} />
+          <p className="d-data" style={{ fontSize: "0.8rem", letterSpacing: "0.05em" }}>© {new Date().getFullYear()} Gooti Gangadhara. All rights reserved.</p>
         </div>
       </section>
     </>

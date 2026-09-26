@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const SECTIONS = [
-  { id: "work", label: "Work" },
-  { id: "globe", label: "World" },
-  { id: "core", label: "Core" },
-  { id: "strata", label: "Path" },
+  { id: "work", label: "Projects" },
+  { id: "globe", label: "Skills" },
+  { id: "core", label: "Principles" },
+  { id: "strata", label: "Experience" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
 ];
@@ -77,9 +77,15 @@ export function DepthNav({ name }: { name: string }) {
   return (
     <>
       <header className={`d-nav${deep ? " is-deep" : ""}${open ? " is-open" : ""}`}>
-        <a href="#top" className="d-brand" onClick={(event) => follow(event, "top")}>
-          <span className="d-brand-mark" aria-hidden="true" />
-          <span>{name}</span>
+        <a href="#top" className="d-brand" onClick={(event) => follow(event, "top")} style={{ display: "flex", alignItems: "center", gap: "12px", minHeight: "48px" }}>
+          {deep ? (
+            <>
+              <img src="/images/logo.png" alt="Logo" style={{ height: "46px", width: "auto", objectFit: "contain", margin: "-10px 0" }} />
+              <span style={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--bone)", whiteSpace: "nowrap" }}>{name}</span>
+            </>
+          ) : (
+            <img src="/images/logo-desc-no-bg.png" alt="Logo" style={{ height: "80px", width: "auto", objectFit: "contain", margin: "-20px 0" }} />
+          )}
         </a>
         <ul className="d-nav-links">
           {SECTIONS.filter((section) => section.id !== "contact").map((section) => (
@@ -172,12 +178,24 @@ export function Reveal() {
 
     for (const el of pending) observer.observe(el);
     sweep();
-    window.addEventListener("scroll", sweep, { passive: true });
+    
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          sweep();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", sweep, { passive: true });
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", sweep);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", sweep);
     };
   }, []);
@@ -244,7 +262,7 @@ export function SectionHead({
         <span className="d-data">{label}</span>
         {note && <span className="d-data d-head-note">{note}</span>}
       </div>
-      <h2 id={`${id}-title`} className="d-h2 d-head-title" data-d-reveal>
+      <h2 id={`${id}-title`} className="d-h2 d-head-title">
         {title}
       </h2>
       {lead && (

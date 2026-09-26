@@ -9,6 +9,9 @@ import type { ReactNode } from "react";
 import { profile } from "@/content/profile";
 import { siteUrl } from "@/lib/site";
 import type { Design } from "./design";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { CustomCursor } from "@/components/CustomCursor";
+import { GSAPAnimations } from "@/components/GSAPAnimations";
 
 const title = `${profile.name}, full-stack engineer`;
 // Aethra is not on the page while it is in progress, so it is not named here
@@ -67,7 +70,7 @@ export function RootDocument({ design, fontClass, children }: { design: Design; 
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       {/* The depth design brings its own chrome. */}
-      <body>{children}</body>
+      <body><GSAPAnimations /><SmoothScroll>{children}</SmoothScroll><CustomCursor /></body>
     </html>
   );
 }

@@ -2,6 +2,7 @@ import { roles } from "@/content/experience";
 import { profile } from "@/content/profile";
 import { clientSites } from "@/content/projects";
 import { ShardMount } from "@/design/depth/gl/ShardMount";
+import { ResumeButton } from "@/components/ResumeButton";
 
 /**
  * What the production work came to, as the roles themselves record it:
@@ -30,6 +31,7 @@ export function Surface() {
       <div className="d-wrap d-surface-inner">
         <p className="d-data d-surface-meta">
           <span>{profile.availability}</span>
+          <span aria-hidden="true" style={{ opacity: 0.35 }}>/</span>
           <span>{profile.locationShort}</span>
         </p>
 
@@ -53,9 +55,7 @@ export function Surface() {
           <a className="d-button" href="#work">
             See the work
           </a>
-          <a className="d-button d-button-ghost" href={profile.links.resume} target="_blank" rel="noreferrer noopener">
-            Résumé
-          </a>
+          <ResumeButton link={profile.links.resume} />
         </div>
 
         <p className="d-surface-paths d-data">

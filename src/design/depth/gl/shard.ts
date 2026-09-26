@@ -79,7 +79,7 @@ export class ShardSphere {
   private readonly minDist = 0.55;
   private readonly maxDist = 11;
   private readonly raycaster = new Raycaster();
-  private readonly hitSphere = new Sphere(undefined, 1.75);
+  private readonly hitSphere = new Sphere(undefined, 2.75);
   private readonly ndc = new Vector2();
   private cleanupControls: () => void = () => {};
   private readonly onProgress?: (open: number) => void;
